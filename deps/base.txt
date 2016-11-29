@@ -1,0 +1,3 @@
+django
+graphene-django
+django-filter

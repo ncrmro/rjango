@@ -1,4 +1,1 @@
-django
-graphene-django
-django-filter
-prospector
+-r deps/prod.txt

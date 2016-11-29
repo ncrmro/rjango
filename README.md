@@ -13,4 +13,4 @@ https://github.com/ncrmro/reango
 
 source ~/.virtualenvs/bin/activate
 
-pip3 install -r ./requirements.txt
+pip3 install -r ./deps/dev.txt
