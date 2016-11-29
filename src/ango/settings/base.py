@@ -11,6 +11,17 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from os.path import dirname, join, exists
+
+# Use 12factor inspired environment variables or from a file
+import environ
+env = environ.Env()
+
+# Ideally move env file should be outside the git repo
+# i.e. BASE_DIR.parent.parent
+env_file = join(dirname(__file__), 'local.env')
+if exists(env_file):
+    environ.Env.read_env(str(env_file))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
