@@ -14,3 +14,10 @@ https://github.com/ncrmro/reango
 source ~/.virtualenvs/bin/activate
 
 pip3 install -r ./deps/dev.txt
+
+
+## Prod
+A fresh dyno will need the following ran
+`heroku run --app APP bash`
+`python manage.py migrate`
+`python manage.py createsuperuser`
