@@ -30,11 +30,6 @@ DATABASES = {
 STATIC_ROOT = join(SRC_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    join(SRC_DIR, 'static'),
-)
-
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
