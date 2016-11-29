@@ -1,0 +1,4 @@
+django
+graphene-django
+django-filter
+prospector
