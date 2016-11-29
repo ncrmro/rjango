@@ -10,6 +10,8 @@ env_file = join(dirname(__file__), 'local.env')
 if exists(env_file):
     environ.Env.read_env(str(env_file))
 
+SECRET_KEY = env('SECRET_KEY')
+
 DEBUG = False
 TEMPLATE_DEBUG = False
 
