@@ -1,2 +1,2 @@
-prospector
-coverage
+prospector==0.12.4
+coverage==4.2

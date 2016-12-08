@@ -1,4 +1,4 @@
-django
-graphene-django
-django-filter
-django-environ
+Django==1.10.3
+graphene-django==1.2.0
+django-filter==1.0.1
+django-environ==0.4.1
