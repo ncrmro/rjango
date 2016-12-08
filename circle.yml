@@ -1,0 +1,11 @@
+machine:
+  python:
+    version: 3.5.2
+dependencies:
+  post:
+    - pip install -r ./deps/testing.txt
+test:
+  pre:
+    - ./src/manage.py collectstatic --no-input
+  override:
+    - ./src/manage.py test ./src
