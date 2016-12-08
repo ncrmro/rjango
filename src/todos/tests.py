@@ -4,7 +4,7 @@ from .models import TodoModel
 
 
 # Create your tests here.
-class TodoTestCase(TestCase):
+class TodoTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             username='test_user',
