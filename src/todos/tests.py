@@ -1,5 +1,8 @@
+import json
 from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
+from django.http import JsonResponse
+
 from .models import TodoModel
 
 
@@ -14,7 +17,8 @@ class TodoTest(TestCase):
             password='top_secret'
         )
 
-        TodoModel.objects.create(user=self.user, text="roar")
+        TodoModel.objects.create(user=self.user, text="My todo")
 
-    def test_animals_can_speak(self):
-        todo = TodoModel.objects.get(text="roar")
+    def test_todo_created_was_created(self):
+        todo = TodoModel.objects.get(text="My todo")
+        self.assertEqual(todo.text, 'My todo')
