@@ -1,9 +1,12 @@
 machine:
   python:
     version: 3.5.2
+general:
+  artifacts:
+    - ".coverage"
 dependencies:
   post:
     - pip install -r ./deps/testing.txt
 test:
   override:
-    - ./src/manage.py test ./src
+    - coverage run --source='.' ./src/manage.py test ./src
