@@ -61,4 +61,11 @@ And return the following data.
 {"data":{"allTodos":{"edges":[{"node":{"id":"VG9kb05vZGU6MQ==","text":"adsfasdfasdfsd"}},{"node":{"id":"VG9kb05vZGU6Mg==","text":"adsfadsfa"}}]}}}
 
 ```
+
+### Using CocoaRestClient GUI /JSON Body
+This is a valid json body you can paste into the raw input of the coca rest client.
+`{"query": "query {allTodos(first: 10){edges{node{id,text}}}}"}`
+
 ## Mutations
+
+
