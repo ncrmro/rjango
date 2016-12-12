@@ -19,12 +19,14 @@ class TodoTest(TestCase):
 
         TodoModel.objects.create(user=self.user, text="My todo")
 
-    def test_todo_created_was_created(self):
+    def test_all_todos_graphql_endpoint(self):
+        """Test all_todos graphql query"""
+
+        # Sanity Checks
         todo = TodoModel.objects.get(text="My todo")
         self.assertEqual(todo.text, 'My todo')
 
-    def test_all_todos_graphql_endpoint(self):
-        """Test all_todos graphql query"""
+        # Setup query and response
         query = {
             "query": "query {allTodos(first: 10){edges{node{id,text}}}}"
         }
@@ -40,9 +42,10 @@ class TodoTest(TestCase):
                     ]}
             }
         }
+        # Make the post request
         c = Client()
         response = c.post('/graphql', query)
+
         # Decode byte code response.content and load the json
         graphql_response = json.loads(response.content.decode('ascii'))
-        print(graphql_response)
         self.assertEqual(graphql_response, expected_response)
