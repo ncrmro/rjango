@@ -15,9 +15,6 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = False
 TEMPLATE_DEBUG = False
 
-# Must mention ALLOWED_HOSTS in production!
-ALLOWED_HOSTS = ['*']
-
 DATABASES = {
     # Raises ImproperlyConfigured exception if DATABASE_URL not in
     # os.environ
