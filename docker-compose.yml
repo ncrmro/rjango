@@ -7,6 +7,8 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    volumes_from:
+      - ango:ro
 
   postgres:
     image: kiasaki/alpine-postgres:9.5
@@ -20,6 +22,9 @@ services:
     container_name: ango
     command: "/usr/local/bin/waitress-serve --host=0.0.0.0 --port=8000 ango.wsgi:application"
     image: ncrmro/ango
+    volumes:
+      - /ango/staticfiles
+      - ./deps/nginx:/etc/nginx/vhost.d:ro
     environment:
       - VIRTUAL_HOST=192.168.99.101
       - VIRTUAL_PORT=8000
