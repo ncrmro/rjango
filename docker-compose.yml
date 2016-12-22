@@ -1,0 +1,31 @@
+version: '2'
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  postgres:
+    image: kiasaki/alpine-postgres:9.5
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=randomTestPassword
+
+  ango:
+    build: .
+    container_name: ango
+    command: "runserver 0.0.0.0:8000"
+    image: ncrmro/ango
+    environment:
+      - VIRTUAL_HOST=192.168.99.100
+      - VIRTUAL_PORT=8000
+      - DJANGO_SETTINGS_MODULE=ango.settings.prod
+      - SECRET_KEY='000000000000000'
+      - DATABASE_URL=postgres://admin:randomTestPassword@postgres:5432/admin
+      - ALLOWED_HOSTS=['*']
+    depends_on:
+      - postgres
