@@ -17,6 +17,19 @@ pip3 install -r ./deps/dev.txt
 
 
 ## Prod
+
+### Docker
+
+#### Docker Compose
+```
+docker-compose build
+docker-compose up
+docker-compose run ango migrate
+docker-compose run ango createsuperuser
+
+```
+
+### Heroku
 A fresh dyno will need the following ran
 `heroku run --app APP bash`
 `python manage.py migrate`
