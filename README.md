@@ -8,10 +8,12 @@ https://github.com/ncrmro/reango
 
 * Relay Support
 * User Registration/Sign up using JWT
+* Heroku or Docker Deployment
+* Docker Deployment has nginx staticfile proxy, letsencrypt csupport commming soon.
 
 ## Quick start:
 
-source ~/.virtualenvs/bin/activate
+source ~/.virtualenvs/ango/bin/activate
 
 pip3 install -r ./deps/dev.txt
 
@@ -19,6 +21,16 @@ pip3 install -r ./deps/dev.txt
 ## Prod
 
 ### Docker
+Sample docker-compose.yml and dockerfile are enough to test out the nginx/database/staticfiles
+
+Base image is alpine and after dependencies and staticfiles weighs in at 130.5mb
+
+You can tell if nginx is picking up the default vhost config by changing if static files are logged in the /deps/nginx/default_conf
+
+
+Docker deployment should not be considered secure yet until the docker socket is moved to it's own container for nginx-gen and letsencrypt support..
+Wait for the docker-compose.prod.yml
+
 
 #### Docker Compose
 ```
