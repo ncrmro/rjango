@@ -12,11 +12,10 @@ if exists(env_file):
 
 SECRET_KEY = env('SECRET_KEY')
 
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+
 DEBUG = False
 TEMPLATE_DEBUG = False
-
-# Must mention ALLOWED_HOSTS in production!
-ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     # Raises ImproperlyConfigured exception if DATABASE_URL not in
