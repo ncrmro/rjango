@@ -18,10 +18,10 @@ services:
   ango:
     build: .
     container_name: ango
-    command: "runserver 0.0.0.0:8000"
+    command: "/usr/local/bin/waitress-serve --host=0.0.0.0 --port=8000 ango.wsgi:application"
     image: ncrmro/ango
     environment:
-      - VIRTUAL_HOST=192.168.99.100
+      - VIRTUAL_HOST=192.168.99.101
       - VIRTUAL_PORT=8000
       - DJANGO_SETTINGS_MODULE=ango.settings.prod
       - SECRET_KEY='000000000000000'

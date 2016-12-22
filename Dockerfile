@@ -29,4 +29,4 @@ COPY ./src $INSTALL_PATH
 
 EXPOSE 8000
 
-ENTRYPOINT ["/usr/local/bin/python3", "-u", "./manage.py"]
+ENTRYPOINT ["/usr/local/bin/python3", "-u"]

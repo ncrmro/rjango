@@ -24,8 +24,8 @@ pip3 install -r ./deps/dev.txt
 ```
 docker-compose build
 docker-compose up
-docker-compose run ango migrate
-docker-compose run ango createsuperuser
+docker-compose run ango manage.py migrate
+docker-compose run ango manage.py createsuperuser
 
 ```
 
