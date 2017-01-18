@@ -20,11 +20,13 @@ dependencies:
         fi
   override:
       - yarn install
+      - pip install -r ./requirements.txt
   cache_directories:
       - ~/.yarn
       - ~/.cache/yarn
   post:
     - pip install -r ./bend/deps/testing.txt
+
 test:
   override:
     - coverage run --source='.' ./bend/manage.py test ./src
