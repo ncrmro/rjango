@@ -65,36 +65,36 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-        entry: {
-            app: appEntry,
-            vendor: ['react', 'react-dom', 'react-mdl', 'react-relay', 'react-router', 'react-router-relay']
-        },
-        output: {
-            path: path.join(__dirname, 'bend', 'static', 'bundles'),
-            filename: "[name]-[hash].js",
-            publicPath: publicPath
-        },
-        devtool,
-        module: {
-            loaders: [{
-                test: /\.jsx?$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            }, {
-                test: /\.css$/,
-                loaders: ['style', 'css']
-            }, {
-                test: /\.scss$/,
-                loaders: [
-                    'style',
-                    'css?modules&importLoaders=1' +
-                    '&localIdentName=[name]__[local]___[hash:base64:5]!postcss'
-                ]
-            }, {
-                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
-                loader: 'url-loader?limit=10000&name=assets/[hash].[ext]'
-            }]
-        },
-        postcss: () = > [precss, autoprefixer],
-    plugins;
+    entry: {
+        app: appEntry,
+        vendor: ['react', 'react-dom', 'react-mdl', 'react-relay', 'react-router', 'react-router-relay']
+    },
+    output: {
+        path: path.join(__dirname, 'bend', 'static', 'bundles'),
+        filename: "[name]-[hash].js",
+        publicPath: publicPath
+    },
+    devtool,
+    module: {
+        loaders: [{
+            test: /\.jsx?$/,
+            loader: 'babel-loader',
+            exclude: /node_modules/
+        }, {
+            test: /\.css$/,
+            loaders: ['style', 'css']
+        }, {
+            test: /\.scss$/,
+            loaders: [
+                'style',
+                'css?modules&importLoaders=1' +
+                '&localIdentName=[name]__[local]___[hash:base64:5]!postcss'
+            ]
+        }, {
+            test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+            loader: 'url-loader?limit=10000&name=assets/[hash].[ext]'
+        }]
+    },
+    postcss: () => [precss, autoprefixer],
+    plugins
 }
