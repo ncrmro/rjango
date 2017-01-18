@@ -24,7 +24,7 @@ dependencies:
       - ~/.yarn
       - ~/.cache/yarn
   post:
-    - pip install -r ./deps/testing.txt
+    - pip install -r ./bend/deps/testing.txt
 test:
   override:
     - coverage run --source='.' ./src/manage.py test ./src
