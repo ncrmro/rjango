@@ -5,6 +5,19 @@ general:
   artifacts:
     - ".coverage"
 dependencies:
+  pre:
+      - |
+        if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
+          echo "Download and install Yarn."
+          curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
+        else
+          echo "The correct version of Yarn is already installed."
+        fi
+  override:
+      - yarn install
+  cache_directories:
+      - ~/.yarn
+      - ~/.cache/yarn
   post:
     - pip install -r ./deps/testing.txt
 test:
