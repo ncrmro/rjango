@@ -2,7 +2,7 @@
 Django settings for ango project.
 """
 
-from os.path import dirname, join, exists, abspath
+from os.path import dirname, abspath
 
 SRC_DIR = dirname(dirname(dirname(abspath(__file__))))
 
