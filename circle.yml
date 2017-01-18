@@ -27,4 +27,4 @@ dependencies:
     - pip install -r ./bend/deps/testing.txt
 test:
   override:
-    - coverage run --source='.' ./src/manage.py test ./src
+    - coverage run --source='.' ./bend/src/manage.py test ./src
