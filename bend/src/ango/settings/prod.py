@@ -1,3 +1,4 @@
+from os.path import join, exists
 from .base import *
 
 # Use 12factor inspired environment variables or from a file
@@ -22,13 +23,6 @@ DATABASES = {
     # os.environ
     'default': env.db(),
 }
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = join(SRC_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 

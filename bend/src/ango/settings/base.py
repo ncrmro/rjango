@@ -1,10 +1,14 @@
 """
-Django settings for ango project.
+Django settings for jtx project.
 """
 
-from os.path import dirname, abspath
+from os.path import dirname, join
 
-SRC_DIR = dirname(dirname(dirname(abspath(__file__))))
+# Build paths inside the project like this: join(BASE_DIR, "directory")
+BASE_DIR = dirname(dirname(dirname(dirname(__file__))))
+
+# Define STATIC_ROOT for the collectstatic command
+STATIC_ROOT = join(BASE_DIR, 'static')
 
 # Application definition
 
@@ -47,7 +51,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ango.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -86,5 +90,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 GRAPHENE = {
-    'SCHEMA': 'ango.schema.schema'  # Where your Graphene schema lives
+    'SCHEMA': 'ango.schema.schema',  # Where your Graphene schema lives
+    'SCHEMA_OUTPUT': 'fend/server/data/schema.json'  # defaults to schema.json
+}
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': join('static', 'webpack-stats.json'),
+    }
 }

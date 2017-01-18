@@ -12,6 +12,6 @@ MIDDLEWARE.remove('django.middleware.csrf.CsrfViewMiddleware')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': join(SRC_DIR, 'db.sqlite3'),
+        'NAME': join(BASE_DIR, 'db.sqlite3'),
     }
 }
