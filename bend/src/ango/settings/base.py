@@ -2,9 +2,13 @@
 Django settings for ango project.
 """
 
-from os.path import dirname, join, exists, abspath
+from os.path import dirname, join
 
-SRC_DIR = dirname(dirname(dirname(abspath(__file__))))
+# Build paths inside the project like this: join(BASE_DIR, "directory")
+BASE_DIR = dirname(dirname(dirname(dirname(__file__))))
+
+# Define STATIC_ROOT for the collectstatic command
+STATIC_ROOT = join(BASE_DIR, 'static')
 
 # Application definition
 
@@ -86,5 +90,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 GRAPHENE = {
-    'SCHEMA': 'ango.schema.schema'  # Where your Graphene schema lives
+    'SCHEMA': 'ango.schema.schema',  # Where your Graphene schema lives
+    'SCHEMA_OUTPUT': 'fend/server/data/schema.json'  # defaults to schema.json
+}
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': join('static', 'webpack-stats.json'),
+    }
 }
