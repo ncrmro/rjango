@@ -1,1 +1,1 @@
--r deps/prod.txt
+-r /bend/deps/prod.txt
