@@ -1,12 +1,32 @@
 machine:
+  environment:
+    YARN_VERSION: 0.18.0
+    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   python:
     version: 3.5.2
+  node:
+    version: 6.1.0
 general:
   artifacts:
     - ".coverage"
 dependencies:
+  pre:
+      - |
+        if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
+          echo "Download and install Yarn."
+          curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
+        else
+          echo "The correct version of Yarn is already installed."
+        fi
+  override:
+      - yarn install
+      - pip install -r ./requirements.txt
+  cache_directories:
+      - ~/.yarn
+      - ~/.cache/yarn
   post:
-    - pip install -r ./deps/testing.txt
+    - pip install -r ./bend/deps/testing.txt
+
 test:
   override:
-    - coverage run --source='.' ./src/manage.py test ./src
+    - coverage run --source='.' ./bend/manage.py test ./bend/src
