@@ -140,3 +140,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 /src/staticfiles/
+node_modules
+/bend/static/
