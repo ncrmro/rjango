@@ -9,6 +9,18 @@ from .jwt_util import loginUser
 class UserNode(DjangoObjectType):
     class Meta:
         model = User
+        only_fields = (
+            'last_login',
+            'is_superuser',
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'is_staff',
+            'is_active',
+            'date_joined',
+            'todomodel'
+        )
         interfaces = (Node,)
 
 
