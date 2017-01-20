@@ -8,4 +8,8 @@ class Query(todos.schema.Query, graphene.ObjectType):
     debug = graphene.Field(DjangoDebug, name='__debug')
 
 
-schema = graphene.Schema(query=Query)
+class Mutation(todos.schema.Mutation, graphene.ObjectType):
+    pass
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)

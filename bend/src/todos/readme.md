@@ -48,6 +48,22 @@ query getSomeTodos($todos_count: Int!) {
 }
 ```
 
+### Mutations
+
+```
+mutation {
+  createTodo(input: {
+    userId: 1,
+    text: "a"
+  }) {
+    todo {
+      text
+    }
+  }
+}
+
+```
+
 ### Using Curl
 The actual post request is a json string to be careful of empty space or new lines.
 Running the example query again would look like this
