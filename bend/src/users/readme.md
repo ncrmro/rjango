@@ -71,3 +71,19 @@ query {
   }
 }
 ```
+
+```
+mutation {
+  loginUser(input: {
+    username: "ncrmro",
+    password: "testpassword"
+  }) {
+    user {
+     username,
+      email,
+    },
+    token
+  }
+}
+```
+
