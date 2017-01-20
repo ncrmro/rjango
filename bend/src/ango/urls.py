@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='home'),
     url(r'^admin/', admin.site.urls),
     url(r'^graphql', GraphQLView.as_view(graphiql=True)),
-    url(r'^.*/$', TemplateView.as_view(template_name='index.html')),
+    url(r'^.*$', TemplateView.as_view(template_name='index.html')),
 ]
