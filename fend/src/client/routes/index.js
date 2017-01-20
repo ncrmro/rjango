@@ -1,8 +1,5 @@
 import AppContainer from "../components/App/AppContainer";
 import Dashboard from "../components/Dashboard/DashboardComponent";
-import FeatureContainer from '../components/Feature/FeatureContainer';
-import ViewerQuery from './ViewerQuery';
-
 
 export default () => {
   return {
@@ -11,6 +8,8 @@ export default () => {
       component: AppContainer,
       indexRoute: {component: Dashboard},
       childRoutes: [
+        require('./signup'),
+        require('./login'),
         require('./landing')
       ]
     }]
