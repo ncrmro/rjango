@@ -26,10 +26,10 @@ class CreateTodo(relay.ClientIDMutation):
         return CreateTodo(todo=todo)
 
 
-class Query(AbstractType):
+class TodoQueries(AbstractType):
     todo = Node.Field(TodoNode)
     all_todos = DjangoFilterConnectionField(TodoNode)
 
 
-class Mutation(AbstractType):
+class TodoMutations(AbstractType):
     create_todo = CreateTodo.Field()

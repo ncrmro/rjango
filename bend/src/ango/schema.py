@@ -1,14 +1,14 @@
 import graphene
 from graphene_django.debug import DjangoDebug
+from todos.schema import TodoQueries, TodoMutations
+from users.schema import UserQueries, UserMutations
 
-import todos.schema
 
-
-class Query(todos.schema.Query, graphene.ObjectType):
+class Query(UserQueries, TodoQueries, graphene.ObjectType):
     debug = graphene.Field(DjangoDebug, name='__debug')
 
 
-class Mutation(todos.schema.Mutation, graphene.ObjectType):
+class Mutation(UserMutations, TodoMutations, graphene.ObjectType):
     pass
 
 
