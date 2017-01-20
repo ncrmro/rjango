@@ -8,8 +8,4 @@ def loginUser(username, password):
     if not form.is_valid():
         return print("JWT form not valid")
 
-    context_dict = {
-        'token': form.object['token']
-    }
-
-    return context_dict
+    return form.object['token']
