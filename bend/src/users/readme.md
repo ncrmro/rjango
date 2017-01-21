@@ -74,15 +74,19 @@ query {
 
 ```
 mutation {
-  loginUser(input: {
-    username: "ncrmro",
-    password: "testpassword"
-  }) {
-    user {
-     username,
-      email,
-    },
-    token
+  loginUser(input: {username: "ncrmro", password: "testpassword"}) {
+    viewer {
+      username
+      email
+      todomodel(first: 2) {
+        edges {
+          node {
+            text
+          }
+        }
+      }
+    }
+    jwtToken
   }
 }
 ```
