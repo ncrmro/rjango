@@ -57,15 +57,16 @@ class LogInUser(relay.ClientIDMutation):
         username = String(required=True)
         password = String(required=True)
 
-    user = Field(UserNode)
-    token = String()
+    viewer = Field(UserNode)
+    jwt_token = String()
 
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
         username = input.get('username')
         password = input.get('password')
-        token = loginUser(username, password)
-        return LogInUser(token=token)
+        jwt_token = loginUser(username, password)
+        viewer = User.objects.get(username=username)
+        return LogInUser(viewer, jwt_token=jwt_token)
 
 
 class UserMutations(AbstractType):
