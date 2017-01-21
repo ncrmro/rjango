@@ -18,8 +18,8 @@
     "url": "git+https://github.com/lvarayut/relay-fullstack.git"
   },
   "engines": {
-    "node": "6.6.0",
-    "npm": "3.10.8"
+    "node": "7.4.0",
+    "npm": "4.0.5"
   },
   "author": "Nicholas Romero",
   "license": "MIT",
