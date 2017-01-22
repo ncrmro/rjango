@@ -1,4 +1,4 @@
-from graphene import AbstractType, Node, Field, String, relay, ObjectType, Int, Boolean, ID
+from graphene import AbstractType, Node, Field, String, relay, ObjectType, Int, Boolean, ID, InputObjectType
 from django.contrib.auth.models import AnonymousUser, User
 from graphene import AbstractType, Node, relay
 from graphene_django.filter import DjangoFilterConnectionField
@@ -7,6 +7,8 @@ from .jwt_util import loginUser
 
 
 class UserNode(DjangoObjectType):
+    is_authenticated = Boolean()
+    is_anonymous = Boolean()
     class Meta:
         model = User
         only_fields = (
@@ -24,32 +26,42 @@ class UserNode(DjangoObjectType):
         interfaces = (Node,)
 
 
-class CurrentUser(ObjectType):
-    id = ID()
-    username = String()
-    password = String()
-    is_anonymous = Boolean()
-    is_authenticated = Boolean()
-    is_staff = Boolean()
-    is_active = Boolean()
+class Login(ObjectType):
+    viewer = Field(UserNode)
+    jwt_token = String()
+
+
+class LoginAuthToken(ObjectType):
+    viewer = Field(UserNode)
 
 
 class UserQueries(AbstractType):
-    user = Node.Field(UserNode)
+    user = Field(UserNode)
     all_users = DjangoFilterConnectionField(UserNode)
+    viewer = Field(LoginAuthToken, jwt_token=String())
 
-    current_user = Field(CurrentUser)
+    def resolve_viewer(self, args, context, info):
+        if args.get('jwt_token') == "":
+            anon = AnonymousUser
+            viewer = UserNode(
+                id=anon.id,
+                username=anon.username,
+                is_authenticated=anon.is_authenticated,
+                is_anonymous=anon.is_anonymous,
+            )
+        else:
+            viewer = AnonymousUser
+        return LoginAuthToken(viewer=viewer)
 
-    def resolve_current_user(self, args, context, info):
-        anon = AnonymousUser
-        return CurrentUser(
-            id=anon.id,
-            username=anon.username,
-            is_anonymous=anon.is_anonymous,
-            is_authenticated=anon.is_authenticated,
-            is_staff=anon.is_staff,
-            is_active=anon.is_active,
-        )
+    login = Field(Login, username=String(), password=String())
+    login_auth_token = Field(LoginAuthToken, jwt_token=String())
+
+    def resolve_login(self, args, context, info):
+        username = args.get('username')
+        password = args.get('password')
+        jwt_token = loginUser(username, password)
+        viewer = User.objects.get(username=username)
+        return Login(viewer, jwt_token=jwt_token)
 
 
 class LogInUser(relay.ClientIDMutation):

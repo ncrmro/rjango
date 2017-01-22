@@ -89,5 +89,23 @@ mutation {
     jwtToken
   }
 }
+
+query {
+  login(username:"ncrmro", password: "testpassword") {
+    viewer{
+      username,
+      dateJoined
+    },
+    jwtToken
+  }
+}
+
+query {viewer(jwtToken: ""){
+  viewer {
+    username,
+    isAuthenticated,
+    isAnonymous
+  }
+}}
 ```
 
