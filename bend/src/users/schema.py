@@ -5,13 +5,11 @@ from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from .jwt_util import loginUser
 
-
 class UserNode(DjangoObjectType):
-    is_authenticated = Boolean()
-    is_anonymous = Boolean()
     class Meta:
         model = User
         only_fields = (
+            'id',
             'last_login',
             'is_superuser',
             'username',
@@ -26,59 +24,37 @@ class UserNode(DjangoObjectType):
         interfaces = (Node,)
 
 
-class Login(ObjectType):
-    viewer = Field(UserNode)
-    jwt_token = String()
-
-
-class LoginAuthToken(ObjectType):
-    viewer = Field(UserNode)
-
-
 class UserQueries(AbstractType):
     user = Field(UserNode)
     all_users = DjangoFilterConnectionField(UserNode)
-    viewer = Field(LoginAuthToken, jwt_token=String())
+    viewer = Field(UserNode, jwt_token=String())
 
     def resolve_viewer(self, args, context, info):
-        if args.get('jwt_token') == "":
-            anon = AnonymousUser
-            viewer = UserNode(
-                id=anon.id,
-                username=anon.username,
-                is_authenticated=anon.is_authenticated,
-                is_anonymous=anon.is_anonymous,
-            )
-        else:
-            viewer = AnonymousUser
-        return LoginAuthToken(viewer=viewer)
+        user = User(
+            id=0,
+            username="",
+        )
 
-    login = Field(Login, username=String(), password=String())
-    login_auth_token = Field(LoginAuthToken, jwt_token=String())
-
-    def resolve_login(self, args, context, info):
-        username = args.get('username')
-        password = args.get('password')
-        jwt_token = loginUser(username, password)
-        viewer = User.objects.get(username=username)
-        return Login(viewer, jwt_token=jwt_token)
+        return user
 
 
 class LogInUser(relay.ClientIDMutation):
     class Input:
         username = String(required=True)
         password = String(required=True)
+        jwt_token = String(required=True)
 
     viewer = Field(UserNode)
     jwt_token = String()
 
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
+        print("", input, context, info)
         username = input.get('username')
         password = input.get('password')
         jwt_token = loginUser(username, password)
         viewer = User.objects.get(username=username)
-        return LogInUser(viewer, jwt_token=jwt_token)
+        return LogInUser(viewer, jwt_token)
 
 
 class UserMutations(AbstractType):

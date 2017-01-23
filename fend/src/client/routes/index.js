@@ -1,15 +1,18 @@
 import AppContainer from "../components/App/AppContainer";
-import AppComponent from "../components/App/AppComponent";
+//import AppComponent from "../components/App/AppComponent";
 import Dashboard from "../components/Dashboard/DashboardComponent";
+import Landing from "../components/Landing/LandingContainer";
 import ViewerQuery from './ViewerQuery';
 
 export default () => {
   return {
     childRoutes: [{
       path: '/',
-      component: AppComponent,
+      component: AppContainer,
+      queries: ViewerQuery,
       indexRoute: {
-        component: Dashboard
+        queries: ViewerQuery,
+        component: Landing
       },
       childRoutes: [
         require('./signup').default,

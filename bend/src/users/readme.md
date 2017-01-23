@@ -107,5 +107,34 @@ query {viewer(jwtToken: ""){
     isAnonymous
   }
 }}
+
+
 ```
 
+```
+{"input_0": {"username": "ncrmro", "password": "testpassword"}}
+
+mutation LoginUserMutation($input_0:LogInUserInput!) {
+  loginUser(input:$input_0) {
+    clientMutationId,
+    ...F0
+  }
+}
+fragment F0 on LogInUserPayload {
+  viewer {
+    username,
+    id
+  }
+}
+
+{
+  "data": {
+    "loginUser": {
+      "clientMutationId": null,
+      "viewer": {
+        "id": "VXNlck5vZGU6MQ=="
+      }
+    }
+  }
+}
+```
