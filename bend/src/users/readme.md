@@ -74,16 +74,67 @@ query {
 
 ```
 mutation {
-  loginUser(input: {
-    username: "ncrmro",
-    password: "testpassword"
-  }) {
-    user {
-     username,
-      email,
+  loginUser(input: {username: "ncrmro", password: "testpassword"}) {
+    viewer {
+      username
+      email
+      todomodel(first: 2) {
+        edges {
+          node {
+            text
+          }
+        }
+      }
+    }
+    jwtToken
+  }
+}
+
+query {
+  login(username:"ncrmro", password: "testpassword") {
+    viewer{
+      username,
+      dateJoined
     },
-    token
+    jwtToken
+  }
+}
+
+query {viewer(jwtToken: ""){
+  viewer {
+    username,
+    isAuthenticated,
+    isAnonymous
+  }
+}}
+
+
+```
+
+```
+{"input_0": {"username": "ncrmro", "password": "testpassword"}}
+
+mutation LoginUserMutation($input_0:LogInUserInput!) {
+  loginUser(input:$input_0) {
+    clientMutationId,
+    ...F0
+  }
+}
+fragment F0 on LogInUserPayload {
+  viewer {
+    username,
+    id
+  }
+}
+
+{
+  "data": {
+    "loginUser": {
+      "clientMutationId": null,
+      "viewer": {
+        "id": "VXNlck5vZGU6MQ=="
+      }
+    }
   }
 }
 ```
-

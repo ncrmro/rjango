@@ -94,7 +94,7 @@ STATIC_URL = '/static/'
 
 GRAPHENE = {
     'SCHEMA': 'ango.schema.schema',  # Where your Graphene schema lives
-    'SCHEMA_OUTPUT': 'fend/server/data/schema.json'  # defaults to schema.json
+    'SCHEMA_OUTPUT': 'fend/src/server/data/schema.json'  # defaults to schema.json
 }
 
 WEBPACK_LOADER = {

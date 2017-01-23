@@ -1,8 +1,9 @@
-import Dashboard from "../components/Dashboard/DashboardComponent";
+module.exports = {
+  path: 'landing',
 
-export default {
-  path: '/',
-  indexRoute: {
-    component: Dashboard
+  getComponent(nextState, cb) {
+    require.ensure([], (require) => {
+      cb(null, require('../components/Dashboard/DashboardComponent'));
+    });
   }
 };
