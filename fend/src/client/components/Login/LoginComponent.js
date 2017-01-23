@@ -30,11 +30,12 @@ export default class Login extends React.Component {
       password
     });
     var onFailure = (transaction) => {
-      console.log("falure", transaction)
+      console.log("failure", transaction)
     };
 
     var onSuccess = (response) => {
-      console.log("sucess")
+      const jwtToken = response.loginUser.jwtToken;
+      localStorage.setItem('jwtToken', jwtToken);
     };
 
     Relay.Store.commitUpdate(loginUserMutation, {onSuccess, onFailure}
