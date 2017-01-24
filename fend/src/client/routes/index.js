@@ -1,8 +1,26 @@
 import AppContainer from "../components/App/AppContainer";
 //import AppComponent from "../components/App/AppComponent";
-import Dashboard from "../components/Dashboard/DashboardComponent";
 import Landing from "../components/Landing/LandingContainer";
 import ViewerQuery from './ViewerQuery';
+
+
+function jwtToken() {
+  console.log("Prepaire prearms jwtoken");
+
+  let jwtToken = localStorage.getItem("jwtToken");
+  if (jwtToken) {
+    return {
+      jwtToken
+    }
+  }
+  else {
+    console.log("jwtToken not set");
+
+    jwtToken = "";
+    return jwtToken
+  }
+
+}
 
 export default () => {
   return {
@@ -10,6 +28,7 @@ export default () => {
       path: '/',
       component: AppContainer,
       queries: ViewerQuery,
+      prepareParams: jwtToken,
       indexRoute: {
         queries: ViewerQuery,
         component: Landing
@@ -17,9 +36,11 @@ export default () => {
       childRoutes: [
         require('./signup').default,
         require('./login').default,
+        require('./dashboard').default,
+
         {
           path: '*',
-          component: Dashboard
+          component: Landing
         }
       ]
     }]

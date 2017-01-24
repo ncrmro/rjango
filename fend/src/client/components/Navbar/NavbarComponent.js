@@ -12,6 +12,7 @@ export default class Navbar extends React.Component {
           <Navigation>
             <Link to='/signup'>Sign up</Link>
             <Link to='/login'>Login</Link>
+            <Link to='/dashboard'>Dashboard</Link>
           </Navigation>
         </Header>
         <Drawer title={<Link to='/' style={{ fontSize: '1.5em' }}>{title}</Link>}
@@ -19,6 +20,7 @@ export default class Navbar extends React.Component {
           <Navigation>
             <Link to='/signup'>Sign up</Link>
             <Link to='/login'>Login</Link>
+            <Link to='/dashboard'>Dashboard</Link>
           </Navigation>
         </Drawer>
       </Layout>

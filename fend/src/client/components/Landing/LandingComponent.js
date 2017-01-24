@@ -10,8 +10,7 @@ export default class Landing extends React.Component {
   render() {
     return (
       <div>
-        {this.props.viewer.username}
-        <p>This is the dashboard</p>
+        <p>This is the landing page</p>
       </div>
     );
   }
