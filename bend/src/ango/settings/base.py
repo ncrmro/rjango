@@ -3,6 +3,7 @@ Django settings for ango project.
 """
 
 from os.path import dirname, join
+import datetime
 
 # Build paths inside the project like this: join(BASE_DIR, "directory")
 BASE_DIR = dirname(dirname(dirname(dirname(__file__))))
@@ -103,3 +104,5 @@ WEBPACK_LOADER = {
         'STATS_FILE': join('static', 'webpack-stats.json'),
     }
 }
+
+JWT_EXPIRATION_DELTA=datetime.timedelta(days=7)

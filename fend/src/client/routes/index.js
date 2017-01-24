@@ -1,8 +1,7 @@
 import AppContainer from "../components/App/AppContainer";
-//import AppComponent from "../components/App/AppComponent";
-import Dashboard from "../components/Dashboard/DashboardComponent";
 import Landing from "../components/Landing/LandingContainer";
 import ViewerQuery from './ViewerQuery';
+
 
 export default () => {
   return {
@@ -12,14 +11,16 @@ export default () => {
       queries: ViewerQuery,
       indexRoute: {
         queries: ViewerQuery,
-        component: Landing
+        component: Landing,
       },
       childRoutes: [
         require('./signup').default,
         require('./login').default,
+        require('./dashboard').default,
+
         {
           path: '*',
-          component: Dashboard
+          component: Landing
         }
       ]
     }]
