@@ -11,7 +11,6 @@ export default () => {
       path: '/',
       component: AppContainer,
       queries: ViewerQuery,
-      prepareParams: jwtTokenParam,
       indexRoute: {
         queries: ViewerQuery,
         component: Landing,
