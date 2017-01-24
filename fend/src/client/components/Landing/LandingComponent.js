@@ -2,7 +2,7 @@
 import React from "react";
 
 
-export default class Dashboard extends React.Component {
+export default class Landing extends React.Component {
   static propTypes = {
     viewer: React.PropTypes.object.isRequired
   };
@@ -10,10 +10,7 @@ export default class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        {this.props.viewer.username}
-        <br/>
-        {this.props.viewer.email}
-        <p>This is the dashboard</p>
+        <p>This is the landing page</p>
       </div>
     );
   }

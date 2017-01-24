@@ -18,8 +18,8 @@
     "url": "git+https://github.com/lvarayut/relay-fullstack.git"
   },
   "engines": {
-    "node": "6.6.0",
-    "npm": "3.10.8"
+    "node": "7.4.0",
+    "npm": "4.0.5"
   },
   "author": "Nicholas Romero",
   "license": "MIT",
@@ -67,7 +67,7 @@
     "react-dropdown": "^1.2.0",
     "react-mdl": "^1.9.0",
     "react-relay": "^0.9.3",
-    "react-router": "^3.0.0",
+    "react-router": "^3.0.2",
     "react-router-relay": "^0.13.5",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",

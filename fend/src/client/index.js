@@ -6,10 +6,21 @@ import useRelay from "react-router-relay";
 import Routes from "./routes/index";
 import "../../../node_modules/react-mdl/extra/material";
 
+let jwtToken = localStorage.getItem("jwtToken");
+
+Relay.injectNetworkLayer(
+  new Relay.DefaultNetworkLayer('/graphql', {
+    headers: {
+      Authorization: 'Bearer ' + jwtToken
+    }
+  })
+);
+
 const rootNode = document.createElement('div');
 document.body.appendChild(rootNode);
 
 ReactDOM.render(
-  <Router history={browserHistory} routes={Routes} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}/>,
+  <Router history={browserHistory} routes={Routes()} render={applyRouterMiddleware(useRelay)}
+          environment={Relay.Store}/>,
   rootNode
 );

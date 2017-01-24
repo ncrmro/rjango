@@ -1,11 +1,12 @@
 import Relay from "react-relay";
-import Footer from "./FooterComponent";
+import Landing from "./LandingComponent";
 
-export default Relay.createContainer(Footer, {
+export default Relay.createContainer(Landing, {
     fragments: {
         viewer: () => Relay.QL`
             fragment on UserNode {
-                username
+                username,
+                email
             }`
     }
 });

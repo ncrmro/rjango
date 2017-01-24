@@ -142,3 +142,5 @@ fabric.properties
 /src/staticfiles/
 node_modules
 /bend/static/
+/fend/src/server/data/schema.json
+screenshots

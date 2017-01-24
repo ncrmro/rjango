@@ -9,8 +9,11 @@ machine:
 general:
   artifacts:
     - ".coverage"
+    - "screenshots"
 dependencies:
   pre:
+      - wget -qO- https://github.com/mozilla/geckodriver/releases/download/v0.13.0/geckodriver-v0.13.0-linux64.tar.gz  | tar -xvz -C /home/ubuntu/bin
+      - chmod +x /home/ubuntu/bin/geckodriver
       - |
         if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
           echo "Download and install Yarn."
@@ -26,6 +29,8 @@ dependencies:
       - ~/.cache/yarn
   post:
     - pip install -r ./bend/deps/testing.txt
+    - ./bend/manage.py collectstatic --no-input
+
 
 test:
   override:

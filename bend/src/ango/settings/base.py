@@ -3,13 +3,16 @@ Django settings for ango project.
 """
 
 from os.path import dirname, join
+import datetime
 
 # Build paths inside the project like this: join(BASE_DIR, "directory")
 BASE_DIR = dirname(dirname(dirname(dirname(__file__))))
 
 # Define STATIC_ROOT for the collectstatic command
 STATIC_ROOT = join(BASE_DIR, 'static')
-
+STATIC_URL = '/static/'
+MEDIA_ROOT = join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
 # Application definition
 
 INSTALLED_APPS = [
@@ -87,19 +90,17 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
-
-STATIC_URL = '/static/'
 
 GRAPHENE = {
     'SCHEMA': 'ango.schema.schema',  # Where your Graphene schema lives
-    'SCHEMA_OUTPUT': 'fend/server/data/schema.json'  # defaults to schema.json
+    'SCHEMA_OUTPUT': 'fend/src/server/data/schema.json'  # defaults to schema.json
 }
 
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'bundles/',
-        'STATS_FILE': join('static', 'webpack-stats.json'),
+        'STATS_FILE': join(BASE_DIR, 'static', 'webpack-stats.json'),
     }
 }
+
+JWT_EXPIRATION_DELTA = datetime.timedelta(days=7)
