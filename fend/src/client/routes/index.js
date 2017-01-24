@@ -2,25 +2,8 @@ import AppContainer from "../components/App/AppContainer";
 //import AppComponent from "../components/App/AppComponent";
 import Landing from "../components/Landing/LandingContainer";
 import ViewerQuery from './ViewerQuery';
+import jwtTokenParam from '../utils/jwt_token'
 
-
-function jwtToken() {
-  console.log("Prepaire prearms jwtoken");
-
-  let jwtToken = localStorage.getItem("jwtToken");
-  if (jwtToken) {
-    return {
-      jwtToken
-    }
-  }
-  else {
-    console.log("jwtToken not set");
-
-    jwtToken = "";
-    return jwtToken
-  }
-
-}
 
 export default () => {
   return {
@@ -28,10 +11,10 @@ export default () => {
       path: '/',
       component: AppContainer,
       queries: ViewerQuery,
-      prepareParams: jwtToken,
+      prepareParams: jwtTokenParam,
       indexRoute: {
         queries: ViewerQuery,
-        component: Landing
+        component: Landing,
       },
       childRoutes: [
         require('./signup').default,
