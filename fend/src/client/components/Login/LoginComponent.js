@@ -7,7 +7,8 @@ import LoginUserMutation from "./LoginUserMutation";
 
 export default class Login extends React.Component {
   static propTypes = {
-    viewer: React.PropTypes.object.isRequired
+    viewer: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -34,8 +35,10 @@ export default class Login extends React.Component {
     };
 
     var onSuccess = (response) => {
+      console.log("Success", response);
       const jwtToken = response.loginUser.jwtToken;
       localStorage.setItem('jwtToken', jwtToken);
+      //window.location.reload()
     };
 
     Relay.Store.commitUpdate(loginUserMutation, {onSuccess, onFailure}

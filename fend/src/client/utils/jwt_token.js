@@ -5,6 +5,12 @@ function parseJwt(token) {
   var base64 = base64Url.replace('-', '+').replace('_', '/');
   return JSON.parse(window.atob(base64));
 }
+function getExpirationDate(parsedToken) {
+  var date = new Date(0);
+  date.setUTCSeconds(parsedToken.exp);
+  return date
+
+}
 function dateTime() {
   var today = new Date();
   var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -17,10 +23,9 @@ export default function jwtTokenParam() {
   if (jwtToken) {
     const parsedToken = parseJwt(jwtToken);
     console.log("Found JWT Token", parsedToken);
-    var token_expiration = new Date(parsedToken.exp);
 
     console.log("Current Date Time", dateTime());
-    console.log("Token Expiration Time", token_expiration);
+    console.log("Token Expiration Time", getExpirationDate(parsedToken));
 
 
     return jwtToken

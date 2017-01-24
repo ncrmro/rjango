@@ -5,8 +5,9 @@ import styles from "./Navbar.scss";
 
 export default class Navbar extends React.Component {
   static propTypes = {
-    userLoggedIn: React.PropTypes.object.isRequired,
-    viewer: React.PropTypes.object.isRequired
+    userLoggedIn: React.PropTypes.bool.isRequired,
+    router: React.PropTypes.object.isRequired
+
   };
 
   render() {
@@ -18,20 +19,22 @@ export default class Navbar extends React.Component {
         </Header>
         <Drawer title={<Link to='/' style={{ fontSize: '1.5em' }}>{title}</Link>}
                 className='mdl-layout--small-screen-only'>
-          <Navigation>
-            <Link to='/signup'>Sign up</Link>
-            <Link to='/login'>Login</Link>
-            <Link to='/dashboard'>Dashboard</Link>
-          </Navigation>
+          {this.props.userLoggedIn ? this.renderLoggedIn() : this.renderLoggedOut()}
+
         </Drawer>
       </Layout>
     );
   }
 
+  handleSignOut() {
+    localStorage.removeItem('jwtToken');
+    this.props.router.push('/');
+  }
+
   renderLoggedIn() {
     return (
       <Navigation>
-        <Link to='/signout'>Sign out</Link>
+        <Link to="/" onClick={this.handleSignOut()}>Sign out</Link>
         <Link to='/dashboard'>Dashboard</Link>
 
       </Navigation>

@@ -5,12 +5,13 @@ import {browserHistory, applyRouterMiddleware, Router} from "react-router";
 import useRelay from "react-router-relay";
 import Routes from "./routes/index";
 import "../../../node_modules/react-mdl/extra/material";
-import jwtToken from "./utils/jwt_token"
+
+let jwtToken = localStorage.getItem("jwtToken");
 
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer('/graphql', {
     headers: {
-      Authorization: 'Bearer ' + jwtToken()
+      Authorization: 'Bearer ' + jwtToken
     }
   })
 );

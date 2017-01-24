@@ -13,20 +13,18 @@ class LoginMutation extends Relay.Mutation {
   getVariables() {
     return {
       username: this.props.username,
-      password: this.props.password,
-      jwtToken: ""
+      password: this.props.password
     };
   }
 
     getFatQuery() {
         return Relay.QL`
             fragment on LogInUserPayload {
-                viewer {
+                viewer{
+                    id,
                     username,
                     email,
-                    todomodel(first: 20) {
-                        edges
-                    }
+                    dateJoined,
                 },
                 jwtToken
             }
@@ -50,6 +48,7 @@ class LoginMutation extends Relay.Mutation {
             `],
         }];
     }
+
 }
 
 export default LoginMutation;
