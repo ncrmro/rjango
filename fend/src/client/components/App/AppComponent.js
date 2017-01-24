@@ -12,10 +12,15 @@ export default class App extends React.Component {
     viewer: React.PropTypes.object.isRequired
   };
 
+
   render() {
+    const viewer = this.props.viewer;
+    const userLoggedIn = viewer.username && viewer.email;
+
     return (
       <div className={styles.root}>
-        <Navbar />
+
+        <Navbar userLoggedIn={userLoggedIn}/>
         <div className={styles.greeting}>
           <h1 className={styles.sawasdee}>Sawasdee, Sawasdee!</h1>
           <p>Always a pleasure scaffolding your apps</p>
