@@ -2,7 +2,7 @@ import React from "react";
 import Relay from "react-relay";
 import {Grid, Cell, Textfield, Button} from "react-mdl";
 import Page from "../Page/PageComponent";
-//import SignupUserMutation from "./SignupUserMutation";
+import SignupUserMutation from "./SignupUserMutation";
 
 
 export default class Signup extends React.Component {
@@ -19,8 +19,22 @@ export default class Signup extends React.Component {
     form.preventDefault();
     const username = this.state.username;
     const password = this.state.password;
-    const signupUserMutation = new SignupUserMutation({});
-    Relay.Store.commitUpdate(signupUserMutation);
+    const signupUserMutation = new SignupUserMutation({
+      username,
+      password
+    });
+    var onFailure = (transaction) => {
+      console.log("failure", transaction)
+    };
+
+    var onSuccess = (response) => {
+      console.log("Success", response);
+      const jwtToken = response.createUser.jwtToken;
+      localStorage.setItem('jwtToken', jwtToken);
+      this.props.router.push('/dashboard');
+      window.location.reload()
+    };
+    Relay.Store.commitUpdate(signupUserMutation, {onSuccess, onFailure});
   };
 
   render() {
