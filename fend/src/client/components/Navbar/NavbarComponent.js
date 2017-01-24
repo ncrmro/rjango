@@ -28,7 +28,8 @@ export default class Navbar extends React.Component {
 
   handleSignOut() {
     localStorage.removeItem('jwtToken');
-    this.props.router.push('/');
+    // Causes crash
+    //this.props.router.push('/');
   }
 
   renderLoggedIn() {

@@ -38,7 +38,8 @@ export default class Login extends React.Component {
       console.log("Success", response);
       const jwtToken = response.loginUser.jwtToken;
       localStorage.setItem('jwtToken', jwtToken);
-      //window.location.reload()
+      this.props.router.push('/dashboard');
+      window.location.reload()
     };
 
     Relay.Store.commitUpdate(loginUserMutation, {onSuccess, onFailure}
