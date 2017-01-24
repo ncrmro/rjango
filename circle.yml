@@ -11,7 +11,7 @@ general:
     - ".coverage"
 dependencies:
   pre:
-      - curl https://github.com/mozilla/geckodriver/releases/download/v0.13.0/geckodriver-v0.13.0-linux64.tar.gz | gzip -dc > geckodriver
+      - wget https://github.com/mozilla/geckodriver/releases/download/v0.13.0/geckodriver-v0.13.0-linux64.tar.gz -O - | tar -xz
       - chmod +x geckodriver
       - |
         if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
