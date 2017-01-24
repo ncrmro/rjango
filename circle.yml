@@ -11,6 +11,8 @@ general:
     - ".coverage"
 dependencies:
   pre:
+      - curl https://github.com/mozilla/geckodriver/releases/download/v0.13.0/geckodriver-v0.13.0-linux64.tar.gz | gzip -dc > geckodriver
+      - chmod +x geckodriver
       - |
         if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
           echo "Download and install Yarn."
@@ -18,6 +20,8 @@ dependencies:
         else
           echo "The correct version of Yarn is already installed."
         fi
+
+
   override:
       - yarn install
       - pip install -r ./requirements.txt
