@@ -28,6 +28,7 @@ dependencies:
       - ~/.cache/yarn
   post:
     - pip install -r ./bend/deps/testing.txt
+    - ./bend/manage.py collectstatic --no-input
 
 test:
   override:
