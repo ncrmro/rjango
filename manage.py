@@ -5,6 +5,7 @@ import sys
 # Add the modules folder
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'src'))
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'src', 'apps'))
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ango.settings.dev")
