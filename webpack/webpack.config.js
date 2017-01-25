@@ -70,7 +70,7 @@ module.exports = {
     vendor: ['react', 'react-dom', 'react-mdl', 'react-relay', 'react-router', 'react-router-relay']
   },
   output: {
-    path: path.join(__dirname, 'static', 'bundles'),
+    path: path.join(__dirname, '..', 'static', 'bundles'),
     filename: "[name]-[hash].js",
     publicPath: publicPath
   },

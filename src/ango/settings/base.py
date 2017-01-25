@@ -92,7 +92,7 @@ USE_TZ = True
 
 GRAPHENE = {
     'SCHEMA': 'ango.schema.schema',  # Where your Graphene schema lives
-    'SCHEMA_OUTPUT': 'fend/src/server/data/schema.json'  # defaults to schema.json
+    'SCHEMA_OUTPUT': './webpack/server/data/schema.json'  # defaults to schema.json
 }
 
 WEBPACK_LOADER = {
