@@ -1,21 +1,18 @@
 {
-  "name": "relay-fullstack",
+  "name": "ango",
   "version": "1.0.0",
-  "description": "Relay Starter Kit - Integrated with Relay, GraphQL, Express, ES6/ES7, JSX, Webpack, Babel, Material Design Lite, and PostCSS",
+  "description": "Ango",
   "scripts": {
-    "start": "nodemon --watch fend/src/server/data/**/*.js --exec \"./node_modules/.bin/babel-node fend/src/server/index.js\"",
-    "update": "./node_modules/.bin/babel-node fend/src/server/utils/updateSchema.js",
-    "deploy": "npm run build && npm run update && npm run build-server && cross-env NODE_ENV=production node ./build/server/index.js",
-    "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
-    "build-server": "cross-env NODE_ENV=production ./node_modules/.bin/babel ./fend/src/server --out-dir ./build/server",
+    "start": "nodemon --watch webpack/server/data/**/*.js --exec \"./node_modules/.bin/babel-node webpack/server/index.js\"",
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js",
     "lint": "eslint --ignore-path .gitignore client server",
-    "clean": "rm -rf ./bend/static/bundles && mkdir ./bend/static && mkdir ./bend/static/bundles",
+    "clean": "rm -rf ./static/bundles && mkdir ./static/bundles && mkdir ./static/bundles",
     "postinstall": "npm run build"
   },
   "pre-commit": "lint",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lvarayut/relay-fullstack.git"
+    "url": "git+https://github.com/ncrmro/ango.git"
   },
   "engines": {
     "node": "7.4.0",
