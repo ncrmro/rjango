@@ -19,7 +19,7 @@ const favIcon = new FaviconsWebpackPlugin('./fend/src/client/assets/logo.png');
 const stats = new BundleTracker(
   {
     path: __dirname,
-    filename: './bend/static/webpack-stats.json',
+    filename: '../static/webpack-stats.json',
     indent: true
   });
 
