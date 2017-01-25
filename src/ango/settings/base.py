@@ -43,7 +43,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            join(BASE_DIR, 'src', 'templates'),
+            join(BASE_DIR, 'src', 'ango', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -89,7 +89,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 GRAPHENE = {
     'SCHEMA': 'ango.schema.schema',  # Where your Graphene schema lives
