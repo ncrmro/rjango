@@ -1,4 +1,4 @@
-import ViewerQuery from './ViewerQuery';
+import ViewerQuery from '../../../client/queries/ViewerQuery';
 
 
 export default {

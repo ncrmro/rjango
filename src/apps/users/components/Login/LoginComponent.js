@@ -2,7 +2,7 @@
 import React from "react";
 import Relay from "react-relay";
 import {Grid, Cell, Textfield, Button, Checkbox} from "react-mdl";
-import Page from "../Page/PageComponent";
+import Page from "../../../../client/components/Page/PageComponent";
 import LoginUserMutation from "./LoginUserMutation";
 
 export default class Login extends React.Component {

@@ -1,6 +1,6 @@
-import AppContainer from "../components/App/AppContainer";
-import Landing from "../components/Landing/LandingContainer";
-import ViewerQuery from './ViewerQuery';
+import AppContainer from "./components/App/AppContainer";
+import Landing from "./components/Landing/LandingContainer";
+import ViewerQuery from './queries/ViewerQuery';
 
 
 export default () => {
@@ -14,10 +14,9 @@ export default () => {
         component: Landing,
       },
       childRoutes: [
-        require('./signup').default,
-        require('./login').default,
-        require('./dashboard').default,
-
+        require('../apps/users/routes/signup').default,
+        require('../apps/users/routes/login').default,
+        require('./routes/dashboard').default,
         {
           path: '*',
           component: Landing

@@ -1,4 +1,4 @@
-import ViewerQuery from './ViewerQuery';
+import ViewerQuery from '../queries/ViewerQuery';
 
 export  default {
   path: 'dashboard',

@@ -1,8 +1,8 @@
 import React from "react";
 import Relay from "react-relay";
 import {Grid, Cell, Textfield, Button} from "react-mdl";
-import Page from "../Page/PageComponent";
-//import SignupUserMutation from "./SignupUserMutation";
+import Page from "../../../../client/components/Page/PageComponent";
+import SignupUserMutation from "./SignupUserMutation";
 
 
 export default class Signup extends React.Component {
