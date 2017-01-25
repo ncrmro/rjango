@@ -1,42 +1,45 @@
 import Relay from "react-relay";
 
-class AddFeatureMutation extends Relay.Mutation {
+class SignupUserMutation extends Relay.Mutation {
 
     getMutation() {
         return Relay.QL`
-            mutation { addFeature }
+            mutation { createUser }
         `;
     }
 
   getVariables() {
     return {
-      name: this.props.name,
-      description: this.props.description,
-      url: this.props.url
+      username: this.props.username,
+      password: this.props.password
     };
   }
 
     getFatQuery() {
         return Relay.QL`
-            fragment on AddFeaturePayload {
-                featureEdge,
-                viewer { features }
+            fragment on CreateUserPayload {
+                viewer { username, firstName, email }
             }
         `;
     }
 
   getConfigs() {
-    return [{
-      type: 'RANGE_ADD',
-      parentName: 'viewer',
-      parentID: this.props.viewerId,
-      connectionName: 'features',
-      edgeName: 'featureEdge',
-      rangeBehaviors: {
-        '': 'append',
-      },
-    }];
-  }
+        return [{
+          type: 'REQUIRED_CHILDREN',
+            // Forces these fragments to be included in the query
+            children: [Relay.QL`
+                fragment on CreateUserPayload {
+                    viewer {
+                        id,
+                        username,
+                        email,
+                        dateJoined,
+                    },
+                    jwtToken
+                }
+            `],
+        }];
+    }
 }
 
-export default AddFeatureMutation;
+export default SignupUserMutation;
