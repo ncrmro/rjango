@@ -46,3 +46,6 @@ A fresh dyno will need the following ran
 `heroku run --app APP bash`
 `python manage.py migrate`
 `python manage.py createsuperuser`
+
+### Front-End originally based on the awesome Relay Fullstack
+https://github.com/lvarayut/relay-fullstack

@@ -28,10 +28,10 @@ dependencies:
       - ~/.yarn
       - ~/.cache/yarn
   post:
-    - pip install -r ./bend/deps/testing.txt
-    - ./bend/manage.py collectstatic --no-input
+    - pip install -r ./deps/testing.txt
+    - ./manage.py collectstatic --no-input
 
 
 test:
   override:
-    - coverage run --source='.' ./bend/manage.py test ./bend/src
+    - coverage run --source='.' ./manage.py test ./src/*
