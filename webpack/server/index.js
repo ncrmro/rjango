@@ -6,7 +6,7 @@ import graphQLHTTP from "express-graphql";
 import WebpackDevServer from "webpack-dev-server";
 import historyApiFallback from "connect-history-api-fallback";
 import chalk from "chalk";
-import webpackConfig from "../../../webpack.config.js";
+import webpackConfig from "../webpack.config.js";
 import config from "./config/environment";
 import schema from "./data/schema";
 

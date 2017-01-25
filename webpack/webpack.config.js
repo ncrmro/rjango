@@ -14,7 +14,7 @@ let plugins;
 let publicPath;
 
 
-const favIcon = new FaviconsWebpackPlugin('./fend/src/client/assets/logo.png');
+const favIcon = new FaviconsWebpackPlugin('./src/client/assets/logo.png');
 
 const stats = new BundleTracker(
   {
@@ -24,7 +24,7 @@ const stats = new BundleTracker(
   });
 
 if (process.env.NODE_ENV === 'production') {
-  appEntry = [path.join(__dirname, '/fend/src/client/index.js')];
+  appEntry = [path.join(__dirname, '../src/client/index.js')];
   devtool = 'source-map';
   publicPath = '/static/bundles/';
   plugins = [
@@ -46,7 +46,7 @@ if (process.env.NODE_ENV === 'production') {
   ];
 } else {
   appEntry = [
-    path.join(__dirname, '/fend/src/client/index.js'),
+    path.join(__dirname, '../src/client/index.js'),
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server'
   ];
@@ -70,7 +70,7 @@ module.exports = {
     vendor: ['react', 'react-dom', 'react-mdl', 'react-relay', 'react-router', 'react-router-relay']
   },
   output: {
-    path: path.join(__dirname, 'bend', 'static', 'bundles'),
+    path: path.join(__dirname, 'static', 'bundles'),
     filename: "[name]-[hash].js",
     publicPath: publicPath
   },
