@@ -7,8 +7,6 @@ ALLOWED_HOSTS = ['*']
 
 DEBUG = True
 
-MIDDLEWARE.remove('django.middleware.csrf.CsrfViewMiddleware')
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

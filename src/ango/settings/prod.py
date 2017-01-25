@@ -25,8 +25,6 @@ DATABASES = {
     'default': env.db(),
 }
 
-
-
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
