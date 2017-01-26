@@ -34,4 +34,4 @@ dependencies:
 
 test:
   override:
-    - coverage run --source='.' ./manage.py test ./src/*
+    - coverage run --source='.' ./manage.py test ./src/* --verbosity=2
