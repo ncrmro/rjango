@@ -15,8 +15,8 @@
     "url": "git+https://github.com/ncrmro/ango.git"
   },
   "engines": {
-    "node": "7.4.0",
-    "npm": "4.0.5"
+    "node": "6.7.0",
+    "npm": "3.10.3"
   },
   "author": "Nicholas Romero",
   "license": "MIT",
