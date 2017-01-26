@@ -8,6 +8,7 @@ import datetime
 # Build paths inside the project like this: join(BASE_DIR, "directory")
 BASE_DIR = dirname(dirname(dirname(dirname(__file__))))
 
+
 # Define STATIC_ROOT for the collectstatic command
 STATIC_ROOT = join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
@@ -43,7 +44,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            join(BASE_DIR, 'src', 'ango', 'templates'),
+            join('src', 'ango', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
