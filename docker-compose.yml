@@ -10,5 +10,5 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=ango.settings.prod
       - SECRET_KEY='000000000000000'
-      - DATABASE_URL=sqlite:////src/db.sqlite3
+      - DATABASE_URL=sqlite:////adbase/db.sqlite3
       - ALLOWED_HOSTS=['*']

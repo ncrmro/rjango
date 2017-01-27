@@ -27,3 +27,15 @@ jspm_packages
 .Python
 db.sqlite3
 static
+/Procfile
+/Dockerfile
+/LICENSE
+/runtime.txt
+/.gitattributes
+/docker-compose.test.yml
+/.gitignore
+/graphql.config.json
+/.buildpacks
+/docker-compose.yml
+/circle.yml
+/README.md
