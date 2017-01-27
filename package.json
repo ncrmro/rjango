@@ -4,9 +4,9 @@
   "description": "Ango",
   "scripts": {
     "start": "nodemon --watch webpack/server/data/**/*.js --exec \"./node_modules/.bin/babel-node webpack/server/index.js\"",
-    "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js",
+    "build": "npm run clean && cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js",
     "lint": "eslint --ignore-path .gitignore client server",
-    "clean": "rm -rf ./static/bundles && mkdir ./static/bundles && mkdir ./static/bundles",
+    "clean": "rm -rf ./static && mkdir ./static && mkdir ./static/bundles",
     "postinstall": "npm run build"
   },
   "pre-commit": "lint",
@@ -15,8 +15,8 @@
     "url": "git+https://github.com/ncrmro/ango.git"
   },
   "engines": {
-    "node": "7.4.0",
-    "npm": "4.0.5"
+    "node": "6.7.0",
+    "npm": "3.10.3"
   },
   "author": "Nicholas Romero",
   "license": "MIT",

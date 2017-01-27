@@ -31,6 +31,8 @@ You can tell if nginx is picking up the default vhost config by changing if stat
 Docker deployment should not be considered secure yet until the docker socket is moved to it's own container for nginx-gen and letsencrypt support..
 Wait for the docker-compose.prod.yml
 
+docker run -it --entrypoint=/bin/bash ncrmro/ango
+docker exec -i -t ango bash
 
 #### Docker Compose
 ```
@@ -38,7 +40,6 @@ docker-compose build
 docker-compose up
 docker-compose run ango manage.py migrate
 docker-compose run ango manage.py createsuperuser
-
 ```
 
 ### Heroku

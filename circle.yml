@@ -6,11 +6,15 @@ machine:
     version: 3.5.2
   node:
     version: 6.1.0
+  services:
+    - docker
+
 general:
   artifacts:
     - ".coverage"
     - "screenshots"
 dependencies:
+
   pre:
       - wget -qO- https://github.com/mozilla/geckodriver/releases/download/v0.13.0/geckodriver-v0.13.0-linux64.tar.gz  | tar -xvz -C /home/ubuntu/bin
       - chmod +x /home/ubuntu/bin/geckodriver
@@ -24,6 +28,7 @@ dependencies:
   override:
       - yarn install
       - pip install -r ./requirements.txt
+      - docker build -t ncrmro/ango .
   cache_directories:
       - ~/.yarn
       - ~/.cache/yarn
@@ -31,7 +36,7 @@ dependencies:
     - pip install -r ./deps/testing.txt
     - ./manage.py collectstatic --no-input
 
-
 test:
   override:
     - coverage run --source='.' ./manage.py test ./src/*
+    - docker run ncrmro/ango ./manage.py test ./src/apps/*
