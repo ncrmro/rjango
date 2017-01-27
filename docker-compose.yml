@@ -1,36 +1,14 @@
 version: '2'
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    container_name: nginx-proxy
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    volumes_from:
-      - ango:ro
-
-  postgres:
-    image: kiasaki/alpine-postgres:9.5
-    container_name: postgres
-    environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=randomTestPassword
-
   ango:
     build: .
     container_name: ango
-    command: "/usr/local/bin/waitress-serve --host=0.0.0.0 --port=8000 ango.wsgi:application"
+    entrypoint: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     image: ncrmro/ango
-    volumes:
-      - /ango/staticfiles
-      - ./deps/nginx:/etc/nginx/vhost.d:ro
+    ports:
+      - "8000:8000"
     environment:
-      - VIRTUAL_HOST=192.168.99.101
-      - VIRTUAL_PORT=8000
       - DJANGO_SETTINGS_MODULE=ango.settings.prod
       - SECRET_KEY='000000000000000'
-      - DATABASE_URL=postgres://admin:randomTestPassword@postgres:5432/admin
+      - DATABASE_URL=sqlite:////src/db.sqlite3
       - ALLOWED_HOSTS=['*']
-    depends_on:
-      - postgres

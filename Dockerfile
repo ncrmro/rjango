@@ -1,26 +1,20 @@
 FROM ncrmro/adbase
 
-ENV INSTALL_PATH=/src/ \
+ENV INSTALL_PATH=/src \
     DJANGO_SETTINGS_MODULE=ango.settings.prod \
     SECRET_KEY=000000000000000 \
-    DATABASE_URL=postgres://admin:randomTestPassword@postgres:5432/admin \
+    DATABASE_URL=sqlite:////src/db.sqlite3 \
     ALLOWED_HOSTS=['*']
 
 WORKDIR $INSTALL_PATH
 
-COPY ./deps/ $INSTALL_PATH/deps/
-
 COPY . $INSTALL_PATH
 
-COPY ./deps/nginx/ /etc/nginx/vhost.d/
+RUN pip3 install -r $INSTALL_PATH/deps/requirements.txt \
+ && yarn install --ignore-scripts
 
-RUN ls
-
-RUN python3 /src/manage.py collectstatic --no-input \
-  && npm run build
-
-
-VOLUME ["/static"]
+RUN npm run build \
+ && python3 ./manage.py collectstatic --no-input
 
 EXPOSE 8000
 
