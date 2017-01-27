@@ -28,7 +28,6 @@ dependencies:
   override:
       - yarn install
       - pip install -r ./requirements.txt
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - sudo pip install --upgrade docker-compose==1.3.0
       - docker build -t ncrmro/ango .
   cache_directories:
