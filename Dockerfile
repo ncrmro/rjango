@@ -18,4 +18,4 @@ RUN npm run build \
 
 EXPOSE 8000
 
-ENTRYPOINT ["/usr/local/bin/python3", "-u"]
+ENTRYPOINT ["python3", "-u"]

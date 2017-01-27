@@ -28,7 +28,6 @@ dependencies:
   override:
       - yarn install
       - pip install -r ./requirements.txt
-      - sudo pip install --upgrade docker-compose==1.10.0
       - docker build -t ncrmro/ango .
   cache_directories:
       - ~/.yarn
@@ -38,8 +37,6 @@ dependencies:
     - ./manage.py collectstatic --no-input
 
 test:
-  pre:
-    - docker-compose pull
   override:
     - coverage run --source='.' ./manage.py test ./src/*
-    - docker-compose -f docker-compose.test.yml up
+    - docker run ncrmro/ango ./manage.py test ./src/apps/*
