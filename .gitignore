@@ -145,3 +145,4 @@ node_modules
 /fend/src/server/data/schema.json
 screenshots
 /static/
+/webpack/server/data/schema.json
