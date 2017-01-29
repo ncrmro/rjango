@@ -35,8 +35,9 @@ dependencies:
   post:
     - pip install -r ./deps/testing.txt
     - ./manage.py collectstatic --no-input
+    - ./manage.py graphql_schema
 
 test:
   override:
-    - coverage run --source='.' ./manage.py test ./src/*
+    - coverage run --source='.' ./manage.py test ./src/apps/*
     - docker run ncrmro/ango ./manage.py test ./src/apps/*
