@@ -39,5 +39,5 @@ dependencies:
 
 test:
   override:
-    - coverage run --source='.' ./manage.py test ./src/app/*
+    - coverage run --source='.' ./manage.py test ./src/apps/*
     - docker run ncrmro/ango ./manage.py test ./src/apps/*
