@@ -35,6 +35,7 @@ dependencies:
   post:
     - pip install -r ./deps/testing.txt
     - ./manage.py collectstatic --no-input
+    - ./manage.py graphql_schema
 
 test:
   override:
