@@ -6,7 +6,6 @@ const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const BundleTracker = require('webpack-bundle-tracker');
-const postcss = require('./postcss.config');
 
 let appEntry;
 let devtool;
