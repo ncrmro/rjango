@@ -68,7 +68,7 @@
     "react-router-relay": "^0.13.5",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.3",
+    "webpack": "2.2.0",
     "webpack-bundle-tracker": "^0.2.0",
     "webpack-dev-server": "^1.16.2"
   }
