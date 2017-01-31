@@ -7,7 +7,7 @@
     "build": "npm run clean && cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js",
     "lint": "eslint --ignore-path .gitignore client server",
     "clean": "rm -rf ./static && mkdir ./static && mkdir ./static/bundles",
-    "postinstall": "npm run build"
+    "postinstall": "python ./manage.py graphql_schema && npm run build"
   },
   "pre-commit": "lint",
   "repository": {

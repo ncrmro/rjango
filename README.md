@@ -12,11 +12,13 @@ https://github.com/ncrmro/reango
 * Docker Deployment has nginx staticfile proxy, letsencrypt csupport commming soon.
 
 ## Quick start:
-
+You will need python 3 and node installed.
+You will also need to have a virtualenv activated before running npm install/yarn or the post install build step will fail as django needs to be available to dump the graphql_schema
+```
 source ~/.virtualenvs/ango/bin/activate
-
 pip3 install -r ./deps/dev.txt
-
+yarn
+```
 
 ## Prod
 
@@ -24,12 +26,6 @@ pip3 install -r ./deps/dev.txt
 Sample docker-compose.yml and dockerfile are enough to test out the nginx/database/staticfiles
 
 Base image is alpine and after dependencies and staticfiles weighs in at 130.5mb
-
-You can tell if nginx is picking up the default vhost config by changing if static files are logged in the /deps/nginx/default_conf
-
-
-Docker deployment should not be considered secure yet until the docker socket is moved to it's own container for nginx-gen and letsencrypt support..
-Wait for the docker-compose.prod.yml
 
 docker run -it --entrypoint=/bin/bash ncrmro/ango
 docker exec -i -t ango bash
@@ -44,6 +40,17 @@ docker-compose run ango manage.py createsuperuser
 
 ### Heroku
 A fresh dyno will need the following ran
+
+Clear existing buildpacks and set the python and nodejs buildpacks. This will handle installing pip and npm installs. Npm host post install generate grapqhl schema and build frontend.
+`heroku buildpacks:clear`
+`heroku buildpacks:set heroku/python`
+`heroku buildpacks:set heroku/nodejs`
+Generate a secrete key and set allowed host if need be.
+`python -c 'import random; import string; print("".join([random.SystemRandom().choice(string.digits + string.ascii_letters + string.punctuation) for i in range(100)]))'`
+`heroku config:set ALLOWED_HOSTS=['*'] DJANGO_SETTINGS_MODULE='ango.settings.prod' SECRET_KEY=_generate_key`
+Get logs
+`heroku logs --app ango-dev`
+Run manage.py commands
 `heroku run --app APP bash`
 `python manage.py migrate`
 `python manage.py createsuperuser`
