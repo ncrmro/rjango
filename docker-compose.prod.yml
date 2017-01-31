@@ -18,6 +18,7 @@ services:
 
   traefik:
     image: traefik
+    container_name: traefik
     command: -c /dev/null --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
     ports:
       - "80:80"
