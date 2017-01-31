@@ -41,7 +41,7 @@ docker-compose run ango manage.py createsuperuser
 ### Heroku
 A fresh dyno will need the following ran
 
-Clear existing buildpacks,
+Clear existing buildpacks and set the python and nodejs buildpacks. This will handle installing pip and npm installs. Npm host post install generate grapqhl schema and build frontend.
 `heroku buildpacks:clear`
 `heroku buildpacks:set heroku/python`
 `heroku buildpacks:set heroku/nodejs`
