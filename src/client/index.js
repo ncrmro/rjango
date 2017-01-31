@@ -1,10 +1,10 @@
 import React from "react";
 import Relay from "react-relay";
 import ReactDOM from "react-dom";
-import {browserHistory, applyRouterMiddleware, Router} from "react-router";
-import useRelay from "react-router-relay";
-import Routes from "./routes";
 import "../../node_modules/react-mdl/extra/material";
+import { AppContainer } from 'react-hot-loader';
+import Root from './root';
+
 
 let jwtToken = localStorage.getItem("jwtToken");
 
@@ -19,8 +19,21 @@ Relay.injectNetworkLayer(
 const rootNode = document.createElement('div');
 document.body.appendChild(rootNode);
 
-ReactDOM.render(
-  <Router history={browserHistory} routes={Routes()} render={applyRouterMiddleware(useRelay)}
-          environment={Relay.Store}/>,
-  rootNode
-);
+
+const render = (Component) => {
+  ReactDOM.render(
+    <AppContainer >
+      <Component />
+    </AppContainer>,
+    rootNode
+  );
+};
+
+render(Root);
+
+// Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept('./root', () => {
+    render(Root)
+  });
+}
