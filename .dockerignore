@@ -39,3 +39,4 @@ static
 /docker-compose.yml
 /circle.yml
 /README.md
+/.eslintrc

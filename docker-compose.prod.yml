@@ -1,0 +1,26 @@
+version: '2'
+services:
+  ango:
+    build: .
+    container_name: ango
+    entrypoint: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    image: ncrmro/ango
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=ango.settings.prod
+      - SECRET_KEY='000000000000000'
+      - DATABASE_URL=sqlite:////adbase/db.sqlite3
+      - ALLOWED_HOSTS=['*']
+    labels:
+      - "traefik.backend=ango"
+      - "traefik.frontend.rule=Host:ango.localhost"
+
+  traefik:
+    image: traefik
+    command: -c /dev/null --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
