@@ -44,6 +44,8 @@ if (process.env.NODE_ENV === 'production') {
     ];
 } else {
     appEntry = [
+        // activate HMR for React
+        'react-hot-loader/patch',
         path.join(__dirname, '../src/client/index.js'),
         'webpack-dev-server/client?http://localhost:3000',
         'webpack/hot/only-dev-server'
@@ -55,6 +57,7 @@ if (process.env.NODE_ENV === 'production') {
         new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'vendor.js'}),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.NamedModulesPlugin(),
         new webpack.DefinePlugin({
             __DEV__: true
         }),
