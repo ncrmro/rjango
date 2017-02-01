@@ -17,6 +17,8 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=ango.settings.testing
       - SELENIUM_HOST=http://selenium_chrome:4444/wd/hub
+    volumes:
+      - '$CIRCLE_TEST_REPORTS/screenshots:/ango/screenshots'
     depends_on:
       - selenium_chrome
     links:

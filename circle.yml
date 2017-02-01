@@ -31,12 +31,12 @@ test:
   pre:
     - docker-compose -f docker-compose.test.yml run --name selenium_chrome -d selenium_chrome
   override:
-    - docker-compose -f docker-compose.test.yml run --name ango --no-deps ango -v $CIRCLE_TEST_REPORTS/screenshots:/ango/screenshots
+    - docker-compose -f docker-compose.test.yml run --name ango --no-deps ango
   post:
      # docker-compose stop was not stopping containers started with docker-compose run
      # so using this hackity hack to force stop them all
      - docker stop $(docker ps -a -q)
      # get each log separately - docker-compose logs times out, I think it's trying to stream even though the containers are stopped.
      # depends on the standard naming convention of docker-compose
-     - docker logs selenium_chrome > $CIRCLE_TEST_REPORTS/selenium_chrome_log.log
+     - docker logs selenium_chrome > $CIRCLE_TEST_REPORTS/selenium_chrome.log
      - docker logs ango > $CIRCLE_TEST_REPORTS/ango.log
