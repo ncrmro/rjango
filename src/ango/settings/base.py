@@ -2,8 +2,18 @@
 Django settings for ango project.
 """
 
-from os.path import dirname, join
+from os.path import dirname, join, exists
 import datetime
+
+# Use 12factor inspired environment variables or from a file
+import environ
+
+env = environ.Env()
+
+# Ideally move env file should be outside the git repo
+env_file = join(dirname(__file__), 'local.env')
+if exists(env_file):
+    environ.Env.read_env(str(env_file))
 
 # Build paths inside the project like this: join(BASE_DIR, "directory")
 BASE_DIR = dirname(dirname(dirname(dirname(__file__))))

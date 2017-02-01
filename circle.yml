@@ -1,43 +1,42 @@
 machine:
-  environment:
-    YARN_VERSION: 0.18.0
-    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
-  python:
-    version: 3.5.2
-  node:
-    version: 6.1.0
+  pre:
+  # Setting up latest docker and docker-compose.yml
+   - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+   - pip install --upgrade docker-compose==1.10.0
   services:
-    - docker
+   - docker
 
 general:
   artifacts:
     - ".coverage"
     - "screenshots"
-dependencies:
 
-  pre:
-      - wget -qO- https://github.com/mozilla/geckodriver/releases/download/v0.13.0/geckodriver-v0.13.0-linux64.tar.gz  | tar -xvz -C /home/ubuntu/bin
-      - chmod +x /home/ubuntu/bin/geckodriver
-      - |
-        if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
-          echo "Download and install Yarn."
-          curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
-        else
-          echo "The correct version of Yarn is already installed."
-        fi
-  override:
-      - yarn install
-      - pip install -r ./requirements.txt
-      - docker build -t ncrmro/ango .
+dependencies:
   cache_directories:
-      - ~/.yarn
-      - ~/.cache/yarn
-  post:
-    - pip install -r ./deps/testing.txt
-    - ./manage.py collectstatic --no-input
-    - ./manage.py graphql_schema
+    - "~/docker"
+  override:
+    - docker info
+    - docker-compose version
+    # Load docker cache if exists
+    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
+    # Pulls images if they aren't already cached
+    - docker pull ncrmro/adbase
+    - docker pull selenium/standalone-chrome-debug:3.0.1-fermium
+    - docker build -t ncrmro/ango .
+    # Setup and save docker cache
+    - mkdir -p ~/docker
+    - docker save ncrmro/adbase selenium/standalone-chrome-debug:3.0.1-fermium > ~/docker/image.tar
 
 test:
+  pre:
+    - docker-compose -f docker-compose.test.yml run --name selenium_chrome -d selenium_chrome
   override:
-    - coverage run --source='.' ./manage.py test ./src/apps/*
-    - docker run ncrmro/ango ./manage.py test ./src/apps/*
+    - docker-compose -f docker-compose.test.yml run --name ango --no-deps ango
+  post:
+     # docker-compose stop was not stopping containers started with docker-compose run
+     # so using this hackity hack to force stop them all
+     - docker stop $(docker ps -a -q)
+     # get each log separately - docker-compose logs times out, I think it's trying to stream even though the containers are stopped.
+     # depends on the standard naming convention of docker-compose
+     - docker logs selenium_chrome > $CIRCLE_TEST_REPORTS/selenium_chrome.log
+     - docker logs ango > $CIRCLE_TEST_REPORTS/ango.log

@@ -1,18 +1,30 @@
 version: '2'
 services:
+  selenium_chrome:
+    container_name: selenium_chrome
+    image: selenium/standalone-chrome-debug:3.0.1-fermium
+    ports:
+      - "4444:4444"
+      - "5900:5900"
+
   ango:
     build: .
     container_name: ango
-    entrypoint: bash -c "python3 ./manage.py test ./src/apps/*"
+    entrypoint: bash -c "python3 ./manage.py test --liveserver=ango:8081-8179 ./src ./src/apps"
     image: ncrmro/ango
-#    ports:
-#      - "8081-8179:8081-8179"
+    ports:
+      - "8081-8179:8081-8179"
     environment:
-      - DJANGO_SETTINGS_MODULE=ango.settings.dev
+      - DJANGO_SETTINGS_MODULE=ango.settings.testing
+      - SELENIUM_HOST=http://selenium_chrome:4444/wd/hub
+    volumes:
+      - '$CIRCLE_TEST_REPORTS/screenshots:/ango/screenshots'
+    depends_on:
+      - selenium_chrome
+    links:
+      - selenium_chrome
 
-#  selenium_chrome:
-#    container_name: selenium_chrome
-#    image: selenium/standalone-chrome-debug:3.0.1-fermium
-#    ports:
-#      - "4444:4444"
-#      - "5900:5900"
+
+# Helpfull commands
+# docker-compose -f docker-compose.test.yml up -d
+# docker-compose logs ango
