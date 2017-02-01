@@ -19,12 +19,11 @@ dependencies:
     - docker info
     - docker-compose version
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
-    - docker pull ubuntu:16.04
     - docker pull ncrmro/adbase
     - docker pull selenium/standalone-chrome-debug:3.0.1-fermium
     - docker build -t ncrmro/ango .
     - mkdir -p ~/docker
-    - docker save ubuntu:16.04 ncrmro/ango selenium/standalone-chrome-debug:3.0.1-fermium > ~/docker/image.tar
+    - docker save ncrmro/adbase selenium/standalone-chrome-debug:3.0.1-fermium > ~/docker/image.tar
 
 test:
   override:
