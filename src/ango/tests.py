@@ -1,5 +1,7 @@
 from django.test import LiveServerTestCase
+from django.conf import settings
 from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import os
 
 
@@ -9,7 +11,10 @@ if not os.path.exists('./screenshots'):
 
 class HomePageTest(LiveServerTestCase):
     def setUp(self):
-        self.selenium = webdriver.Firefox()
+        self.selenium = webdriver.Remote(
+            command_executor=settings.SELENIUM_HOST,
+            desired_capabilities=DesiredCapabilities.CHROME
+        )
         super(HomePageTest, self).setUp()
 
     def tearDown(self):
