@@ -1,4 +1,4 @@
-FROM ncrmro/adbase
+FROM ncrmro/adbase:alpine
 
 ENV INSTALL_PATH=/ango \
     BUILD_PACKAGES="apt-transport-https python-software-properties" \

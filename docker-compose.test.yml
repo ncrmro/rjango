@@ -10,7 +10,7 @@ services:
   ango:
     build: .
     container_name: ango
-    entrypoint: bash -c "python3 ./manage.py test --liveserver=ango:8081-8179 ./src ./src/apps"
+    entrypoint: python3 ./manage.py test --liveserver=ango:8081-8179 ./src ./src/apps
     image: ncrmro/ango
     ports:
       - "8081-8179:8081-8179"
