@@ -25,7 +25,7 @@ dependencies:
     - docker build -t ncrmro/ango .
     # Setup and save docker cache
     - mkdir -p ~/docker
-    - docker save ncrmro/adbase selenium/standalone-chrome-debug:3.0.1-fermium > ~/docker/image.tar
+    - docker save ncrmro/adbase:alpine selenium/standalone-chrome-debug:3.0.1-fermium > ~/docker/image.tar
 
 test:
   pre:
