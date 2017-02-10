@@ -1,7 +1,7 @@
 import React from "react";
 import Relay from "react-relay";
 import {Grid, Cell, Textfield, Button} from "react-mdl";
-import Page from "../../../../client/components/Page/PageComponent";
+import Page from "../../../../components/Page/PageComponent";
 import SignupUserMutation from "./SignupUserMutation";
 
 
