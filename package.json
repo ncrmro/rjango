@@ -1,7 +1,7 @@
 {
-  "name": "ango",
+  "name": "reango",
   "version": "1.0.0",
-  "description": "Ango",
+  "description": "reango",
   "scripts": {
     "start": "nodemon --watch webpack/server/data/**/*.js --exec \"./node_modules/.bin/babel-node webpack/server/index.js\"",
     "build": "npm run clean && cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js",
@@ -12,7 +12,7 @@
   "pre-commit": "lint",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ncrmro/ango.git"
+    "url": "git+https://github.com/ncrmro/reango.git"
   },
   "engines": {
     "node": "6.7.0",

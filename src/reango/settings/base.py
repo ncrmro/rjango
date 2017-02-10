@@ -1,5 +1,5 @@
 """
-Django settings for ango project.
+Django settings for reango project.
 """
 
 from os.path import dirname, join, exists
@@ -47,13 +47,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ango.urls'
+ROOT_URLCONF = 'reango.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            join(BASE_DIR, 'src', 'ango', 'templates'),
+            join(BASE_DIR, 'src', 'reango', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ango.wsgi.application'
+WSGI_APPLICATION = 'reango.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -101,7 +101,7 @@ USE_L10N = True
 USE_TZ = True
 
 GRAPHENE = {
-    'SCHEMA': 'ango.schema.schema',  # Where your Graphene schema lives
+    'SCHEMA': 'reango.schema.schema',  # Where your Graphene schema lives
     'SCHEMA_OUTPUT': './webpack/server/data/schema.json'  # defaults to schema.json
 }
 

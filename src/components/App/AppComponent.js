@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../Navbar/NavbarComponent";
 import Footer from "../Footer/FooterContainer";
 import styles from "./App.scss";
-import yeoman from "../../assets/yeoman.png";
+import yeoman from "../../client/assets/yeoman.png";
 import "normalize.css/normalize.css";
 import "react-mdl/extra/css/material.cyan-red.min.css";
 

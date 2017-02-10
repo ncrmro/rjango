@@ -1,5 +1,5 @@
 location /static {
     access_log off;
     log_not_found off;
-    alias /ango/staticfiles;
+    alias /reango/staticfiles;
 }

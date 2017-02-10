@@ -1,5 +1,5 @@
-import AppContainer from "./components/App/AppContainer";
-import Landing from "./components/Landing/LandingContainer";
+import AppContainer from "../components/App/AppContainer";
+import Landing from "../components/Landing/LandingContainer";
 import ViewerQuery from './queries/ViewerQuery';
 
 
@@ -11,7 +11,7 @@ export default () => {
       queries: ViewerQuery,
       indexRoute: {
         queries: ViewerQuery,
-        component: Landing,
+        component: Landing
       },
       childRoutes: [
         require('../apps/users/routes/signup').default,
