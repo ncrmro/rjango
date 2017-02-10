@@ -7,18 +7,18 @@ services:
       - "4444:4444"
       - "5900:5900"
 
-  ango:
+  reango:
     build: .
-    container_name: ango
-    entrypoint: python3 ./manage.py test --liveserver=ango:8081-8179 ./src ./src/apps
-    image: ncrmro/ango
+    container_name: reango
+    entrypoint: python3 ./manage.py test --liveserver=reango:8081-8179 ./src ./src/apps
+    image: ncrmro/reango
     ports:
       - "8081-8179:8081-8179"
     environment:
-      - DJANGO_SETTINGS_MODULE=ango.settings.testing
+      - DJANGO_SETTINGS_MODULE=reango.settings.testing
       - SELENIUM_HOST=http://selenium_chrome:4444/wd/hub
     volumes:
-      - '$CIRCLE_TEST_REPORTS/screenshots:/ango/screenshots'
+      - '$CIRCLE_TEST_REPORTS/screenshots:/reango/screenshots'
     depends_on:
       - selenium_chrome
     links:
@@ -27,4 +27,4 @@ services:
 
 # Helpfull commands
 # docker-compose -f docker-compose.test.yml up -d
-# docker-compose logs ango
+# docker-compose logs reango

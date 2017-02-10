@@ -1,20 +1,20 @@
 version: '2'
 services:
-  ango:
+  reango:
     build: .
-    container_name: ango
+    container_name: reango
     entrypoint: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
-    image: ncrmro/ango
+    image: ncrmro/reango
     ports:
       - "8000:8000"
     environment:
-      - DJANGO_SETTINGS_MODULE=ango.settings.prod
+      - DJANGO_SETTINGS_MODULE=reango.settings.prod
       - SECRET_KEY='000000000000000'
       - DATABASE_URL=sqlite:////adbase/db.sqlite3
       - ALLOWED_HOSTS=['*']
     labels:
-      - "traefik.backend=ango"
-      - "traefik.frontend.rule=Host:ango.localhost"
+      - "traefik.backend=reango"
+      - "traefik.frontend.rule=Host:reango.localhost"
 
   traefik:
     image: traefik

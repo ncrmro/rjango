@@ -1,8 +1,8 @@
 FROM ncrmro/adbase:alpine
 
-ENV INSTALL_PATH=/ango \
+ENV INSTALL_PATH=/reango \
     BUILD_PACKAGES="apt-transport-https python-software-properties" \
-    DJANGO_SETTINGS_MODULE=ango.settings.prod \
+    DJANGO_SETTINGS_MODULE=reango.settings.prod \
     SECRET_KEY=000000000000000 \
     DATABASE_URL=sqlite:////src/db.sqlite3 \
     ALLOWED_HOSTS=['*']
