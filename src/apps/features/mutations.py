@@ -1,6 +1,7 @@
 from graphene import AbstractType, Field, String, relay, Int
 from .models import FeatureModel
-from .schema import FeatureNode
+from .schema import FeatureEdge
+from users.schema import Viewer
 
 
 class CreateFeature(relay.ClientIDMutation):
@@ -8,7 +9,8 @@ class CreateFeature(relay.ClientIDMutation):
         user_id = Int(required=True)
         text = String(required=True)
 
-    features = Field(FeatureNode)
+    feature_edge = Field(FeatureEdge)
+    viewer = Field(Viewer)
 
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
@@ -19,4 +21,4 @@ class CreateFeature(relay.ClientIDMutation):
 
 
 class FeatureMutations(AbstractType):
-    create_features = CreateFeature.Field()
+    create_feature = CreateFeature.Field()
