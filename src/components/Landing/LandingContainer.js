@@ -4,9 +4,11 @@ import Landing from "./LandingComponent";
 export default Relay.createContainer(Landing, {
     fragments: {
         viewer: () => Relay.QL`
-            fragment on UserNode {
-                username,
-                email
+            fragment on Viewer {
+                user{
+                    username,
+                    email
+                }
             }`
     }
 });

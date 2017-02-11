@@ -37,7 +37,6 @@ def authenticate(request):
                'should not contain spaces.')
         raise exceptions.AuthenticationFailed(msg)
 
-
     try:
         payload = jwt_decode_handler(auth[1])
     except jwt.ExpiredSignature:
@@ -69,4 +68,12 @@ def authenticate_credentials(payload):
         msg = 'Invalid signature'
         raise exceptions.AuthenticationFailed(msg)
 
+    return user
+
+
+def authenticateGraphQLContext(context):
+    check_token = authenticate(context)
+    print('Found Token in Auth Header', check_token)
+    token_user = check_token[0]
+    user = User.objects.get(id=token_user.id, username=token_user.username)
     return user

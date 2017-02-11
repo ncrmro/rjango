@@ -4,7 +4,7 @@ import Feature from "./FeatureComponent";
 export default Relay.createContainer(Feature, {
     fragments: {
         viewer: () => Relay.QL`
-            fragment on User {
+            fragment on Viewer {
                 id,
                 features(first: 20) {
                     edges {
