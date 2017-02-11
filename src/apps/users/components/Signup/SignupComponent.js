@@ -9,7 +9,7 @@ export default class Signup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
+            email: '',
             password: '',
             passwordConfirmation: '',
             isValidEmail: false,
@@ -97,11 +97,11 @@ export default class Signup extends React.Component {
 
     handleEmailChange(e) {
         const value = e.target.value;
-        this.setState({username: value});
+        this.setState({email: value});
         const isEmailValid = this.validateEmail(value);
         if (isEmailValid) {
             this.setState({isValidEmail: true});
-            this.setState({errorPassword: false});
+            this.setState({errorEmail: false});
         }
         else {
             this.setState({isValidEmail: false});
