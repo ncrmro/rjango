@@ -62,8 +62,7 @@ class UserQueries(AbstractType):
 
 class LogInUser(relay.ClientIDMutation):
     class Input:
-        id = String(required=True)
-        username = String(required=True)
+        email = String(required=True)
         password = String(required=True)
 
     viewer = Field(Viewer)
@@ -71,11 +70,11 @@ class LogInUser(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
         print("Logging user in", input, context, info)
-        username = input.get('username')
+        email = input.get('email')
         password = input.get('password')
-        jwt_token = loginUser(username, password)
+        jwt_token = loginUser(email, password)
         print("jwt token", jwt_token)
-        user = User.objects.get(username=username)
+        user = User.objects.get(email=email)
         viewer = Viewer(
             user=user,
             jwt_token=jwt_token
@@ -85,7 +84,7 @@ class LogInUser(relay.ClientIDMutation):
 
 class CreateUser(relay.ClientIDMutation):
     class Input:
-        username = String(required=True)
+        email = String(required=True)
         password = String(required=True)
 
     viewer = Field(UserNode)

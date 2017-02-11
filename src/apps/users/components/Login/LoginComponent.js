@@ -104,11 +104,11 @@ export default class Login extends React.Component {
         // Empty value or email is not valid set error
         if (value === "" || !isEmailValid) {
             this.setState({isEmailValid: false});
-            this.setState({errorEmail: false});
 
         }
         else {
             this.setState({isEmailValid: true});
+            this.setState({errorEmail: false});
         }
     }
 

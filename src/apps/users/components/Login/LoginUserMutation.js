@@ -12,7 +12,7 @@ class LoginMutation extends Relay.Mutation {
 
     getVariables() {
         return {
-            username: this.props.username,
+            email: this.props.email,
             password: this.props.password
         };
     }
