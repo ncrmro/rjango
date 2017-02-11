@@ -13,3 +13,5 @@ DATABASES = {
         'NAME': join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+SELENIUM_HOST = env('SELENIUM_HOST', default="")
