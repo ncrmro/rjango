@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'webpack_loader',
     'graphene_django',
-    'todos'
+    'todos',
+    'features'
 ]
 
 MIDDLEWARE = [
