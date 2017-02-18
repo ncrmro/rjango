@@ -36,6 +36,7 @@ class UserTest(LiveServerTestCase):
         # Click Button to check for empty values and check
         selenium.find_element_by_xpath("//button[text()='Sign up']").click()
         selenium.save_screenshot('./screenshots/sign_up_page_2_invalid.png')
+
         assert 'Email isn\'t valid' in selenium.page_source
         assert 'Passwords don\'t match' in selenium.page_source
 
@@ -49,7 +50,6 @@ class UserTest(LiveServerTestCase):
         # Click Button to check for empty values and check
         selenium.find_element_by_xpath("//button[text()='Sign up']").click()
         selenium.save_screenshot('./screenshots/sign_up_page_4_submitited.png')
-
 
     def test_login_form(self):
         selenium = self.selenium

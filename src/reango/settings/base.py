@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'users',
     'todos',
     'features',
+    'todos',
+    'features'
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'

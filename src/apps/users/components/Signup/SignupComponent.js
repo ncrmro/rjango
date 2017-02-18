@@ -97,7 +97,6 @@ export default class Signup extends React.Component {
 
     handleEmailChange(e) {
         const value = e.target.value;
-
         this.setState({email: value});
         const isEmailValid = this.validateEmail(value);
         // Empty value or email is not valid set error
@@ -109,6 +108,16 @@ export default class Signup extends React.Component {
             this.setState({isEmailValid: true});
             this.setState({errorEmail: false});
         }
+        this.setState({email: value});
+        const isEmailValid = this.validateEmail(value);
+        if (isEmailValid) {
+            this.setState({isValidEmail: true});
+            this.setState({errorEmail: false});
+        }
+        else {
+            this.setState({isValidEmail: false});
+        }
+
     }
 
     handlePasswordChange(e) {

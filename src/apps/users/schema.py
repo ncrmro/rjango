@@ -5,6 +5,7 @@ from .jwt_util import loginUser, authenticateGraphQLContext
 from jwt_auth import settings
 from features.schema import FeatureInterface
 from .backends import _create_user
+
 import jwt
 
 jwt_decode_handler = settings.JWT_DECODE_HANDLER
