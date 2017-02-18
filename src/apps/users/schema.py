@@ -1,10 +1,9 @@
-from graphene import AbstractType, Node, Field, String, relay, ObjectType, Int, Boolean, ID, InputObjectType
-from django.contrib.auth.models import AnonymousUser, User
-from graphene import AbstractType, Node, relay
-from graphene_django.filter import DjangoFilterConnectionField
-from graphene_django.types import DjangoObjectType
-from .jwt_util import loginUser, authenticate
-from jwt_auth import settings, exceptions
+from graphene import AbstractType, Node, relay, Field, String, GlobalID
+from django.contrib.auth.models import User
+from graphene_django.types import DjangoObjectType, ObjectType
+from .jwt_util import loginUser, authenticateGraphQLContext
+from jwt_auth import settings
+from features.schema import FeatureInterface
 import jwt
 
 jwt_decode_handler = settings.JWT_DECODE_HANDLER
@@ -29,46 +28,63 @@ class UserNode(DjangoObjectType):
         interfaces = (Node,)
 
 
-class UserQueries(AbstractType):
+class Viewer(ObjectType):
+    id = GlobalID()
     user = Field(UserNode)
-    all_users = DjangoFilterConnectionField(UserNode)
-    viewer = Field(UserNode)
+    jwt_token = String()
 
+    class Meta:
+        interfaces = (FeatureInterface,)
+
+
+class UserQueries(AbstractType):
+    viewer = Field(Viewer)
+
+    @staticmethod
     def resolve_viewer(self, args, context, info):
         try:
-            check_token = authenticate(context)
-            print('Found Token in Auth Header', check_token)
-            token_user = check_token[0]
-            user = User.objects.get(id=token_user.id, username=token_user.username)
-            return user
-        except:
-            return User(
+            print("Trying to authenticate authorization jwt token")
+            user = authenticateGraphQLContext(context)
+            return Viewer(
                 id=0,
-                username=""
+                user=user
+            )
+        except:
+            return Viewer(
+                id=0,
+                user=User(
+                    id=0,
+                    username=""
+                )
+
             )
 
 
 class LogInUser(relay.ClientIDMutation):
     class Input:
-        username = String(required=True)
+        email = String(required=True)
         password = String(required=True)
 
-    viewer = Field(UserNode)
-    jwt_token = String()
+    viewer = Field(Viewer)
 
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
         print("Logging user in", input, context, info)
-        username = input.get('username')
+        email = input.get('email')
         password = input.get('password')
-        jwt_token = loginUser(username, password)
-        viewer = User.objects.get(username=username)
-        return LogInUser(viewer, jwt_token)
+        jwt_token = loginUser(email, password)
+        print("jwt token", jwt_token)
+        user = User.objects.get(email=email)
+        viewer = Viewer(
+            user=user,
+            jwt_token=jwt_token
+        )
+        return LogInUser(viewer)
 
 
 class CreateUser(relay.ClientIDMutation):
     class Input:
-        username = String(required=True)
+        email = String(required=True)
         password = String(required=True)
 
     viewer = Field(UserNode)

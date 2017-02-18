@@ -11,10 +11,13 @@ if not os.path.exists('./screenshots'):
 
 class HomePageTest(LiveServerTestCase):
     def setUp(self):
-        self.selenium = webdriver.Remote(
-            command_executor=settings.SELENIUM_HOST,
-            desired_capabilities=DesiredCapabilities.CHROME
-        )
+        if settings.SELENIUM_HOST:
+            self.selenium = webdriver.Remote(
+                command_executor=settings.SELENIUM_HOST,
+                desired_capabilities=DesiredCapabilities.CHROME
+            )
+        else:
+            self.selenium = webdriver.Firefox()
         super(HomePageTest, self).setUp()
 
     def tearDown(self):

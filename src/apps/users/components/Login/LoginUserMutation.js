@@ -10,40 +10,46 @@ class LoginMutation extends Relay.Mutation {
         `;
     }
 
-  getVariables() {
-    return {
-      username: this.props.username,
-      password: this.props.password
-    };
-  }
+    getVariables() {
+        return {
+            email: this.props.email,
+            password: this.props.password
+        };
+    }
 
     getFatQuery() {
         return Relay.QL`
             fragment on LogInUserPayload {
                 viewer{
                     id,
-                    username,
-                    email,
-                    dateJoined,
+                    user {
+                        username,
+                        email,
+                        dateJoined
+                    }
+                    jwtToken
+
                 },
-                jwtToken
             }
         `;
     }
 
     getConfigs() {
         return [{
-          type: 'REQUIRED_CHILDREN',
+            type: 'REQUIRED_CHILDREN',
             // Forces these fragments to be included in the query
             children: [Relay.QL`
                 fragment on LogInUserPayload {
                     viewer {
                         id,
-                        username,
-                        email,
-                        dateJoined,
+                        user {
+                            username,
+                            email,
+                            dateJoined,
+                        }
+                        jwtToken
                     },
-                    jwtToken
+
                 }
             `],
         }];

@@ -4,9 +4,11 @@ import Dashboard from "./DashboardComponent";
 export default Relay.createContainer(Dashboard, {
     fragments: {
         viewer: () => Relay.QL`
-            fragment on UserNode {
-                username,
-                email
+            fragment on Viewer {
+                user{
+                    username,
+                    email
+                }
             }`
     }
 });
