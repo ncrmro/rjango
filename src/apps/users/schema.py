@@ -4,6 +4,7 @@ from graphene_django.types import DjangoObjectType, ObjectType
 from .jwt_util import loginUser, authenticateGraphQLContext
 from jwt_auth import settings
 from features.schema import FeatureInterface
+from .backends import _create_user
 import jwt
 
 jwt_decode_handler = settings.JWT_DECODE_HANDLER
@@ -93,10 +94,10 @@ class CreateUser(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
         print("Logging user in", input, context, info)
-        username = input.get('username')
+        email = input.get('email')
         password = input.get('password')
-        viewer = User.objects.create_user(username=username, password=password)
-        jwt_token = loginUser(username, password)
+        viewer = _create_user(email=email, password=password)
+        jwt_token = loginUser(email, password)
         return CreateUser(viewer, jwt_token)
 
 
