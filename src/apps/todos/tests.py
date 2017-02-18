@@ -1,6 +1,6 @@
 import json
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 
 from .models import TodoModel
@@ -9,8 +9,7 @@ from .models import TodoModel
 # Create your tests here.
 class TodoTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(
-            username='test_user',
+        self.user = get_user_model().objects.create_user(
             first_name='test',
             last_name='user',
             email='test@user.com',
