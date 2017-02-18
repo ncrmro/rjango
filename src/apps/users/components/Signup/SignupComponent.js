@@ -23,10 +23,10 @@ export default class Signup extends React.Component {
 
     signupUser = (form) => {
         form.preventDefault();
-        const {username, password, isEmailValid, isPasswordsMatching} = this.state;
+        const {email, password, isEmailValid, isPasswordsMatching} = this.state;
         if (isEmailValid && isPasswordsMatching) {
             const signupUserMutation = new SignupUserMutation({
-                username,
+                email,
                 password
             });
             var onFailure = (transaction) => {
@@ -97,6 +97,17 @@ export default class Signup extends React.Component {
 
     handleEmailChange(e) {
         const value = e.target.value;
+        this.setState({email: value});
+        const isEmailValid = this.validateEmail(value);
+        // Empty value or email is not valid set error
+        if (value === "" || !isEmailValid) {
+            this.setState({isEmailValid: false});
+
+        }
+        else {
+            this.setState({isEmailValid: true});
+            this.setState({errorEmail: false});
+        }
         this.setState({email: value});
         const isEmailValid = this.validateEmail(value);
         if (isEmailValid) {

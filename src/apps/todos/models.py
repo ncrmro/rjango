@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
+
 
 class TodoModel(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     text = models.CharField(max_length=100)
 
     class Meta:
