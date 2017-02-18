@@ -34,9 +34,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'webpack_loader',
     'graphene_django',
+    'custom_user',
+    'users',
     'todos',
     'features'
 ]
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

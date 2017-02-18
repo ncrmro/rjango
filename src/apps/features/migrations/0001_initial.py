@@ -14,13 +14,15 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='TodoModel',
+            name='FeatureModel',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.CharField(max_length=100)),
+                ('name', models.CharField(max_length=100)),
+                ('description', models.CharField(max_length=100)),
+                ('url', models.CharField(max_length=100)),
             ],
             options={
-                'verbose_name': 'todo',
+                'verbose_name': 'feature',
             },
         ),
     ]
