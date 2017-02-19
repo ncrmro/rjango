@@ -16,7 +16,6 @@ class UserNode(DjangoObjectType):
             'id',
             'last_login',
             'is_superuser',
-            'username',
             'first_name',
             'last_name',
             'email',
@@ -74,7 +73,7 @@ class LogInUser(relay.ClientIDMutation):
         password = input.get('password')
         jwt_token = loginUser(email, password)
         print("jwt token", jwt_token)
-        user = get_user_model.objects.get(email=email)
+        user = get_user_model().objects.get(email=email)
         viewer = Viewer(
             user=user,
             jwt_token=jwt_token
@@ -93,10 +92,10 @@ class CreateUser(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
         print("Logging user in", input, context, info)
-        username = input.get('username')
+        email = input.get('email')
         password = input.get('password')
-        viewer = get_user_model.objects.create_user(username=username, password=password)
-        jwt_token = loginUser(username, password)
+        viewer = get_user_model().objects.create_user(email=email, password=password)
+        jwt_token = loginUser(email, password)
         return CreateUser(viewer, jwt_token)
 
 
