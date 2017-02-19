@@ -23,7 +23,6 @@ class LoginMutation extends Relay.Mutation {
                 viewer{
                     id,
                     user {
-                        username,
                         email,
                         dateJoined
                     }
@@ -43,7 +42,6 @@ class LoginMutation extends Relay.Mutation {
                     viewer {
                         id,
                         user {
-                            username,
                             email,
                             dateJoined,
                         }
