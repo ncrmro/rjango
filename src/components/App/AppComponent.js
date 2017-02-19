@@ -16,7 +16,7 @@ export default class App extends React.Component {
 
   render() {
     const viewer = this.props.viewer;
-    const userLoggedIn = viewer.username ? true : false;
+    const userLoggedIn = viewer.email ? true : false;
 
     return (
       <div className={styles.root}>

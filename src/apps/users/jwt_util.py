@@ -7,7 +7,9 @@ import jwt
 
 from jwt_auth import settings, exceptions
 from jwt_auth.utils import get_authorization_header
-from jwt_auth.compat import json, smart_text, User
+from jwt_auth.compat import json, smart_text
+from django.contrib.auth import get_user_model
+
 
 jwt_decode_handler = settings.JWT_DECODE_HANDLER
 jwt_get_user_id_from_payload = settings.JWT_PAYLOAD_GET_USER_ID_HANDLER
@@ -64,7 +66,7 @@ def authenticate_credentials(payload):
         else:
             msg = 'Invalid payload'
             raise exceptions.AuthenticationFailed(msg)
-    except User.DoesNotExist:
+    except get_user_model().DoesNotExist:
         msg = 'Invalid signature'
         raise exceptions.AuthenticationFailed(msg)
 
@@ -75,5 +77,5 @@ def authenticateGraphQLContext(context):
     check_token = authenticate(context)
     print('Found Token in Auth Header', check_token)
     token_user = check_token[0]
-    user = User.objects.get(id=token_user.id, username=token_user.username)
+    user = get_user_model().objects.get(id=token_user.id, username=token_user.username)
     return user

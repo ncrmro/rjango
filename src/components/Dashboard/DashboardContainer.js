@@ -6,7 +6,6 @@ export default Relay.createContainer(Dashboard, {
         viewer: () => Relay.QL`
             fragment on Viewer {
                 user{
-                    username,
                     email
                 }
             }`

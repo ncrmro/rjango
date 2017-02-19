@@ -1,9 +1,9 @@
 from graphene import AbstractType, Node, relay, Field, String, GlobalID
-from django.contrib.auth.models import User
 from graphene_django.types import DjangoObjectType, ObjectType
 from .jwt_util import loginUser, authenticateGraphQLContext
 from jwt_auth import settings
 from features.schema import FeatureInterface
+from django.contrib.auth import get_user_model
 import jwt
 
 jwt_decode_handler = settings.JWT_DECODE_HANDLER
@@ -11,7 +11,7 @@ jwt_decode_handler = settings.JWT_DECODE_HANDLER
 
 class UserNode(DjangoObjectType):
     class Meta:
-        model = User
+        model = get_user_model()
         only_fields = (
             'id',
             'last_login',
@@ -52,9 +52,9 @@ class UserQueries(AbstractType):
         except:
             return Viewer(
                 id=0,
-                user=User(
+                user=get_user_model()(
                     id=0,
-                    username=""
+                    email=""
                 )
 
             )
@@ -74,7 +74,7 @@ class LogInUser(relay.ClientIDMutation):
         password = input.get('password')
         jwt_token = loginUser(email, password)
         print("jwt token", jwt_token)
-        user = User.objects.get(email=email)
+        user = get_user_model.objects.get(email=email)
         viewer = Viewer(
             user=user,
             jwt_token=jwt_token
@@ -95,7 +95,7 @@ class CreateUser(relay.ClientIDMutation):
         print("Logging user in", input, context, info)
         username = input.get('username')
         password = input.get('password')
-        viewer = User.objects.create_user(username=username, password=password)
+        viewer = get_user_model.objects.create_user(username=username, password=password)
         jwt_token = loginUser(username, password)
         return CreateUser(viewer, jwt_token)
 
