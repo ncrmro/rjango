@@ -1,13 +1,8 @@
 from graphene import AbstractType, Node, relay, Field, String, GlobalID
 from graphene_django.types import DjangoObjectType, ObjectType
 from .jwt_util import loginUser, authenticate
-from jwt_auth import settings
 from features.schema import FeatureInterface
 from django.contrib.auth import get_user_model
-import jwt
-
-jwt_decode_handler = settings.JWT_DECODE_HANDLER
-
 
 class UserNode(DjangoObjectType):
     class Meta:
