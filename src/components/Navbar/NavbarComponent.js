@@ -49,6 +49,7 @@ export default class Navbar extends React.Component {
       <Navigation>
         <Link to='/signup'>Sign up</Link>
         <Link to='/login'>Login</Link>
+          <Link to='/profile'>Edit Profile</Link>
       </Navigation>
     );
   }

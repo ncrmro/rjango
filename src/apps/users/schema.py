@@ -1,6 +1,6 @@
 from graphene import AbstractType, Node, relay, Field, String, GlobalID
 from graphene_django.types import DjangoObjectType, ObjectType
-from .jwt_util import loginUser, authenticateGraphQLContext
+from .jwt_util import loginUser, authenticate
 from jwt_auth import settings
 from features.schema import FeatureInterface
 from django.contrib.auth import get_user_model
@@ -42,8 +42,7 @@ class UserQueries(AbstractType):
     @staticmethod
     def resolve_viewer(self, args, context, info):
         try:
-            print("Trying to authenticate authorization jwt token")
-            user = authenticateGraphQLContext(context)
+            user = authenticate(context)
             return Viewer(
                 id=0,
                 user=user
@@ -55,7 +54,6 @@ class UserQueries(AbstractType):
                     id=0,
                     email=""
                 )
-
             )
 
 

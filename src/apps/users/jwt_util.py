@@ -1,28 +1,42 @@
-from jwt_auth.forms import JSONWebTokenForm
 from jwt_auth.mixins import JSONWebTokenAuthMixin
-
-jwtMixin = JSONWebTokenAuthMixin.authenticate_header
-
-import jwt
-
+from calendar import timegm
+from datetime import datetime
 from jwt_auth import settings, exceptions
 from jwt_auth.utils import get_authorization_header
 from jwt_auth.compat import json, smart_text
 from django.contrib.auth import get_user_model
+jwtMixin = JSONWebTokenAuthMixin.authenticate_header
+
+import jwt
 
 
+
+jwt_payload_handler = settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = settings.JWT_ENCODE_HANDLER
 jwt_decode_handler = settings.JWT_DECODE_HANDLER
 jwt_get_user_id_from_payload = settings.JWT_PAYLOAD_GET_USER_ID_HANDLER
 
 
-def loginUser(username, password):
-    """Should login user and return a jwt token, piggyback on jwt_auth"""
-    request = {"username": username, "password": password}
-    form = JSONWebTokenForm(request)
-    if not form.is_valid():
-        return print("JWT form not valid")
+def get_jwt_token(user):
+    payload = jwt_payload_handler(user)
 
-    return form.object['token']
+    # Include original issued at time for a brand new token,
+    # to allow token refresh
+    if settings.JWT_ALLOW_REFRESH:
+        payload['orig_iat'] = timegm(
+            datetime.utcnow().utctimetuple()
+        )
+    payload = jwt_encode_handler(payload)
+    return payload
+
+
+def loginUser(email, password):
+    """Should login user and return a jwt token, piggyback on jwt_auth"""
+    user = get_user_model().objects.get(email=email)
+    is_password_correct = user.check_password(password)
+    if is_password_correct:
+        jwt_token = get_jwt_token(user)
+        return jwt_token
 
 
 def authenticate(request):
@@ -43,7 +57,6 @@ def authenticate(request):
         payload = jwt_decode_handler(auth[1])
     except jwt.ExpiredSignature:
         msg = 'Signature has expired.'
-        print(msg, auth[1])
         raise exceptions.AuthenticationFailed(msg)
     except jwt.DecodeError:
         msg = 'Error decoding signature.'
@@ -51,7 +64,7 @@ def authenticate(request):
 
     user = authenticate_credentials(payload)
 
-    return (user, auth[1])
+    return user
 
 
 def authenticate_credentials(payload):
@@ -62,7 +75,7 @@ def authenticate_credentials(payload):
         user_id = jwt_get_user_id_from_payload(payload)
 
         if user_id:
-            user = User.objects.get(pk=user_id, is_active=True)
+            user = get_user_model().objects.get(pk=user_id, is_active=True)
         else:
             msg = 'Invalid payload'
             raise exceptions.AuthenticationFailed(msg)
@@ -70,12 +83,4 @@ def authenticate_credentials(payload):
         msg = 'Invalid signature'
         raise exceptions.AuthenticationFailed(msg)
 
-    return user
-
-
-def authenticateGraphQLContext(context):
-    check_token = authenticate(context)
-    print('Found Token in Auth Header', check_token)
-    token_user = check_token[0]
-    user = get_user_model().objects.get(id=token_user.id, username=token_user.username)
     return user
