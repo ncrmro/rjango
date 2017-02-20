@@ -3,17 +3,10 @@ import Landing from "../components/Landing/LandingContainer";
 import ViewerQuery from './queries/ViewerQuery';
 
 
-const auth = () => {
-  let jwtToken = localStorage.getItem("jwtToken");
-  if (!jwtToken) {
-    console.log("no Token!")
-  }
-  console.log('onEnter', jwtToken);
-};
+
 
 export default () => {
   return {
-    onEnter: auth(),
     childRoutes: [{
       path: '/',
       component: AppContainer,

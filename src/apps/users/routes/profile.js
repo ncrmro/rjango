@@ -1,7 +1,8 @@
 import ViewerQuery from '../../../client/queries/ViewerQuery';
-
+import requireAuth from '../../../client/utils/jwt_token'
 
 export default {
+    onEnter: requireAuth(),
     path: 'profile',
     queries: ViewerQuery,
     getComponent(nextState, cb) {

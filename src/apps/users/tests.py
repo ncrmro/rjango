@@ -56,7 +56,7 @@ class UserTest(LiveServerTestCase):
         selenium.implicitly_wait(10)  # seconds
         # Opening the link we want to test
         selenium.get(self.live_server_url + "/login")
-        selenium.save_screenshot('./screenshots/login_page.png')
+        selenium.save_screenshot('./screenshots/login_page_1.png')
 
         # Find Fields
         card_number_field = selenium.find_element_by_id("textfield-Email")
@@ -64,13 +64,13 @@ class UserTest(LiveServerTestCase):
 
         # Click Button to check for empty values and check
         selenium.find_element_by_xpath("//button[text()='Login']").click()
-        selenium.save_screenshot('./screenshots/login_page_invalid.png')
+        selenium.save_screenshot('./screenshots/login_page_2_invalid.png')
         assert 'Email isn\'t valid' in selenium.page_source
         assert 'Passwords is blank' in selenium.page_source
 
         # Fill out inputs and check for form valid
         card_number_field.send_keys("test@email.com")
         password.send_keys("test_password")
-        selenium.save_screenshot('./screenshots/login_page_now_valid.png')
+        selenium.save_screenshot('./screenshots/login_page_3_now_valid.png')
         assert 'Email isn\'t valid' not in selenium.page_source
         assert 'Passwords is blank' not in selenium.page_source
