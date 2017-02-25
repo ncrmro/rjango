@@ -3,10 +3,10 @@ import Relay from "react-relay";
 class LoginMutation extends Relay.Mutation {
     // This method should return a GraphQL operation that represents
     // the mutation to be performed. This presumes that the server
-    // implements a mutation type named ‘loginUser’.
+    // implements a mutation type named ‘login_user’.
     getMutation() {
         return Relay.QL`
-            mutation { loginUser }
+            mutation { createToken }
         `;
     }
 
@@ -19,16 +19,24 @@ class LoginMutation extends Relay.Mutation {
 
     getFatQuery() {
         return Relay.QL`
-            fragment on LogInUserPayload {
+            fragment on CreateTokenPayload {
                 viewer{
                     id,
                     user {
                         email,
                         dateJoined
                     }
-                    jwtToken
-
                 },
+                token{
+                    __typename
+                    ... on TokensSuccess {
+                        token
+                    }
+                    ... on TokenError {
+                        error
+                    }
+
+                }
             }
         `;
     }
@@ -38,16 +46,24 @@ class LoginMutation extends Relay.Mutation {
             type: 'REQUIRED_CHILDREN',
             // Forces these fragments to be included in the query
             children: [Relay.QL`
-                fragment on LogInUserPayload {
+                fragment on CreateTokenPayload {
                     viewer {
                         id,
                         user {
                             email,
                             dateJoined,
                         }
-                        jwtToken
                     },
+                    token{
+                        __typename
+                        ... on TokensSuccess {
+                            token
+                        }
+                        ... on TokenError {
+                            error
+                        }
 
+                    }
                 }
             `],
         }];

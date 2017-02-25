@@ -8,7 +8,6 @@ export default Relay.createContainer(Profile, {
             fragment on Viewer {
                 id,
                 user{email},
-                jwtToken
                 ${ProfileMutation.getFragment('viewer')}
             }`
     }

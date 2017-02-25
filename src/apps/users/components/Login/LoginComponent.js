@@ -39,7 +39,8 @@ export default class Login extends React.Component {
             };
 
             var onSuccess = (response) => {
-                const jwtToken = response.loginUser.viewer.jwtToken;
+                console.log(response);
+                const jwtToken = response.createToken.token.token;
                 localStorage.setItem('jwtToken', jwtToken);
                 this.props.router.push('/profile');
                 window.location.reload()

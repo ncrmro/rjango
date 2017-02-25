@@ -1,7 +1,8 @@
-from graphene import Node, Field, GlobalID
+from graphene import Node, Field, GlobalID, String
 from graphene_django.types import DjangoObjectType, ObjectType
 from django.contrib.auth import get_user_model
 from .jwt_schema import TokensInterface
+
 
 class UserNode(DjangoObjectType):
     class Meta:
@@ -18,12 +19,12 @@ class UserNode(DjangoObjectType):
             'date_joined',
             'todomodel'
         )
-        interfaces = (Node,)
+        interfaces = (Node,TokensInterface)
 
 
 class Viewer(ObjectType):
     id = GlobalID()
-    user = Field(UserNode)
+    user = Field(UserNode, jwt_token=String())
 
     class Meta:
         interfaces = (TokensInterface,)

@@ -6,11 +6,11 @@ from .jwt_handlers import jwt_decode_handler
 
 
 class UserQueries(AbstractType):
-    viewer = Field(Viewer, jwt_token=String())
+    viewer = Field(Viewer)
 
     @staticmethod
     def resolve_viewer(self, args, context, info):
-        token = args['jwt_token']
+
 
         try:
             decoded_token = jwt_decode_handler(token)

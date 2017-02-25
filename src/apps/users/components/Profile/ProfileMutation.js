@@ -3,7 +3,7 @@ import Relay from "react-relay";
 class EditProfileMutation extends Relay.Mutation {
     // This method should return a GraphQL operation that represents
     // the mutation to be performed. This presumes that the server
-    // implements a mutation type named ‘loginUser’.
+    // implements a mutation type named ‘login_user’.
     static fragments = {
         viewer: () => Relay.QL`
             fragment on Viewer {
@@ -35,7 +35,6 @@ class EditProfileMutation extends Relay.Mutation {
                         email,
                         dateJoined,
                     }
-                    jwtToken
                 },
                 
             }
