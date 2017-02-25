@@ -1,10 +1,8 @@
-from django.contrib.auth import get_user_model
-from graphene import AbstractType, relay, Field, String
+from graphene import AbstractType, Field, String
 from .schema import Viewer
-from jwt_auth import settings
 from django.contrib.auth import get_user_model
 
-jwt_decode_handler = settings.JWT_DECODE_HANDLER
+from .jwt_handlers import jwt_decode_handler
 
 
 class UserQueries(AbstractType):

@@ -1,7 +1,7 @@
 from graphene import relay, String, Field
 from .schema import Viewer
-from .jwt_util import loginUser
-from .jwtSchema import TokenUnion, TokensSuccess, TokenError
+from .jwt_util import login_user
+from .jwt_schema import TokenUnion, TokensSuccess, TokenError
 
 
 class CreateToken(relay.ClientIDMutation):
@@ -17,7 +17,7 @@ class CreateToken(relay.ClientIDMutation):
         print("Logging user in", input, context, info)
         email = input.get('email')
         password = input.get('password')
-        user, jwt_token = loginUser(email, password)
+        user, jwt_token = login_user(email, password)
         viewer = Viewer(
             user=user,
         )

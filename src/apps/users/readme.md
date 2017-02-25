@@ -1,4 +1,36 @@
 # Users
+
+
+
+
+
+mutation{
+  createToken(input:{email:"admin@test.com", password: "test_password"}){
+    tokens{
+      __typename
+      ... on TokensSuccess{
+        jwtAccessToken,
+        jwtRefreshToken
+      }
+      ... on TokenError{
+        error
+      }
+    }
+  }
+}
+
+query($jwtToken: String!){
+  viewerWithToken(jwtToken: $jwtToken) {
+    user {
+      email
+    }
+  }
+}
+
+
+
+
+
 ```
 query {
   allUsers(first:10){
@@ -74,7 +106,7 @@ query {
 
 ```
 mutation {
-  loginUser(input: {username: "ncrmro", password: "testpassword"}) {
+  login_user(input: {username: "ncrmro", password: "testpassword"}) {
     viewer {
       username
       email
@@ -89,6 +121,8 @@ mutation {
     jwtToken
   }
 }
+
+
 
 query {
   login(username:"ncrmro", password: "testpassword") {
@@ -115,7 +149,7 @@ query {viewer(jwtToken: ""){
 {"input_0": {"username": "ncrmro", "password": "testpassword"}}
 
 mutation LoginUserMutation($input_0:LogInUserInput!) {
-  loginUser(input:$input_0) {
+  login_user(input:$input_0) {
     clientMutationId,
     ...F0
   }
@@ -129,7 +163,7 @@ fragment F0 on LogInUserPayload {
 
 {
   "data": {
-    "loginUser": {
+    "login_user": {
       "clientMutationId": null,
       "viewer": {
         "id": "VXNlck5vZGU6MQ=="

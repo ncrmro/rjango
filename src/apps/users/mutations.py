@@ -1,7 +1,7 @@
 from graphene import AbstractType, relay, Field, String
 from .schema import Viewer, UserNode
-from .jwtMutations import CreateToken
-from .jwt_util import loginUser
+from .jwt_mutations import CreateToken
+from .jwt_util import login_user
 from django.contrib.auth import get_user_model
 
 
@@ -17,7 +17,7 @@ class LogInUser(relay.ClientIDMutation):
         print("Logging user in", input, context, info)
         email = input.get('email')
         password = input.get('password')
-        jwt_token = loginUser(email, password)
+        jwt_token = login_user(email, password)
         print("jwt token", jwt_token)
         user = get_user_model().objects.get(email=email)
         viewer = Viewer(
@@ -41,7 +41,7 @@ class CreateUser(relay.ClientIDMutation):
         email = input.get('email')
         password = input.get('password')
         viewer = get_user_model().objects.create_user(email=email, password=password)
-        jwt_token = loginUser(email, password)
+        jwt_token = login_user(email, password)
         return CreateUser(viewer, jwt_token)
 
 
