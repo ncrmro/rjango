@@ -5,21 +5,22 @@ import styles from "./Navbar.scss";
 
 export default class Navbar extends React.Component {
     static propTypes = {
-        userLoggedIn: React.PropTypes.bool.isRequired,
+        isAuthenticated: React.PropTypes.bool.isRequired,
         router: React.PropTypes.object.isRequired
 
     };
 
     render() {
         const title = 'Relay Fullstack';
+        const {isAuthenticated} = this.props;
         return (
             <Layout className={styles.root}>
                 <Header title={<Link to='/'>{title}</Link>} scroll>
-                    {this.props.userLoggedIn ? this.renderLoggedIn() : this.renderLoggedOut()}
+                    {isAuthenticated ? this.renderLoggedIn() : this.renderLoggedOut()}
                 </Header>
                 <Drawer title={<Link to='/' style={{ fontSize: '1.5em' }}>{title}</Link>}
                         className='mdl-layout--small-screen-only'>
-                    {this.props.userLoggedIn ? this.renderLoggedIn() : this.renderLoggedOut()}
+                    {isAuthenticated ? this.renderLoggedIn() : this.renderLoggedOut()}
 
                 </Drawer>
             </Layout>

@@ -4,8 +4,9 @@ import Relay from "react-relay";
 import {Grid, Cell, Textfield, Button, Checkbox} from "react-mdl";
 import Page from "../../../../components/Page/PageComponent";
 import LoginUserMutation from "./LoginUserMutation";
+import RequireNoAuth from '../RequireNoAuth/RequireNoAuth'
 
-export default class Login extends React.Component {
+class Login extends React.Component {
     static propTypes = {
         viewer: React.PropTypes.object.isRequired,
         router: React.PropTypes.object.isRequired
@@ -138,3 +139,5 @@ export default class Login extends React.Component {
 
     }
 }
+
+export default RequireNoAuth(Login)

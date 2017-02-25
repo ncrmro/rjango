@@ -4,7 +4,7 @@ import Relay from "react-relay";
 import {Grid, Cell, Textfield, Button, Checkbox} from "react-mdl";
 import Page from "../../../../components/Page/PageComponent";
 //import LoginUserMutation from "./LoginUserMutation";
-import CheckForAuth from "../CheckForAuth/CheckForAuth"
+import RequireAuth from "../RequireAuth/RequireAuth"
 
 
 class Profile extends React.Component {
@@ -53,4 +53,4 @@ class Profile extends React.Component {
     }
 }
 
-export default CheckForAuth(Profile)
+export default RequireAuth(Profile)
