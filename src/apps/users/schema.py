@@ -19,7 +19,7 @@ class UserNode(DjangoObjectType):
             'date_joined',
             'todomodel'
         )
-        interfaces = (Node,)
+        interfaces = (Node,TokensInterface)
 
 
 class Viewer(ObjectType):

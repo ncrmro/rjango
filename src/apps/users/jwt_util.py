@@ -25,3 +25,17 @@ def login_user(email, password):
     if user:
         jwt_token = get_jwt_token(user)
         return user, jwt_token
+
+
+def get_authorization_header(request):
+    """
+    Return request's 'Authorization:' header, as a bytestring.
+    From: https://github.com/tomchristie/django-rest-framework/blob/master/rest_framework/authentication.py
+    """
+    auth = request.META.get('HTTP_AUTHORIZATION', b'')
+
+    if isinstance(auth, type('')):
+        # Work around django test client oddness
+        auth = auth.encode('iso-8859-1')
+
+    return auth

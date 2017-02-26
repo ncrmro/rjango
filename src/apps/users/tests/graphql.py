@@ -121,14 +121,14 @@ class LogInUserMutationTests(TestCase):
             }
         '''}
         expected = {
-          "data": {
-            "loginUser": {
-              "authFormPayload": {
-                "__typename": "AuthFormError",
-                "error": "Password is incorrect"
-              }
+            "data": {
+                "loginUser": {
+                    "authFormPayload": {
+                        "__typename": "AuthFormError",
+                        "error": "Password is incorrect"
+                    }
+                }
             }
-          }
         }
         # Make the post request
         c = Client()
@@ -234,3 +234,73 @@ class CreateUserMutationTests(TestCase):
         # Decode byte code response.content and load the json
         graphql_response = json.loads(response.content.decode('ascii'))
         self.assertEqual(graphql_response, expected)
+
+
+class ViewerQueryTests(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            first_name='test',
+            last_name='user',
+            email='test@user.com',
+            password='top_secret'
+        )
+
+    def test_success(self):
+        self.maxDiff = None
+        login_mutation_query = {"query": '''
+            mutation {
+              loginUser(input: {email: "test@user.com", password: "top_secret"}) {
+                authFormPayload {
+                  __typename
+                  ... on Viewer {
+                    user {
+                      email
+                    }
+                    tokens {
+                      __typename
+                      ... on TokensSuccess {
+                        token
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        '''}
+
+        # Make the post request
+        c = Client()
+        response = c.post('/graphql', login_mutation_query)
+        # Decode byte code response.content and load the json
+        login_response = json.loads(response.content.decode('ascii'))
+
+        token = login_response['data']['loginUser']['authFormPayload']['tokens']['token']
+
+        print("token", token)
+
+        query_with_token = '''
+            {
+              viewer(jwtToken: "%(token)s") {
+                user {
+                  email
+                }
+              }
+            }
+        ''' % {'token': token}
+
+        viewer_query = {"query": query_with_token}
+        response = c.post('/graphql', viewer_query)
+        graphql_response = json.loads(response.content.decode('ascii'))
+
+        expected = {
+            "data": {
+                "viewer": {
+                    "user": {
+                        "email": "test@user.com"
+                    }
+                }
+            }
+        }
+
+        self.assertEqual(graphql_response, expected)
+        print("viewer query", viewer_query)
