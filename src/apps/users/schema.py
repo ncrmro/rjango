@@ -19,17 +19,12 @@ class UserNode(DjangoObjectType):
             'date_joined',
             'todomodel'
         )
-        interfaces = (Node,TokensInterface)
+        interfaces = (Node,)
 
 
 class Viewer(ObjectType):
     id = GlobalID()
-    user = Field(UserNode, jwt_token=String())
+    user = Field(UserNode)
 
     class Meta:
         interfaces = (TokensInterface,)
-
-
-
-
-

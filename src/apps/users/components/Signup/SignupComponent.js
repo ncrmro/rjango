@@ -12,7 +12,7 @@ export default class Signup extends React.Component {
             email: '',
             password: '',
             passwordConfirmation: '',
-            isValidEmail: false,
+            isEmailValid: false,
             isPasswordsMatching: false,
             errorEmail: false,
             errorPassword: false
@@ -100,11 +100,11 @@ export default class Signup extends React.Component {
         this.setState({email: value});
         const isEmailValid = this.validateEmail(value);
         if (isEmailValid) {
-            this.setState({isValidEmail: true});
+            this.setState({isEmailValid: true});
             this.setState({errorEmail: false});
         }
         else {
-            this.setState({isValidEmail: false});
+            this.setState({isEmailValid: false});
         }
 
     }

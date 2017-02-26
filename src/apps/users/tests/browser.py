@@ -40,7 +40,7 @@ class UserTest(LiveServerTestCase):
         assert 'Passwords don\'t match' in selenium.page_source
 
         # Fill out inputs and check for form valid
-        card_number_field.send_keys("test@email.com")
+        card_number_field.send_keys("admin@test.com")
         password.send_keys("test_password")
         password_confirmation.send_keys("test_password")
         selenium.save_screenshot('./screenshots/sign_up_page_3_now_valid.png')
@@ -49,7 +49,7 @@ class UserTest(LiveServerTestCase):
         # Click Button to check for empty values and check
         selenium.find_element_by_xpath("//button[text()='Sign up']").click()
         selenium.save_screenshot('./screenshots/sign_up_page_4_submitited.png')
-
+        assert 'Email isn\'t valid' not in selenium.page_source
 
     def test_login_form(self):
         selenium = self.selenium
@@ -69,7 +69,7 @@ class UserTest(LiveServerTestCase):
         assert 'Passwords is blank' in selenium.page_source
 
         # Fill out inputs and check for form valid
-        card_number_field.send_keys("test@email.com")
+        card_number_field.send_keys("admin@test.com")
         password.send_keys("test_password")
         selenium.save_screenshot('./screenshots/login_page_3_now_valid.png')
         assert 'Email isn\'t valid' not in selenium.page_source
