@@ -18,15 +18,6 @@ def get_jwt_token(user):
     return payload
 
 
-def login_user(email, password):
-    """Should login user and return a jwt token, piggyback on jwt_auth"""
-    # Django authenticate method must use username which is actually email!
-    user = authenticate(username=email, password=password)
-    if user:
-        jwt_token = get_jwt_token(user)
-        return user, jwt_token
-
-
 def get_authorization_header(request):
     """
     Return request's 'Authorization:' header, as a bytestring.

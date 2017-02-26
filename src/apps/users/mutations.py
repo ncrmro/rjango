@@ -69,8 +69,9 @@ class CreateUser(relay.ClientIDMutation):
         user_exists = get_user_model().objects.filter(email=email)
         if not user_exists:
             user = get_user_model().objects.create_user(email=email, password=password)
+            jwt_token = get_jwt_token(user)
             token = TokensSuccess(
-                token="jwt_token"
+                token=jwt_token
             )
             viewer = Viewer(
                 user=user,

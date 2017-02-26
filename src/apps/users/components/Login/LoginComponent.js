@@ -41,7 +41,7 @@ class Login extends React.Component {
 
             var onSuccess = (response) => {
                 console.log(response);
-                const jwtToken = response.createToken.token.token;
+                const jwtToken = response.loginUser.authFormPayload.tokens.token;
                 localStorage.setItem('jwtToken', jwtToken);
                 this.props.router.push('/profile');
                 window.location.reload()
@@ -66,7 +66,13 @@ class Login extends React.Component {
                                     onChange={this.handleEmailChange.bind(this)}
                                     label='Email'
                                     error={this.state.errorEmail}
-
+                                />
+                            </Cell>
+                            <Cell col={12}>
+                                <Textfield
+                                    onChange={this.handleEmailChange.bind(this)}
+                                    label='Email'
+                                    error={this.state.errorEmail}
                                 />
                             </Cell>
                             <Cell col={12}>

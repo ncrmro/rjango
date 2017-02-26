@@ -35,9 +35,9 @@ export default class Signup extends React.Component {
 
             var onSuccess = (response) => {
                 console.log("Success", response);
-                const jwtToken = response.createUser.jwtToken;
+                const jwtToken = response.createUser.authFormPayload.tokens.token;
                 localStorage.setItem('jwtToken', jwtToken);
-                this.props.router.push('/dashboard');
+                this.props.router.push('/profile');
                 window.location.reload()
             };
             Relay.Store.commitUpdate(signupUserMutation, {onSuccess, onFailure});

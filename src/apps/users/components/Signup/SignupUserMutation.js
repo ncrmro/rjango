@@ -21,7 +21,11 @@ class SignupUserMutation extends Relay.Mutation {
                 authFormPayload{
                     __typename
                     ... on Viewer {
-                        tokens
+                        tokens {
+                            ... on TokensSuccess{
+                                token
+                            }
+                        }
                         user{
                             firstName, email
                         }
@@ -44,7 +48,11 @@ class SignupUserMutation extends Relay.Mutation {
                     authFormPayload{
                     __typename
                     ... on Viewer {
-                        tokens
+                        tokens {
+                            ... on TokensSuccess{
+                                token
+                            }
+                        }
                         user{
                             firstName, email
                         }
