@@ -23,10 +23,10 @@ export default class Signup extends React.Component {
 
     signupUser = (form) => {
         form.preventDefault();
-        const {username, password, isEmailValid, isPasswordsMatching} = this.state;
+        const {email, password, isEmailValid, isPasswordsMatching} = this.state;
         if (isEmailValid && isPasswordsMatching) {
             const signupUserMutation = new SignupUserMutation({
-                username,
+                email,
                 password
             });
             var onFailure = (transaction) => {

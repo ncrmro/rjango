@@ -7,7 +7,6 @@ export default Relay.createContainer(Landing, {
             fragment on Viewer {
                 id
                 user {
-                    username
                     email
                     dateJoined
                 }

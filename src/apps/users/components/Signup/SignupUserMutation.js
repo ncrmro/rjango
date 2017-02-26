@@ -10,7 +10,7 @@ class SignupUserMutation extends Relay.Mutation {
 
   getVariables() {
     return {
-      username: this.props.username,
+      email: this.props.email,
       password: this.props.password
     };
   }
@@ -18,7 +18,7 @@ class SignupUserMutation extends Relay.Mutation {
     getFatQuery() {
         return Relay.QL`
             fragment on CreateUserPayload {
-                viewer { username, firstName, email }
+                viewer {  firstName, email }
             }
         `;
     }
@@ -31,7 +31,6 @@ class SignupUserMutation extends Relay.Mutation {
                 fragment on CreateUserPayload {
                     viewer {
                         id,
-                        username,
                         email,
                         dateJoined,
                     },

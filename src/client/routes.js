@@ -3,6 +3,8 @@ import Landing from "../components/Landing/LandingContainer";
 import ViewerQuery from './queries/ViewerQuery';
 
 
+
+
 export default () => {
   return {
     childRoutes: [{
@@ -16,6 +18,7 @@ export default () => {
       childRoutes: [
         require('../apps/users/routes/signup').default,
         require('../apps/users/routes/login').default,
+        require('../apps/users/routes/profile').default,
         require('./routes/dashboard').default,
         {
           path: '*',

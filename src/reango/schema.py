@@ -1,7 +1,8 @@
 import graphene
 from graphene_django.debug import DjangoDebug
 from todos.schema import TodoQueries, TodoMutations
-from users.schema import UserQueries, UserMutations
+from users.queries import UserQueries
+from users.mutations import UserMutations
 from features.queries import FeatureQueries
 from features.mutations import FeatureMutations
 

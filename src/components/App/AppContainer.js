@@ -8,7 +8,6 @@ export default Relay.createContainer(App, {
             fragment on Viewer {
                 id,
                 user {
-                    username,
                     email,
                     dateJoined,
                 }
