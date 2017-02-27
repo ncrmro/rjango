@@ -24,7 +24,7 @@ class UserNode(DjangoObjectType):
 
 class Viewer(ObjectType):
     id = GlobalID()
-    user = Field(UserNode)
+    user = Field(UserNode, jwt_token=String())
 
     class Meta:
         interfaces = (TokensInterface,)
