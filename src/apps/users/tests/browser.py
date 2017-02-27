@@ -159,8 +159,6 @@ class RouteRedirectTests(LiveServerTestCase):
         """Should redirect if authenticated"""
         selenium = self.selenium
         # Opening the link we want to test
-        selenium.get(self.live_server_url + "/profile")
-
         selenium.get(self.live_server_url + "/login")
         selenium.save_screenshot('./screenshots/login_page_1.png')
 
