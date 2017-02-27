@@ -3,9 +3,10 @@ import Relay from "react-relay";
 import {Grid, Cell, Textfield, Button} from "react-mdl";
 import Page from "../../../../components/Page/PageComponent";
 import SignupUserMutation from "./SignupUserMutation";
+import RequireNoAuth from '../RequireNoAuth/RequireNoAuth'
 
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -153,3 +154,5 @@ export default class Signup extends React.Component {
     }
 
 }
+
+export default RequireNoAuth(Signup)

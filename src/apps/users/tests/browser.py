@@ -124,3 +124,67 @@ class LoginUserTest(LiveServerTestCase):
         time.sleep(3)
         assert 'Profile' in selenium.page_source
         selenium.save_screenshot('./screenshots/login_page_4_redirected_to_profile.png')
+
+
+class RouteRedirectTests(LiveServerTestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            first_name='test',
+            last_name='user',
+            email='test@user.com',
+            password='top_secret'
+        )
+        if settings.SELENIUM_HOST:
+            self.selenium = webdriver.Remote(
+                command_executor=settings.SELENIUM_HOST,
+                desired_capabilities=DesiredCapabilities.CHROME
+            )
+        else:
+            self.selenium = webdriver.Firefox()
+        super(RouteRedirectTests, self).setUp()
+
+    def tearDown(self):
+        self.selenium.quit()
+        super(RouteRedirectTests, self).tearDown()
+
+    def test_require_not_auth(self):
+        """Should redirect if not authenticated"""
+        selenium = self.selenium
+        # Opening the link we want to test
+        selenium.get(self.live_server_url + "/profile")
+        # Should redirect aways from profile route
+        assert 'Profile' not in selenium.page_source
+
+    def test_require_auth(self):
+        """Should redirect if not authenticated"""
+        selenium = self.selenium
+        # Opening the link we want to test
+        selenium.get(self.live_server_url + "/profile")
+
+        selenium.get(self.live_server_url + "/login")
+        selenium.save_screenshot('./screenshots/login_page_1.png')
+
+        # Find Fields
+        email_field = selenium.find_element_by_id("textfield-Email")
+        password = selenium.find_element_by_id("textfield-Password")
+
+        # Fill out inputs and check for form valid
+        email_field.send_keys("test@user.com")
+        password.send_keys("top_secret")
+
+        selenium.find_element_by_xpath("//button[text()='Login']").click()
+        time.sleep(3)
+        # Should be on profile after login redirect
+        assert 'Profile' in selenium.page_source
+
+        # Should now be logged in attempts to hit routes where user shouldn't be authenticated redirect
+        selenium.get(self.live_server_url + "/login")
+        time.sleep(3)
+        assert 'Login' not in selenium.page_source
+        assert 'Profile' in selenium.page_source
+
+        # Should now be logged in attempts to hit routes where user shouldn't be authenticated redirect
+        selenium.get(self.live_server_url + "/signup")
+        time.sleep(3)
+        assert 'Sign Up' not in selenium.page_source
+        assert 'Profile' in selenium.page_source
