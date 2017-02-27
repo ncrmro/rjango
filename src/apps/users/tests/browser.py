@@ -156,7 +156,7 @@ class RouteRedirectTests(LiveServerTestCase):
         assert 'Profile' not in selenium.page_source
 
     def test_require_auth(self):
-        """Should redirect if not authenticated"""
+        """Should redirect if authenticated"""
         selenium = self.selenium
         # Opening the link we want to test
         selenium.get(self.live_server_url + "/profile")
