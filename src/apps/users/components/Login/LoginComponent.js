@@ -70,13 +70,6 @@ class Login extends React.Component {
                             </Cell>
                             <Cell col={12}>
                                 <Textfield
-                                    onChange={this.handleEmailChange.bind(this)}
-                                    label='Email'
-                                    error={this.state.errorEmail}
-                                />
-                            </Cell>
-                            <Cell col={12}>
-                                <Textfield
                                     onChange={this.handlePasswordChange.bind(this)}
                                     label='Password'
                                     type='password'
