@@ -3,16 +3,17 @@ import Relay from "react-relay";
 import {Grid, Cell, Textfield, Button} from "react-mdl";
 import Page from "../../../../components/Page/PageComponent";
 import SignupUserMutation from "./SignupUserMutation";
+import RequireNoAuth from '../RequireNoAuth/RequireNoAuth'
 
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: '',
             passwordConfirmation: '',
-            isValidEmail: false,
+            isEmailValid: false,
             isPasswordsMatching: false,
             errorEmail: false,
             errorPassword: false
@@ -35,9 +36,9 @@ export default class Signup extends React.Component {
 
             var onSuccess = (response) => {
                 console.log("Success", response);
-                const jwtToken = response.createUser.jwtToken;
+                const jwtToken = response.createUser.authFormPayload.tokens.token;
                 localStorage.setItem('jwtToken', jwtToken);
-                this.props.router.push('/dashboard');
+                this.props.router.push('/profile');
                 window.location.reload()
             };
             Relay.Store.commitUpdate(signupUserMutation, {onSuccess, onFailure});
@@ -100,11 +101,11 @@ export default class Signup extends React.Component {
         this.setState({email: value});
         const isEmailValid = this.validateEmail(value);
         if (isEmailValid) {
-            this.setState({isValidEmail: true});
+            this.setState({isEmailValid: true});
             this.setState({errorEmail: false});
         }
         else {
-            this.setState({isValidEmail: false});
+            this.setState({isEmailValid: false});
         }
 
     }
@@ -153,3 +154,5 @@ export default class Signup extends React.Component {
     }
 
 }
+
+export default RequireNoAuth(Signup)

@@ -28,8 +28,3 @@ class Viewer(ObjectType):
 
     class Meta:
         interfaces = (TokensInterface,)
-
-
-
-
-

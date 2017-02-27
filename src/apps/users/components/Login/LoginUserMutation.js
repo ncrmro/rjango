@@ -6,7 +6,7 @@ class LoginMutation extends Relay.Mutation {
     // implements a mutation type named ‘login_user’.
     getMutation() {
         return Relay.QL`
-            mutation { createToken }
+            mutation { loginUser }
         `;
     }
 
@@ -19,24 +19,22 @@ class LoginMutation extends Relay.Mutation {
 
     getFatQuery() {
         return Relay.QL`
-            fragment on CreateTokenPayload {
-                viewer{
-                    id,
-                    user {
-                        email,
-                        dateJoined
-                    }
-                },
-                token{
+            fragment on LogInUserPayload {
+                authFormPayload{
                     __typename
-                    ... on TokensSuccess {
-                        token
+                    ... on Viewer{
+                        tokens{
+                            __typename
+                            ... on TokensSuccess {
+                                token
+                            }
+                            ... on TokenError {
+                                error
+                            }
+                        }
                     }
-                    ... on TokenError {
-                        error
-                    }
-
                 }
+
             }
         `;
     }
@@ -46,24 +44,22 @@ class LoginMutation extends Relay.Mutation {
             type: 'REQUIRED_CHILDREN',
             // Forces these fragments to be included in the query
             children: [Relay.QL`
-                fragment on CreateTokenPayload {
-                    viewer {
-                        id,
-                        user {
-                            email,
-                            dateJoined,
+                fragment on LogInUserPayload {
+                    authFormPayload{
+                    __typename
+                    ... on Viewer{
+                        user{email}
+                        tokens{
+                            __typename
+                            ... on TokensSuccess {
+                                token
+                            }
+                            ... on TokenError {
+                                error
+                            }
                         }
-                    },
-                    token{
-                        __typename
-                        ... on TokensSuccess {
-                            token
-                        }
-                        ... on TokenError {
-                            error
-                        }
-
                     }
+                }
                 }
             `],
         }];

@@ -8,33 +8,59 @@ class SignupUserMutation extends Relay.Mutation {
         `;
     }
 
-  getVariables() {
-    return {
-      email: this.props.email,
-      password: this.props.password
-    };
-  }
+    getVariables() {
+        return {
+            email: this.props.email,
+            password: this.props.password
+        };
+    }
 
     getFatQuery() {
         return Relay.QL`
             fragment on CreateUserPayload {
-                viewer {  firstName, email }
+                authFormPayload{
+                    __typename
+                    ... on Viewer {
+                        tokens {
+                            ... on TokensSuccess{
+                                token
+                            }
+                        }
+                        user{
+                            firstName, email
+                        }
+                    }
+                    ... on AuthFormError {
+                        error
+                    }
+                }
+
             }
         `;
     }
 
-  getConfigs() {
+    getConfigs() {
         return [{
-          type: 'REQUIRED_CHILDREN',
+            type: 'REQUIRED_CHILDREN',
             // Forces these fragments to be included in the query
             children: [Relay.QL`
                 fragment on CreateUserPayload {
-                    viewer {
-                        id,
-                        email,
-                        dateJoined,
-                    },
-                    jwtToken
+                    authFormPayload{
+                    __typename
+                    ... on Viewer {
+                        tokens {
+                            ... on TokensSuccess{
+                                token
+                            }
+                        }
+                        user{
+                            firstName, email
+                        }
+                    }
+                    ... on AuthFormError {
+                        error
+                    }
+                }
                 }
             `],
         }];
