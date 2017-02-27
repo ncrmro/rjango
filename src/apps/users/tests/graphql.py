@@ -159,9 +159,7 @@ class CreateUserMutationTests(TestCase):
                       email
                     }
                     tokens {
-                      ... on TokensSuccess {
-                        token
-                      }
+                      __typename
                     }
                   }
                   ... on AuthFormError {
@@ -170,21 +168,22 @@ class CreateUserMutationTests(TestCase):
                 }
               }
             }
+
         '''}
         expected = {
-            "data": {
-                "createUser": {
-                    "authFormPayload": {
-                        "__typename": "Viewer",
-                        "user": {
-                            "email": "test_fake_user@fakerusers.com"
-                        },
-                        "tokens": {
-                            "token": "jwt_token"
-                        }
-                    }
+          "data": {
+            "createUser": {
+              "authFormPayload": {
+                "__typename": "Viewer",
+                "user": {
+                  "email": "test_fake_user@fakerusers.com"
+                },
+                "tokens": {
+                  "__typename": "TokensSuccess"
                 }
+              }
             }
+          }
         }
         # Make the post request
         c = Client()
