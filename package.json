@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon --watch webpack/server/data/**/*.js --exec \"./node_modules/.bin/babel-node webpack/server/index.js\"",
     "build": "npm run clean && cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js",
-    "lint": "eslint --ignore-path .gitignore client server",
+    "lint": "eslint --ignore-path .gitignore src && prospector ./src/apps --uses django --ignore-patterns */migrations",
     "clean": "rm -rf ./static && mkdir ./static && mkdir ./static/bundles",
     "postinstall": "python3 ./manage.py graphql_schema && npm run build"
   },

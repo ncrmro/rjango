@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand
 def create_test_admin(users):
     """Create admin user if none exist"""
     if not users:
-        user = get_user_model().objects.create_superuser(
+        get_user_model().objects.create_superuser(
             email="admin@test.com",
             password="test_password",
             first_name="John",
