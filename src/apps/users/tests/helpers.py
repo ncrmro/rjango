@@ -1,5 +1,4 @@
 import json
-import time
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -7,10 +6,10 @@ from django.test import Client
 from django.test import TestCase, LiveServerTestCase
 from django.test import tag
 from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 def get_query_response(query):

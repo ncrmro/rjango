@@ -1,7 +1,7 @@
-from calendar import timegm
 from datetime import datetime
-from django.conf import settings
+
 import jwt
+from django.conf import settings
 
 
 def jwt_payload_handler(user):

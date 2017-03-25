@@ -1,7 +1,8 @@
-from graphene import AbstractType, Field, String
-from .schema import Viewer
 from django.contrib.auth import get_user_model
+from graphene import AbstractType, Field, String
+
 from .jwt_util import get_token_user_id
+from .schema import Viewer
 
 
 class UserQueries(AbstractType):

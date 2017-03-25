@@ -1,5 +1,6 @@
 from graphene import AbstractType, Field
 from graphene_django.filter import DjangoFilterConnectionField
+
 from .schema import FeatureNode
 
 

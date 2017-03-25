@@ -1,8 +1,9 @@
-from graphene import AbstractType, relay, Field, String, ObjectType, Union
-from .schema import Viewer
-from .jwt_schema import TokensSuccess, TokenError
-from .jwt_util import get_jwt_token
 from django.contrib.auth import authenticate, get_user_model
+from graphene import AbstractType, relay, Field, String, ObjectType, Union
+
+from .jwt_schema import TokensSuccess
+from .jwt_util import get_jwt_token
+from .schema import Viewer
 
 
 class AuthFormError(ObjectType):

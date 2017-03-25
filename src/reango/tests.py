@@ -1,8 +1,9 @@
 import os
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from users.tests.helpers import wait_for_element
+
 from users.tests.helpers import SetBrowserTests
+from users.tests.helpers import wait_for_element
 
 if not os.path.exists('./screenshots'):
     os.makedirs('./screenshots')

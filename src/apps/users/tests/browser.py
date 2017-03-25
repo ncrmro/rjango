@@ -1,6 +1,7 @@
-from users.tests.helpers import SetUpUser, SetBrowserTests, wait_for_element
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+
+from users.tests.helpers import SetUpUser, SetBrowserTests, wait_for_element
 
 
 class CreateUserTest(SetBrowserTests):

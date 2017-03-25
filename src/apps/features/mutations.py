@@ -1,7 +1,8 @@
 from graphene import AbstractType, Field, String, relay, Int
+
+from users.schema import Viewer
 from .models import FeatureModel
 from .schema import FeatureEdge
-from users.schema import Viewer
 
 
 class CreateFeature(relay.ClientIDMutation):
