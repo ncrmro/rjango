@@ -1,12 +1,12 @@
-import Relay from "react-relay";
+import Relay from 'react-relay';
 
 class AddFeatureMutation extends Relay.Mutation {
 
-    getMutation() {
-        return Relay.QL`
+  getMutation() {
+    return Relay.QL`
             mutation { createFeature }
         `;
-    }
+  }
 
   getVariables() {
     return {
@@ -16,14 +16,14 @@ class AddFeatureMutation extends Relay.Mutation {
     };
   }
 
-    getFatQuery() {
-        return Relay.QL`
+  getFatQuery() {
+    return Relay.QL`
             fragment on CreateFeaturePayload {
                 featureEdge,
                 viewer { features }
             }
         `;
-    }
+  }
 
   getConfigs() {
     return [{

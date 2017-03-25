@@ -1,23 +1,15 @@
-from django.test import LiveServerTestCase
-from django.conf import settings
-from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import os
-
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from users.tests.helpers import wait_for_element
+from users.tests.helpers import SetBrowserTests
 
 if not os.path.exists('./screenshots'):
     os.makedirs('./screenshots')
 
 
-class HomePageTest(LiveServerTestCase):
+class HomePageTest(SetBrowserTests):
     def setUp(self):
-        if settings.SELENIUM_HOST:
-            self.selenium = webdriver.Remote(
-                command_executor=settings.SELENIUM_HOST,
-                desired_capabilities=DesiredCapabilities.CHROME
-            )
-        else:
-            self.selenium = webdriver.Firefox()
         super(HomePageTest, self).setUp()
 
     def tearDown(self):
@@ -26,8 +18,7 @@ class HomePageTest(LiveServerTestCase):
 
     def test_home_page(self):
         selenium = self.selenium
-        selenium.implicitly_wait(10)  # seconds
-        # Opening the link we want to test
         selenium.get(self.live_server_url)
-        selenium.save_screenshot('./screenshots/ff_landing.png')
-        assert 'Relay Fullstack' in selenium.page_source
+        wait_for_element(selenium, EC.element_to_be_clickable((By.LINK_TEXT, 'Reango')))
+        selenium.save_screenshot('./screenshots/landing.png')
+        assert 'Reango' in selenium.page_source

@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
-import React from "react";
+import React from 'react';
+import Page from '../Page/PageComponent';
 
 
 export default class Dashboard extends React.Component {
@@ -9,12 +10,12 @@ export default class Dashboard extends React.Component {
 
   render() {
     return (
-      <div>
+      <Page heading='Dashboard'>
         {this.props.viewer.username}
-        <br/>
+        <br />
         {this.props.viewer.email}
         <p>This is the dashboard</p>
-      </div>
+      </Page>
     );
   }
 }

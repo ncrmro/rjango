@@ -1,22 +1,22 @@
-import Relay from "react-relay";
+import Relay from 'react-relay';
 
 class SignupUserMutation extends Relay.Mutation {
 
-    getMutation() {
-        return Relay.QL`
+  getMutation() {
+    return Relay.QL`
             mutation { createUser }
         `;
-    }
+  }
 
-    getVariables() {
-        return {
-            email: this.props.email,
-            password: this.props.password
-        };
-    }
+  getVariables() {
+    return {
+      email: this.props.email,
+      password: this.props.password
+    };
+  }
 
-    getFatQuery() {
-        return Relay.QL`
+  getFatQuery() {
+    return Relay.QL`
             fragment on CreateUserPayload {
                 authFormPayload{
                     __typename
@@ -37,13 +37,13 @@ class SignupUserMutation extends Relay.Mutation {
 
             }
         `;
-    }
+  }
 
-    getConfigs() {
-        return [{
-            type: 'REQUIRED_CHILDREN',
+  getConfigs() {
+    return [{
+      type: 'REQUIRED_CHILDREN',
             // Forces these fragments to be included in the query
-            children: [Relay.QL`
+      children: [Relay.QL`
                 fragment on CreateUserPayload {
                     authFormPayload{
                     __typename
@@ -63,8 +63,8 @@ class SignupUserMutation extends Relay.Mutation {
                 }
                 }
             `],
-        }];
-    }
+    }];
+  }
 }
 
 export default SignupUserMutation;

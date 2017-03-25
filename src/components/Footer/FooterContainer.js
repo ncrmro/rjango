@@ -1,13 +1,13 @@
-import Relay from "react-relay";
-import Footer from "./FooterComponent";
+import Relay from 'react-relay';
+import Footer from './FooterComponent';
 
 export default Relay.createContainer(Footer, {
-    fragments: {
-        viewer: () => Relay.QL`
+  fragments: {
+    viewer: () => Relay.QL`
             fragment on Viewer {
                 user{
                     email
                 }
             }`
-    }
+  }
 });
