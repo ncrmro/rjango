@@ -1,21 +1,31 @@
 from django.contrib.auth import authenticate, get_user_model
-from graphene import AbstractType, relay, Field, String, ObjectType, Union
+from graphene import AbstractType, relay, Field, String, ObjectType, Union, List
 
 from .jwt_schema import TokensSuccess
 from .jwt_util import get_jwt_token
 from .schema import Viewer
 
 
-class AuthFormError(ObjectType):
-    """Error returned when"""
-    error = String()
+class Error(ObjectType):
+    """Form Errors
+        https://medium.com/@tarkus/validation-and-user-errors-in-graphql-mutations-39ca79cd00bf#.ts99uxfnr
+    """
+    key = String()
+    message = String(required=True)
+
+
+class FormErrors(ObjectType):
+    """Form Errors
+        https://medium.com/@tarkus/validation-and-user-errors-in-graphql-mutations-39ca79cd00bf#.ts99uxfnr
+    """
+    errors = List(Error)
 
 
 class AuthFormUnion(Union):
     """Returns either token error or token success"""
 
     class Meta:
-        types = (Viewer, AuthFormError)
+        types = (Viewer, FormErrors)
 
 
 class LogInUser(relay.ClientIDMutation):
@@ -27,30 +37,30 @@ class LogInUser(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
-        print("Logging user in", input, context, info)
         email = input.get('email')
         password = input.get('password')
         user_exists = get_user_model().objects.filter(email=email)
+        errors = []
         if not user_exists:
-            error = AuthFormError(error="User doesn't exist")
-            return LogInUser(error)
+            error = Error(key='email', message='A user with this email doesn\'t exist.')
+            errors.append(error)
+            return LogInUser(FormErrors(errors))
         user_password_correct = user_exists[0].check_password(password)
         if not user_password_correct:
-            print(user_password_correct)
-            error = AuthFormError(error="Password is incorrect")
-
-            return LogInUser(error)
+            error = Error(key='password', message='Password is incorrect')
+            errors.append(error)
+            return LogInUser(FormErrors(errors))
 
         user = authenticate(username=email, password=password)
         jwt_token = get_jwt_token(user)
 
         if user and jwt_token:
             tokens = TokensSuccess(
-                jwt_token
+                    jwt_token
             )
             viewer = Viewer(
-                user=user,
-                tokens=tokens
+                    user=user,
+                    tokens=tokens
             )
             return LogInUser(viewer)
 
@@ -64,26 +74,25 @@ class CreateUser(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
-        print("Logging user in", input, context, info)
         email = input.get('email')
         password = input.get('password')
-        user_exists = get_user_model().objects.filter(email=email)
-        if not user_exists:
+        user = get_user_model().objects.filter(email=email)
+        errors = []
+        if not user:
             user = get_user_model().objects.create_user(email=email, password=password)
             jwt_token = get_jwt_token(user)
             token = TokensSuccess(
-                token=jwt_token
+                    token=jwt_token
             )
             viewer = Viewer(
-                user=user,
-                tokens=token
+                    user=user,
+                    tokens=token
             )
             return CreateUser(viewer)
-        if user_exists:
-            error = AuthFormError(
-                error="User exists"
-            )
-            return CreateUser(error)
+        if user:
+            error = Error(key='email', message='A user with this email already exists.')
+            errors.append(error)
+            return CreateUser(FormErrors(errors))
 
 
 class UserMutations(AbstractType):
