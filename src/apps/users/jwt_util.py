@@ -1,24 +1,20 @@
 from calendar import timegm
 from datetime import datetime
-from django.contrib.auth import authenticate
+
 from django.conf import settings
 
 from .jwt_handlers import jwt_encode_handler, jwt_decode_handler, jwt_payload_handler
 
 
 def check_for_token(args, context):
-    print("check_for_tokens")
-    auth = get_authorization_header(context).split()
-    if args:
+    if 'jwt_token' in args:
         token = args["jwt_token"]
         token = bytes(token, 'utf-8')
         return token
-    elif context:
-        try:
-            token = auth[1]
-            return token
-        except:
-            return False
+    elif 'HTTP_AUTHORIZATION' in context.META:
+        auth = get_authorization_header(context).split()
+        token = auth[1]
+        return token
 
 
 def get_token_user_id(args, context):
@@ -28,6 +24,7 @@ def get_token_user_id(args, context):
     token_user_id = token_payload['user_id']
     return token_user_id
 
+
 def get_jwt_token(user):
     payload = jwt_payload_handler(user)
     # Include original issued at time for a brand new token,
@@ -36,6 +33,8 @@ def get_jwt_token(user):
         payload['orig_iat'] = timegm(
             datetime.utcnow().utctimetuple()
         )
+    if user.is_superuser:
+        payload['is_superuser'] = True
     payload = jwt_encode_handler(payload)
     return payload
 

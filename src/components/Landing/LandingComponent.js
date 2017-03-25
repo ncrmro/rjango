@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
-import React from "react";
+import React from 'react';
+import Page from '../Page/PageComponent';
 
 
 export default class Landing extends React.Component {
@@ -9,9 +10,9 @@ export default class Landing extends React.Component {
 
   render() {
     return (
-      <div>
+      <Page heading={'Landing'}>
         <p>This is the landing page</p>
-      </div>
+      </Page>
     );
   }
 }

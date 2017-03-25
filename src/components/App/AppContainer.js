@@ -1,10 +1,10 @@
-import Relay from "react-relay";
-import App from "./AppComponent";
-import Footer from "../Footer/FooterContainer";
+import Relay from 'react-relay';
+import App from './AppComponent';
+import Footer from '../Footer/FooterContainer';
 
 export default Relay.createContainer(App, {
-    fragments: {
-        viewer: () => Relay.QL`
+  fragments: {
+    viewer: () => Relay.QL`
             fragment on Viewer {
                 id,
                 user {
@@ -13,5 +13,5 @@ export default Relay.createContainer(App, {
                 }
                 ${Footer.getFragment('viewer')}
             }`
-    }
+  }
 });

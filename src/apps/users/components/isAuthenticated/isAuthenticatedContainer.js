@@ -1,9 +1,9 @@
-import Relay from "react-relay";
-import Landing from "./isAuthenticated";
+import Relay from 'react-relay';
+import Landing from './isAuthenticatedComponent';
 
 export default Relay.createContainer(Landing, {
-    fragments: {
-        viewer: () => Relay.QL`
+  fragments: {
+    viewer: () => Relay.QL`
             fragment on Viewer {
                 id
                 user {
@@ -11,5 +11,5 @@ export default Relay.createContainer(Landing, {
                     dateJoined
                 }
             }`
-    }
+  }
 });

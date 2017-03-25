@@ -1,16 +1,14 @@
 """Import Volunteers from CSV"""
 
 from django.conf import settings
-from django.core.management.base import BaseCommand
-
 from django.contrib.auth import get_user_model
-
+from django.core.management.base import BaseCommand
 
 
 def create_test_admin(users):
     """Create admin user if none exist"""
     if not users:
-        user = get_user_model().objects.create_superuser(
+        get_user_model().objects.create_superuser(
             email="admin@test.com",
             password="test_password",
             first_name="John",

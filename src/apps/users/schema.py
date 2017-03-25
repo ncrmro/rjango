@@ -1,6 +1,7 @@
+from django.contrib.auth import get_user_model
 from graphene import Node, Field, GlobalID, String
 from graphene_django.types import DjangoObjectType, ObjectType
-from django.contrib.auth import get_user_model
+
 from .jwt_schema import TokensInterface
 
 

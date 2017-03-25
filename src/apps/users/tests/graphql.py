@@ -1,22 +1,13 @@
 import json
 
-from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
+from django.test import Client, tag
 
-from reango.schema import schema
+from .helpers import SetUpUser
 
 
 # Create your tests here.
-
-class LogInUserMutationTests(TestCase):
-    def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            first_name='test',
-            last_name='user',
-            email='test@user.com',
-            password='top_secret'
-        )
-
+@tag('unit', 'graphql')
+class LogInUserMutationTests(SetUpUser):
     def test_success(self):
         query = {"query": '''
             mutation {
@@ -139,15 +130,7 @@ class LogInUserMutationTests(TestCase):
         self.assertEqual(graphql_response, expected)
 
 
-class CreateUserMutationTests(TestCase):
-    def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            first_name='test',
-            last_name='user',
-            email='test@user.com',
-            password='top_secret'
-        )
-
+class CreateUserMutationTests(SetUpUser):
     def test_success(self):
         query = {"query": '''
             mutation {
@@ -171,19 +154,19 @@ class CreateUserMutationTests(TestCase):
 
         '''}
         expected = {
-          "data": {
-            "createUser": {
-              "authFormPayload": {
-                "__typename": "Viewer",
-                "user": {
-                  "email": "test_fake_user@fakerusers.com"
-                },
-                "tokens": {
-                  "__typename": "TokensSuccess"
+            "data": {
+                "createUser": {
+                    "authFormPayload": {
+                        "__typename": "Viewer",
+                        "user": {
+                            "email": "test_fake_user@fakerusers.com"
+                        },
+                        "tokens": {
+                            "__typename": "TokensSuccess"
+                        }
+                    }
                 }
-              }
             }
-          }
         }
         # Make the post request
         c = Client()
@@ -235,37 +218,9 @@ class CreateUserMutationTests(TestCase):
         self.assertEqual(graphql_response, expected)
 
 
-class ViewerQueryTests(TestCase):
-    def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            first_name='test',
-            last_name='user',
-            email='test@user.com',
-            password='top_secret'
-        )
-
+class ViewerQueryTests(SetUpUser):
     def test_success(self):
-        self.maxDiff = None
-        login_mutation_query = {"query": '''
-            mutation {
-              loginUser(input: {email: "test@user.com", password: "top_secret"}) {
-                authFormPayload {
-                  __typename
-                  ... on Viewer {
-                    user {
-                      email
-                    }
-                    tokens {
-                      __typename
-                      ... on TokensSuccess {
-                        token
-                      }
-                    }
-                  }
-                }
-              }
-            }
-        '''}
+        login_mutation_query = self.login_mutation_with_token
 
         # Make the post request
         c = Client()
@@ -274,8 +229,6 @@ class ViewerQueryTests(TestCase):
         login_response = json.loads(response.content.decode('ascii'))
 
         token = login_response['data']['loginUser']['authFormPayload']['tokens']['token']
-
-        print("token", token)
 
         query_with_token = '''
             {
@@ -302,4 +255,3 @@ class ViewerQueryTests(TestCase):
         }
 
         self.assertEqual(graphql_response, expected)
-        print("viewer query", viewer_query)

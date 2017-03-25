@@ -1,4 +1,4 @@
-from graphene import AbstractType, Node, Field, String, relay, ObjectType, Int
+from graphene import AbstractType, Node, Field, String, relay, Int
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 

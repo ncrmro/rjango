@@ -1,15 +1,15 @@
-import React from "react";
-import Relay from "react-relay";
-import Dropdown from "react-dropdown";
-import {Grid, Cell, Button} from "react-mdl";
-import Page from "../Page/PageComponent";
-import AddFeatureMutation from "./AddFeatureMutation";
+import React from 'react';
+import Relay from 'react-relay';
+import Dropdown from 'react-dropdown';
+import { Grid, Cell, Button } from 'react-mdl';
+import Page from '../Page/PageComponent';
+import AddFeatureMutation from './AddFeatureMutation';
 
 const options = [
-  {value: 'none', label: 'Please select a feature'},
-  {value: 'nodejs', label: 'Node.js'},
-  {value: 'html', label: 'HTML5'},
-  {value: 'css', label: 'CSS3'},
+  { value: 'none', label: 'Please select a feature' },
+  { value: 'nodejs', label: 'Node.js' },
+  { value: 'html', label: 'HTML5' },
+  { value: 'css', label: 'CSS3' },
 ];
 
 const inputData = {
@@ -42,7 +42,7 @@ export default class Feature extends React.Component {
   };
 
   onSelect = (e) => {
-    this.setState({form: {dropdown: e}});
+    this.setState({ form: { dropdown: e } });
   };
 
   addFeature = () => {
@@ -51,7 +51,7 @@ export default class Feature extends React.Component {
       return;
     }
 
-    const addFeatureMutation = new AddFeatureMutation({viewerId: this.props.viewer.id, ...inputData[value]});
+    const addFeatureMutation = new AddFeatureMutation({ viewerId: this.props.viewer.id, ...inputData[value] });
     Relay.Store.commitUpdate(addFeatureMutation);
   };
 
@@ -60,7 +60,7 @@ export default class Feature extends React.Component {
       <Page heading='Add a Feature'>
         <Grid>
           <Cell col={9}>
-            <Dropdown options={options} onChange={this.onSelect.bind(this)} value={this.state.form.dropdown}/>
+            <Dropdown options={options} onChange={this.onSelect.bind(this)} value={this.state.form.dropdown} />
           </Cell>
           <Cell col={3} style={{ textAlign: 'center' }}>
             <Button raised accent onClick={this.addFeature.bind(this)}>Add Feature</Button>

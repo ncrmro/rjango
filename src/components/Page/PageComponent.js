@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./Page.scss";
+import React from 'react';
+import styles from './Page.scss';
 
 export default class Feature extends React.Component {
   static propTypes = {
