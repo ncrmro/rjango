@@ -30,8 +30,8 @@ class SignupUserMutation extends Relay.Mutation {
                             firstName, email
                         }
                     }
-                    ... on AuthFormError {
-                        error
+                    ... on FormErrors {
+                        errors { key, message}
                     }
                 }
 
@@ -57,8 +57,8 @@ class SignupUserMutation extends Relay.Mutation {
                             firstName, email
                         }
                     }
-                    ... on AuthFormError {
-                        error
+                    ... on FormErrors {
+                        errors { key, message}
                     }
                 }
                 }

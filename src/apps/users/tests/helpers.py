@@ -56,11 +56,12 @@ class SetUpUser(TestCase):
 
     def setUp(self):
         super(SetUpUser, self).setUp()
+        self.user_password = 'top_secret'
         self.user = get_user_model().objects.create_user(
                 first_name='test',
                 last_name='user',
                 email='test@user.com',
-                password='top_secret'
+                password=self.user_password
         )
         self.make_query = get_query_response
         self.login_mutation_with_token = {

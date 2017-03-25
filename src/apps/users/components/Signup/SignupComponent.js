@@ -83,6 +83,13 @@ class Signup extends React.Component {
     return re.test(email);
   }
 
+  loginUser(response) {
+    const jwtToken = response.createUser.authFormPayload.tokens.token;
+    localStorage.setItem('jwtToken', jwtToken);
+    this.props.router.push('/dashboard');
+    window.location.reload();
+  }
+
   signupUser = (form) => {
     form.preventDefault();
     const { email, password, isEmailValid, isPasswordsMatching } = this.state;
@@ -93,10 +100,12 @@ class Signup extends React.Component {
       });
 
       const onSuccess = (response) => {
-        const jwtToken = response.createUser.authFormPayload.tokens.token;
-        localStorage.setItem('jwtToken', jwtToken);
-        this.props.router.push('/dashboard');
-        window.location.reload();
+        const { authFormPayload } = response.createUser;
+        if (authFormPayload.__typename === 'FormErrors') { // eslint-disable-line no-underscore-dangle
+          const emailError = authFormPayload.errors.find(x => x.key === 'email');
+          this.setState({ errorEmail: emailError.message });
+        }
+        if (authFormPayload.__typename === 'Viewer') { this.loginUser(response); }// eslint-disable-line no-underscore-dangle
       };
       Relay.Store.commitUpdate(signupUserMutation, { onSuccess });
     } else {
@@ -106,11 +115,11 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Page heading='Signup'>
-        <div style={{ width: '70%', margin: 'auto' }}>
+      <Page heading='Signup' >
+        <div style={{ width: '70%', margin: 'auto' }} >
           <Grid>
-            <form style={{ margin: 'auto' }} onSubmit={this.signupUser}>
-              <Cell col={12}>
+            <form style={{ margin: 'auto' }} onSubmit={this.signupUser} >
+              <Cell col={12} >
                 <Textfield
                   onChange={this.handleEmailChange.bind(this)}
                   label='Email'
@@ -118,7 +127,7 @@ class Signup extends React.Component {
                   error={this.state.errorEmail}
                 />
               </Cell>
-              <Cell col={12}>
+              <Cell col={12} >
                 <Textfield
                   onChange={this.handlePasswordChange.bind(this)}
                   label='Password'
@@ -127,7 +136,7 @@ class Signup extends React.Component {
                   error={this.state.errorPassword}
                 />
               </Cell>
-              <Cell col={12}>
+              <Cell col={12} >
                 <Textfield
                   onChange={this.handlePasswordConfirmationChange.bind(this)}
                   label='Password Confirmation'
@@ -136,8 +145,8 @@ class Signup extends React.Component {
                   error={this.state.errorPassword}
                 />
               </Cell>
-              <Cell col={12} style={{ textAlign: 'right' }}>
-                <Button primary>Sign up</Button>
+              <Cell col={12} style={{ textAlign: 'right' }} >
+                <Button primary >Sign up</Button>
               </Cell>
             </form>
           </Grid>

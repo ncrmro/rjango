@@ -2,9 +2,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 from users.tests.helpers import SetUpUser, SetBrowserTests, wait_for_element
+from django.contrib.auth import get_user_model
 
 
-class CreateUserTest(SetBrowserTests):
+class CreateUserTest(SetBrowserTests, SetUpUser):
     def setUp(self):
         super(CreateUserTest, self).setUp()
 
@@ -37,6 +38,30 @@ class CreateUserTest(SetBrowserTests):
 
         assert 'Email isn\'t valid' not in selenium.page_source
         assert 'Passwords don\'t match' not in selenium.page_source
+
+    def test_sign_up_form_user_exists(self):
+        print(get_user_model().objects.get(email=self.user.email))
+        selenium = self.selenium
+        # Opening the link we want to test
+        selenium.get(self.live_server_url)
+
+        sign_up_button = wait_for_element(selenium, EC.element_to_be_clickable((By.LINK_TEXT, 'Sign up')))
+        sign_up_button.click()
+
+        # Find Fields
+        email_field = wait_for_element(selenium, EC.element_to_be_clickable((By.ID, 'textfield-Email')))
+        password = selenium.find_element_by_id("textfield-Password")
+        password_confirmation = selenium.find_element_by_id("textfield-PasswordConfirmation")
+
+        # Fill out inputs and check for form valid
+        email_field.send_keys(self.user.email)
+        password.send_keys(self.user_password)
+        password_confirmation.send_keys(self.user_password)
+        selenium.save_screenshot('./screenshots/sign_up_form_exists.png')
+        selenium.find_element_by_xpath("//button[text()='Sign up']").click()
+        wait_for_element(selenium,
+                         EC.text_to_be_present_in_element((By.CSS_SELECTOR, '.mdl-textfield__error'), 'A user with this email already exists.'))
+        assert 'A user with this email already exists' in selenium.page_source
 
     def test_sign_up_form_success(self):
         selenium = self.selenium
@@ -79,7 +104,6 @@ class LoginUserTest(SetBrowserTests, SetUpUser):
         login_button = wait_for_element(selenium, EC.element_to_be_clickable((By.LINK_TEXT, 'Login')))
 
         login_button.click()
-
 
         selenium.save_screenshot('./screenshots/login_page_1.png')
 

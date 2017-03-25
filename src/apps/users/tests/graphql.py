@@ -9,7 +9,8 @@ from .helpers import SetUpUser
 @tag('unit', 'graphql')
 class LogInUserMutationTests(SetUpUser):
     def test_success(self):
-        query = {"query": '''
+        query = {
+            "query": '''
             mutation {
               loginUser(input: {email: "test@user.com", password: "top_secret"}) {
                 authFormPayload {
@@ -25,32 +26,30 @@ class LogInUserMutationTests(SetUpUser):
                 }
               }
             }
-        '''}
+        '''
+        }
         expected = {
             "data": {
                 "loginUser": {
                     "authFormPayload": {
                         "__typename": "Viewer",
-                        "user": {
+                        "user":       {
                             "email": "test@user.com"
                         },
-                        "tokens": {
+                        "tokens":     {
                             "__typename": "TokensSuccess"
                         }
                     }
                 }
             }
         }
-        # Make the post request
-        c = Client()
-        response = c.post('/graphql', query)
+        response = self.make_query(query)
 
-        # Decode byte code response.content and load the json
-        graphql_response = json.loads(response.content.decode('ascii'))
-        self.assertEqual(graphql_response, expected)
+        self.assertEqual(response, expected)
 
     def test_user_doesnt_exist(self):
-        query = {"query": '''
+        query = {
+            "query": '''
             mutation {
               loginUser(input: {email: "userdoesnotexist@user.com", password: "top_secret"}) {
                 authFormPayload {
@@ -64,33 +63,34 @@ class LogInUserMutationTests(SetUpUser):
                     }
 
                   }
-                  ... on AuthFormError {
-                    error
+                  ... on FormErrors {
+                    errors {
+                      key
+                      message
+                    }
                   }
                 }
               }
             }
-        '''}
+        '''
+        }
         expected = {
-            "data": {
-                "loginUser": {
-                    "authFormPayload": {
-                        "__typename": "AuthFormError",
-                        "error": "User doesn't exist"
+            'data': {
+                'loginUser': {
+                    'authFormPayload': {
+                        'errors':     [{'message': "A user with this email doesn't exist.", 'key': 'email'}],
+                        '__typename': 'FormErrors'
                     }
                 }
             }
         }
-        # Make the post request
-        c = Client()
-        response = c.post('/graphql', query)
+        response = self.make_query(query)
 
-        # Decode byte code response.content and load the json
-        graphql_response = json.loads(response.content.decode('ascii'))
-        self.assertEqual(graphql_response, expected)
+        self.assertEqual(response, expected)
 
     def test_wrong_password(self):
-        query = {"query": '''
+        query = {
+            "query": '''
             mutation {
               loginUser(input: {email: "test@user.com", password: "wrong_secret"}) {
                 authFormPayload {
@@ -104,35 +104,35 @@ class LogInUserMutationTests(SetUpUser):
                     }
 
                   }
-                  ... on AuthFormError {
-                    error
+                  ... on FormErrors {
+                    errors {
+                      key
+                      message
+                    }
                   }
                 }
               }
             }
-        '''}
+        '''
+        }
         expected = {
-            "data": {
-                "loginUser": {
-                    "authFormPayload": {
-                        "__typename": "AuthFormError",
-                        "error": "Password is incorrect"
+            'data': {
+                'loginUser': {
+                    'authFormPayload': {
+                        'errors': [{'key': 'password', 'message': 'Password is incorrect'}], '__typename': 'FormErrors'
                     }
                 }
             }
         }
-        # Make the post request
-        c = Client()
-        response = c.post('/graphql', query)
+        response = self.make_query(query)
 
-        # Decode byte code response.content and load the json
-        graphql_response = json.loads(response.content.decode('ascii'))
-        self.assertEqual(graphql_response, expected)
+        self.assertEqual(response, expected)
 
 
 class CreateUserMutationTests(SetUpUser):
     def test_success(self):
-        query = {"query": '''
+        query = {
+            "query": '''
             mutation {
               createUser(input: {email: "test_fake_user@fakerusers.com", password: "test_fake_user_password"}) {
                 authFormPayload {
@@ -145,39 +145,40 @@ class CreateUserMutationTests(SetUpUser):
                       __typename
                     }
                   }
-                  ... on AuthFormError {
-                    error
+                  ... on FormErrors {
+                    errors {
+                      key
+                      message
+                    }
                   }
                 }
               }
             }
 
-        '''}
+        '''
+        }
         expected = {
             "data": {
                 "createUser": {
                     "authFormPayload": {
                         "__typename": "Viewer",
-                        "user": {
+                        "user":       {
                             "email": "test_fake_user@fakerusers.com"
                         },
-                        "tokens": {
+                        "tokens":     {
                             "__typename": "TokensSuccess"
                         }
                     }
                 }
             }
         }
-        # Make the post request
-        c = Client()
-        response = c.post('/graphql', query)
-
-        # Decode byte code response.content and load the json
-        graphql_response = json.loads(response.content.decode('ascii'))
-        self.assertEqual(graphql_response, expected)
+        response = self.make_query(query)
+        print(response)
+        self.assertEqual(response, expected)
 
     def test_user_already_exists(self):
-        query = {"query": '''
+        query = {
+            "query": '''
             mutation {
               createUser(input: {email: "test@user.com", password: "test_password"}) {
                 authFormPayload {
@@ -192,43 +193,37 @@ class CreateUserMutationTests(SetUpUser):
                       }
                     }
                   }
-                  ... on AuthFormError {
-                    error
+                  ... on FormErrors {
+                    errors {
+                      key
+                      message
+                    }
                   }
                 }
               }
             }
-        '''}
+        '''
+        }
         expected = {
-            "data": {
-                "createUser": {
-                    "authFormPayload": {
-                        "__typename": "AuthFormError",
-                        "error": "User exists"
+            'data': {
+                'createUser': {
+                    'authFormPayload': {
+                        '__typename': 'FormErrors',
+                        'errors':     [{'message': 'A user with this email already exists.', 'key': 'email'}]
                     }
                 }
             }
         }
-        # Make the post request
-        c = Client()
-        response = c.post('/graphql', query)
+        response = self.make_query(query)
 
-        # Decode byte code response.content and load the json
-        graphql_response = json.loads(response.content.decode('ascii'))
-        self.assertEqual(graphql_response, expected)
+        self.assertEqual(response, expected)
 
 
 class ViewerQueryTests(SetUpUser):
     def test_success(self):
-        login_mutation_query = self.login_mutation_with_token
-
-        # Make the post request
-        c = Client()
-        response = c.post('/graphql', login_mutation_query)
-        # Decode byte code response.content and load the json
-        login_response = json.loads(response.content.decode('ascii'))
-
-        token = login_response['data']['loginUser']['authFormPayload']['tokens']['token']
+        query = self.login_mutation_with_token
+        response = self.make_query(query)
+        token = self.get_token(response)
 
         query_with_token = '''
             {
@@ -240,9 +235,7 @@ class ViewerQueryTests(SetUpUser):
             }
         ''' % {'token': token}
 
-        viewer_query = {"query": query_with_token}
-        response = c.post('/graphql', viewer_query)
-        graphql_response = json.loads(response.content.decode('ascii'))
+        query = {"query": query_with_token}
 
         expected = {
             "data": {
@@ -254,4 +247,6 @@ class ViewerQueryTests(SetUpUser):
             }
         }
 
-        self.assertEqual(graphql_response, expected)
+        response = self.make_query(query)
+
+        self.assertEqual(response, expected)
