@@ -100,7 +100,12 @@ class Signup extends React.Component {
       });
 
       const onSuccess = (response) => {
-        this.loginUser(response);
+        const { authFormPayload } = response.createUser;
+        if (authFormPayload.__typename === 'FormErrors') { // eslint-disable-line no-underscore-dangle
+          const emailError = authFormPayload.errors.find(x => x.key === 'email');
+          this.setState({ errorEmail: emailError.message });
+        }
+        if (authFormPayload.__typename === 'Viewer') { this.loginUser(response); }// eslint-disable-line no-underscore-dangle
       };
       Relay.Store.commitUpdate(signupUserMutation, { onSuccess });
     } else {
