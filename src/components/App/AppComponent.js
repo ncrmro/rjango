@@ -3,35 +3,24 @@ import 'normalize.css/normalize.css';
 import 'react-mdl/extra/css/material.cyan-red.min.css';
 
 import Navbar from '../Navbar/NavbarComponent';
-import Footer from '../Footer/FooterContainer';
+import Footer from '../Footer/FooterComponent';
 import styles from './App.scss';
 import isAuthenticatedComponent from '../../apps/users/components/isAuthenticated/isAuthenticatedComponent';
 
+const App = ({ isAuthenticated, router, children }) =>
+  <div className={styles.root} >
+    <Navbar isAuthenticated={isAuthenticated} router={router} />
+    <div className={styles.navBackground} />
+    <div className={styles.content} >
+      {children}
+    </div>
+    <Footer />
+  </div>;
 
-class App extends React.Component {
-  static propTypes = {
-    router: React.PropTypes.object.isRequired,
-    children: React.PropTypes.object.isRequired,
-    viewer: React.PropTypes.object.isRequired,
-    isAuthenticated: React.PropTypes.bool.isRequired
-  };
-
-
-  render() {
-    const { isAuthenticated, viewer, router, children } = this.props;
-
-
-    return (
-      <div className={styles.root}>
-        <Navbar isAuthenticated={isAuthenticated} router={router} />
-        <div className={styles.navBackground} />
-        <div className={styles.content}>
-          {children}
-        </div>
-                /<Footer viewer={viewer} />
-      </div>
-    );
-  }
-}
+App.propTypes = {
+  router: React.PropTypes.object.isRequired,
+  children: React.PropTypes.object.isRequired,
+  isAuthenticated: React.PropTypes.bool.isRequired
+};
 
 export default isAuthenticatedComponent(App);

@@ -10,11 +10,12 @@ export default class Dashboard extends React.Component {
 
   render() {
     return (
-      <Page heading='Dashboard'>
-        {this.props.viewer.username}
-        <br />
-        {this.props.viewer.email}
-        <p>This is the dashboard</p>
+      <Page heading='Dashboard' >
+        <div>
+          <br />
+          {this.props.viewer.user.email}
+          <p>This is the dashboard</p>
+        </div>
       </Page>
     );
   }
