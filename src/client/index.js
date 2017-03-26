@@ -1,20 +1,19 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { RelayNetworkLayer, authMiddleware } from 'react-relay-network-layer';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import '../../node_modules/react-mdl/extra/material';
 import Root from './root';
+import hasValidJwtToken from '../apps/users/components/JwtUtils';
 
 
-const jwtToken = localStorage.getItem('jwtToken');
-
-Relay.injectNetworkLayer(
-  new Relay.DefaultNetworkLayer('/graphql', {
-    headers: {
-      Authorization: `Bearer ${jwtToken}`
-    }
+Relay.injectNetworkLayer(new RelayNetworkLayer([
+  authMiddleware({
+    token: () => hasValidJwtToken(),
+    allowEmptyToken: true
   })
-);
+]));
 
 const rootNode = document.createElement('div');
 document.body.appendChild(rootNode);

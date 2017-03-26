@@ -4,7 +4,6 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const BundleTracker = require('webpack-bundle-tracker');
 
 let appEntry;
@@ -13,7 +12,6 @@ let plugins;
 let publicPath;
 
 
-const favIcon = new FaviconsWebpackPlugin('./src/client/assets/logo.png');
 
 const stats = new BundleTracker(
     {
@@ -40,7 +38,6 @@ if (process.env.NODE_ENV === 'production') {
                 warnings: false
             }
         }),
-        favIcon
     ];
 } else {
     appEntry = [
@@ -61,7 +58,6 @@ if (process.env.NODE_ENV === 'production') {
         new webpack.DefinePlugin({
             __DEV__: true
         }),
-        favIcon
     ];
 }
 

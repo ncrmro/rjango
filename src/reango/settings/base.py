@@ -8,15 +8,15 @@ import datetime
 # Use 12factor inspired environment variables or from a file
 import environ
 
+# Build paths inside the project like this: join(BASE_DIR, "directory")
+BASE_DIR = dirname(dirname(dirname(dirname(__file__))))
+
 env = environ.Env()
 
 # Ideally move env file should be outside the git repo
-env_file = join(dirname(__file__), 'local.env')
+env_file = join(BASE_DIR, '.env')
 if exists(env_file):
     environ.Env.read_env(str(env_file))
-
-# Build paths inside the project like this: join(BASE_DIR, "directory")
-BASE_DIR = dirname(dirname(dirname(dirname(__file__))))
 
 # Define STATIC_ROOT for the collectstatic command
 STATIC_ROOT = join(BASE_DIR, 'static')
