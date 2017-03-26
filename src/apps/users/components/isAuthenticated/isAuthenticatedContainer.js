@@ -1,7 +1,7 @@
 import Relay from 'react-relay';
-import Landing from './isAuthenticatedComponent';
+import isAuthenticatedComponent from './isAuthenticatedComponent';
 
-export default Relay.createContainer(Landing, {
+export default Relay.createContainer(isAuthenticatedComponent, {
   fragments: {
     viewer: () => Relay.QL`
             fragment on Viewer {
