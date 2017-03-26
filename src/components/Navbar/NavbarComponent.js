@@ -27,7 +27,7 @@ function renderLoggedOut() {
   );
 }
 
-const title = 'JTX';
+const title = 'Reango';
 
 const NavBar = ({ isAuthenticated }) =>
   <Layout className={styles.root} >
