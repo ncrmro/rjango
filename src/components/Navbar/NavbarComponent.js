@@ -13,7 +13,7 @@ function renderLoggedIn() {
     <Navigation>
       <Link to='/' onClick={handleSignOut} >Sign out</Link>
       <Link to='/dashboard' >Dashboard</Link>
-      <Link to='/profile' >Edit Profile</Link>
+      <Link to='/account/profile' >Edit Profile</Link>
     </Navigation>
   );
 }
