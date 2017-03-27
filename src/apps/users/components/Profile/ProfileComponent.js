@@ -54,35 +54,32 @@ class Profile extends React.Component {
                 Default Address
               </h2>
 
-              <form style={{ margin: 'auto' }} >
 
+              <Cell col={12} >
+                <Textfield
+                  onChange={this.handleEmailChange.bind(this)} label='Street' value={street}
+                  floatingLabel
+                />
+              </Cell>
+              <Cell col={12} >
+                <Textfield
+                  onChange={this.handleEmailChange.bind(this)} label='State' value={state}
+                  floatingLabel
+                />
+              </Cell>
+              <Cell col={12} >
+                <Textfield
+                  onChange={this.handleEmailChange.bind(this)} label='Zip Code' value={zip}
+                  floatingLabel
+                />
+              </Cell>
 
-                <Cell col={12} >
-                  <Textfield
-                    onChange={this.handleEmailChange.bind(this)} label='Street' value={street}
-                    floatingLabel
-                  />
-                </Cell>
-                <Cell col={12} >
-                  <Textfield
-                    onChange={this.handleEmailChange.bind(this)} label='State' value={state}
-                    floatingLabel
-                  />
-                </Cell>
-                <Cell col={12} >
-                  <Textfield
-                    onChange={this.handleEmailChange.bind(this)} label='Zip Code' value={zip}
-                    floatingLabel
-                  />
-                </Cell>
+              <Cell col={12} style={{ textAlign: 'right' }} >
+                <Button primary >Sign up</Button>
 
-                <Cell col={12} style={{ textAlign: 'right' }} >
-                  <Button primary >Sign up</Button>
-
-                </Cell>
-              </form>
-
+              </Cell>
             </form>
+
 
           </Grid>
 

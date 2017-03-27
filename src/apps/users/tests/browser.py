@@ -1,8 +1,11 @@
+import datetime
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 from users.tests.helpers import SetUpUser, SetBrowserTests, wait_for_element
 from django.contrib.auth import get_user_model
+from django.test import override_settings, modify_settings
 
 
 class CreateUserTest(SetBrowserTests, SetUpUser):
@@ -60,7 +63,8 @@ class CreateUserTest(SetBrowserTests, SetUpUser):
         selenium.save_screenshot('./screenshots/sign_up_form_exists.png')
         selenium.find_element_by_xpath("//button[text()='Sign up']").click()
         wait_for_element(selenium,
-                         EC.text_to_be_present_in_element((By.CSS_SELECTOR, '.mdl-textfield__error'), 'A user with this email already exists.'))
+                         EC.text_to_be_present_in_element((By.CSS_SELECTOR, '.mdl-textfield__error'),
+                                                          'A user with this email already exists.'))
         assert 'A user with this email already exists' in selenium.page_source
 
     def test_sign_up_form_success(self):
@@ -129,3 +133,25 @@ class LoginUserTest(SetBrowserTests, SetUpUser):
         wait_for_element(selenium, EC.visibility_of_element_located((By.XPATH, "//h1[text()='Dashboard']")))
         selenium.save_screenshot('./screenshots/login_page_4_redirected_to_profile.png')
         assert 'Dashboard' in selenium.page_source
+
+
+class JwtTokenEpiredTest(SetBrowserTests, SetUpUser):
+    """Expired tokens should log user out"""
+
+    def setUp(self):
+        super(JwtTokenEpiredTest, self).setUp()
+
+    def tearDown(self):
+        self.selenium.quit()
+        super(JwtTokenEpiredTest, self).tearDown()
+
+    @override_settings(JWT_EXPIRATION_DELTA=datetime.timedelta(seconds=3))
+    def test_login_form(self):
+        selenium = self.login_selenium_user(self)
+        import time
+        time.sleep(5)
+        edit_profile_button = wait_for_element(selenium, EC.element_to_be_clickable((By.LINK_TEXT, 'Edit Profile')))
+        edit_profile_button.click()
+
+        assert 'Profile' not in selenium.page_source
+        assert 'Dashboard' not in selenium.page_source

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { jwtTokenParam } from '../JwtUtils';
+import hasValidJwtToken from '../JwtUtils';
 
 
 export default function (ComposedClass) {
@@ -13,8 +13,7 @@ export default function (ComposedClass) {
     }
 
     componentWillMount() {
-      const jwtToken = localStorage.getItem('jwtToken');
-      const authenticatedToken = jwtTokenParam(jwtToken);
+      const authenticatedToken = hasValidJwtToken();
       if (authenticatedToken) {
         this.setState({ isAuthenticated: true });
         if (authenticatedToken.is_superuser) {
