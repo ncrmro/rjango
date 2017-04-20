@@ -12,9 +12,9 @@ WORKDIR $INSTALL_PATH
 # Copy python requirements these layers only get ran if anything changes.
 COPY ./requirements.txt $INSTALL_PATH
 
-COPY ./deps/ $INSTALL_PATH/deps
+COPY ./lib $INSTALL_PATH/lib
 
-RUN pip3 install -r $INSTALL_PATH/requirements.txt -r ./deps/dev.txt
+RUN pip3 install -r $INSTALL_PATH/requirements.txt -r ./lib/deps/dev.txt
 
 COPY . $INSTALL_PATH
 

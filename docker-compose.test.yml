@@ -10,7 +10,7 @@ services:
   reango:
     build: .
     container_name: reango
-    entrypoint: python3 ./manage.py test --liveserver=reango:8081-8179 ./src ./src/apps
+    entrypoint: python3 ./manage.py test --liveserver=reango:8081-8179 ./server
     image: ncrmro/reango
     ports:
       - "8081-8179:8081-8179"

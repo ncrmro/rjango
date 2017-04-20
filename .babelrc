@@ -1,6 +1,6 @@
 {
   "plugins": [
-    "./webpack/server/utils/babelRelayPlugin"
+    "./lib/babelRelayPlugin"
   ],
   "presets": [
     "react",
