@@ -12,6 +12,7 @@ function renderLoggedIn() {
   return (
     <Navigation>
       <Link to='/' onClick={handleSignOut} >Sign out</Link>
+      <Link to='/todos' >Todos Example</Link>
       <Link to='/dashboard' >Dashboard</Link>
       <Link to='/account/profile' >Edit Profile</Link>
     </Navigation>
@@ -21,6 +22,7 @@ function renderLoggedIn() {
 function renderLoggedOut() {
   return (
     <Navigation>
+      <Link to='/todos' >Todos Example</Link>
       <Link to='/account/signup' >Sign up</Link>
       <Link to='/account/login' >Login</Link>
     </Navigation>

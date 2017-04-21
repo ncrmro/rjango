@@ -3,6 +3,7 @@ import Landing from '../components/Landing/LandingComponent';
 import ViewerQuery from '../queries/ViewerQuery';
 import UserRoutes from './users';
 import Dashboard from './dashboard';
+import Todos from './todos';
 
 export default () => ({
   childRoutes: [{
@@ -15,6 +16,7 @@ export default () => ({
     childRoutes: [
       UserRoutes,
       Dashboard,
+      Todos,
       {
         path: '*',
         component: Landing
