@@ -5,14 +5,14 @@ export default class NewTodoMutation extends Relay.Mutation {
   // the mutation to be performed. This presumes that the server
   // implements a mutation type named ‘loginUser’.
   static fragments = {
-    viewer: () => Relay.QL`fragment on Viewer {
+    user: () => Relay.QL`fragment on UserNode {
         id
     }`,
   };
   
   getMutation() {
     return Relay.QL`
-        mutation { createTodo }
+        mutation { createUserTodo }
     `;
   }
 
@@ -24,9 +24,9 @@ export default class NewTodoMutation extends Relay.Mutation {
 
   getFatQuery() {
     return Relay.QL`
-        fragment on CreateTodoPayload {
+        fragment on CreateUserTodoPayload {
             todoEdge
-            viewer{todos}
+            user{todos}
         },
     `;
   }
@@ -34,8 +34,8 @@ export default class NewTodoMutation extends Relay.Mutation {
   getConfigs() {
     return [{
       type: 'RANGE_ADD',
-      parentName: 'viewer',
-      parentID: this.props.viewer.id,
+      parentName: 'user',
+      parentID: this.props.user.id,
       connectionName: 'todos',
       edgeName: 'todoEdge',
       rangeBehaviors: {
@@ -43,7 +43,6 @@ export default class NewTodoMutation extends Relay.Mutation {
       },
     }];
   }
-
 
 }
 

@@ -2,17 +2,18 @@
 import React from 'react';
 import Page from '../../../components/Page/PageComponent';
 import TodosList from '../TodosList/TodosListContainer'
-import NewTodo from '../NewTodo/NewTodoContainer';
+import NewUserTodo from '../NewUserTodo/NewUserTodoContainer';
 
-const Todos = (props) =>
-  <Page heading='Todos' >
+const UserTodos = (props) =>
+  <Page heading='Your Todos' >
     <div>
+      {console.log(props)}
       <br />
       <p>This is the dashboard</p>
-      <NewTodo viewer={props.viewer}/>
-      <TodosList todos={props.viewer.todos} />
+      <NewUserTodo user={props.user}/>
+      <TodosList todos={props.user.todos} />
     </div>
   </Page>;
 
 
-export default Todos;
+export default UserTodos;

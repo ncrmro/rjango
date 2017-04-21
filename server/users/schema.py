@@ -1,12 +1,12 @@
 from django.contrib.auth import get_user_model
 from graphene import Node, Field, GlobalID, String
 from graphene_django.types import DjangoObjectType, ObjectType
-from todos.schema import TodoQueries
+from todos.schema import TodoQueries, UserTodoQueries
 
 from .jwt_schema import TokensInterface
 
 
-class UserNode(DjangoObjectType, TodoQueries):
+class UserNode(DjangoObjectType, UserTodoQueries):
     class Meta:
         model = get_user_model()
         only_fields = (

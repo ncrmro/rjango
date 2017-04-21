@@ -7,7 +7,7 @@ export default Relay.createContainer(Todos, {
   fragments: {
     viewer: () => Relay.QL`
         fragment on Viewer {
-            allTodos(first:10) {
+            todos(first:10) {
                 ${TodosList.getFragment('todos')}
             }
             ${NewTodo.getFragment('viewer')}
