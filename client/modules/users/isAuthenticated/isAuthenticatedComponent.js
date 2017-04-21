@@ -14,7 +14,6 @@ export default function (ComposedClass) {
 
     componentWillMount() {
       const parsedToken = hasValidJwtToken().parsedToken;
-      console.log(parsedToken);
       if (parsedToken) {
         this.setState({ isAuthenticated: true });
         if (parsedToken.is_superuser) {

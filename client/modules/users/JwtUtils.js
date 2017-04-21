@@ -24,7 +24,7 @@ function hasValidJwtToken() {
   let parsedToken = '';
   if (jwtToken) {
     parsedToken = parseJwt(jwtToken);
-    const isJwtTokenExpired = isTokenExpired(jwtToken);
+    const isJwtTokenExpired = isTokenExpired(parsedToken);
     if (isJwtTokenExpired) {
       localStorage.removeItem('jwtToken');
       window.location.replace('/account/login');
