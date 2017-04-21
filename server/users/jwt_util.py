@@ -9,7 +9,6 @@ from .jwt_handlers import jwt_encode_handler, jwt_decode_handler, \
 
 
 def check_for_token(args, context):
-    print(context.META['HTTP_AUTHORIZATION'])
     if 'jwt_token' in args:
         token = args["jwt_token"]
         token = bytes(token, 'utf-8')
