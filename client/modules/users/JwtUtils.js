@@ -20,13 +20,13 @@ function isTokenExpired(parsedToken) {
  * @return {String} jwtToken
  */
 function hasValidJwtToken() {
-  let jwtToken = localStorage.getItem('jtx_token');
+  let jwtToken = localStorage.getItem('jwtToken');
   let parsedToken = '';
   if (jwtToken) {
     parsedToken = parseJwt(jwtToken);
     const isJwtTokenExpired = isTokenExpired(jwtToken);
     if (isJwtTokenExpired) {
-      localStorage.removeItem('jtx_token');
+      localStorage.removeItem('jwtToken');
       window.location.replace('/account/login');
       window.location.reload();
       jwtToken = null;

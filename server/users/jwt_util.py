@@ -29,9 +29,8 @@ def get_token_user_id(args, context):
 
 def get_token_user(args, context):
     """If a valid token is found return user"""
-    token = check_for_token(args, context)
-    token_payload = jwt_decode_handler(token)
-    user = get_user_model().objects.get(id=token_payload['user_id'])
+    user_id = get_token_user_id(args, context)
+    user = get_user_model().objects.get(id=user_id)
     return user
 
 
