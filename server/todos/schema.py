@@ -1,7 +1,7 @@
-from graphene import AbstractType, Node, Field, String, relay, Int
-from graphene_django.filter import DjangoFilterConnectionField
+from graphene import AbstractType, Node, Field, String, relay, ObjectType, \
+    lazy_import
+from graphene_django import DjangoConnectionField
 from graphene_django.types import DjangoObjectType
-
 from .models import TodoModel
 
 
@@ -11,16 +11,20 @@ class TodoNode(DjangoObjectType):
         interfaces = (Node,)
 
 
+class TodoEdge(ObjectType):
+    node = Field(TodoNode)
+    cursor = String()
+
+
 class CreateTodo(relay.ClientIDMutation):
     class Input:
-        user_id = Int(required=True)
         text = String(required=True)
 
-    todo = Field(TodoNode)
+    todo_edge = Field(TodoEdge)
+    viewer = Field(lazy_import('users.schema.Viewer'))
 
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
-        user_id = input.get('user_id')
         text = input.get('text')
         todo = TodoModel.objects.create(user_id=user_id, text=text)
         return CreateTodo(todo=todo)
@@ -28,7 +32,7 @@ class CreateTodo(relay.ClientIDMutation):
 
 class TodoQueries(AbstractType):
     todo = Node.Field(TodoNode)
-    all_todos = DjangoFilterConnectionField(TodoNode)
+    all_todos = DjangoConnectionField(TodoNode)
 
 
 class TodoMutations(AbstractType):
