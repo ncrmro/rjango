@@ -176,13 +176,16 @@ class JwtTokenEpiredTest(SetBrowserTests, SetUpUser):
     def test_login_form(self):
         selenium = self.login_selenium_user(self)
         import time
-        time.sleep(10)
+        time.sleep(3)
         edit_profile_button = wait_for_element(
             selenium, EC.element_to_be_clickable(
                 (By.LINK_TEXT, 'Edit Profile')))
         edit_profile_button.click()
 
-        time.sleep(10)
+        wait_for_element(
+                selenium, EC.invisibility_of_element_located(
+                        (By.XPATH, "//h1[text()='Dashboard']")))
 
-        assert 'Profile' not in selenium.page_source
-        assert 'Dashboard' not in selenium.page_source
+        wait_for_element(
+                selenium, EC.visibility_of_element_located(
+                        (By.XPATH, "//h1[text()='Landing']")))
