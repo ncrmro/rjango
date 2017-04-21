@@ -20,18 +20,19 @@ function isTokenExpired(parsedToken) {
  * @return {String} jwtToken
  */
 function hasValidJwtToken() {
-  let jwtToken = localStorage.getItem('jwtToken');
+  let jwtToken = localStorage.getItem('jtx_token');
+  let parsedToken = '';
   if (jwtToken) {
-    jwtToken = parseJwt(jwtToken);
+    parsedToken = parseJwt(jwtToken);
     const isJwtTokenExpired = isTokenExpired(jwtToken);
     if (isJwtTokenExpired) {
-      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('jtx_token');
       window.location.replace('/account/login');
       window.location.reload();
       jwtToken = null;
     }
   }
-  return jwtToken;
+  return { jwtToken, parsedToken };
 }
 
 export default hasValidJwtToken;

@@ -2,11 +2,14 @@ from calendar import timegm
 from datetime import datetime
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
-from .jwt_handlers import jwt_encode_handler, jwt_decode_handler, jwt_payload_handler
+from .jwt_handlers import jwt_encode_handler, jwt_decode_handler, \
+    jwt_payload_handler
 
 
 def check_for_token(args, context):
+    print(context.META['HTTP_AUTHORIZATION'])
     if 'jwt_token' in args:
         token = args["jwt_token"]
         token = bytes(token, 'utf-8')
@@ -23,6 +26,14 @@ def get_token_user_id(args, context):
     token_payload = jwt_decode_handler(token)
     token_user_id = token_payload['user_id']
     return token_user_id
+
+
+def get_token_user(args, context):
+    """If a valid token is found return user"""
+    token = check_for_token(args, context)
+    token_payload = jwt_decode_handler(token)
+    user = get_user_model().objects.get(id=token_payload['user_id'])
+    return user
 
 
 def get_jwt_token(user):

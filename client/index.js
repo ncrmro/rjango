@@ -10,7 +10,7 @@ import hasValidJwtToken from './modules/users/JwtUtils';
 
 Relay.injectNetworkLayer(new RelayNetworkLayer([
   authMiddleware({
-    token: () => hasValidJwtToken(),
+    token: () => hasValidJwtToken().jwtToken,
     allowEmptyToken: true
   })
 ]));
