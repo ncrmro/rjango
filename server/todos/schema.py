@@ -2,6 +2,9 @@ from graphene import AbstractType, Node, Field, String, relay, ObjectType, \
     lazy_import
 from graphene_django import DjangoConnectionField
 from graphene_django.types import DjangoObjectType
+from graphql_relay.connection.arrayconnection import offset_to_cursor
+
+from users.jwt_util import get_token_user
 from .models import TodoModel
 
 
@@ -25,14 +28,20 @@ class CreateTodo(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
+        user = get_token_user(input, context)
         text = input.get('text')
-        todo = TodoModel.objects.create(user_id=user_id, text=text)
-        return CreateTodo(todo=todo)
+        todo = TodoModel.objects.create(user=user, text=text)
+        cursor = offset_to_cursor(0)
+        edge = TodoEdge(cursor=cursor, node=todo)
+        return CreateTodo(todo_edge=edge, viewer=user)
 
 
 class TodoQueries(AbstractType):
     todo = Node.Field(TodoNode)
     all_todos = DjangoConnectionField(TodoNode)
+
+
+
 
 
 class TodoMutations(AbstractType):

@@ -9,16 +9,9 @@ import {
   Radio
 } from 'react-mdl';
 import Todo from '../Todo/Todo';
-import Textfield from '../../../components/Textfield/Textfield';
 
 const TodosList = (props) =>
-  <List>
-    <ListItem>
-      <Textfield
-        label="Add Todo"
-        floatingLabel
-      />
-    </ListItem>
+  <List style={{width: '600px'}}>
     {props.todos.edges.map(({ node }) => <Todo key={node.id} todo={node} />)}
   </List>;
 
