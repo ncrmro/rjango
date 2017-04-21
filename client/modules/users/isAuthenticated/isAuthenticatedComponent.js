@@ -13,14 +13,14 @@ export default function (ComposedClass) {
     }
 
     componentWillMount() {
-      const authenticatedToken = hasValidJwtToken();
-      if (authenticatedToken) {
+      const parsedToken = hasValidJwtToken().parsedToken;
+      if (parsedToken) {
         this.setState({ isAuthenticated: true });
-        if (authenticatedToken.is_superuser) {
+        if (parsedToken.is_superuser) {
           this.setState({ isAdmin: true });
         }
       }
-      if (!authenticatedToken) {
+      if (!parsedToken) {
         this.setState({ isAuthenticated: false });
       }
     }

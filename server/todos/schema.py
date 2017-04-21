@@ -1,8 +1,11 @@
-from graphene import AbstractType, Node, Field, String, relay, Int
-from graphene_django.filter import DjangoFilterConnectionField
+from graphene import AbstractType, Node, Field, String, relay, ObjectType, \
+    lazy_import
+from graphene_django import DjangoConnectionField
 from graphene_django.types import DjangoObjectType
+from graphql_relay.connection.arrayconnection import offset_to_cursor
 
-from .models import TodoModel
+from users.jwt_util import get_token_user
+from .models import Todo as TodoModel
 
 
 class TodoNode(DjangoObjectType):
@@ -11,25 +14,58 @@ class TodoNode(DjangoObjectType):
         interfaces = (Node,)
 
 
+class TodoEdge(ObjectType):
+    node = Field(TodoNode)
+    cursor = String()
+
+
 class CreateTodo(relay.ClientIDMutation):
     class Input:
-        user_id = Int(required=True)
         text = String(required=True)
 
-    todo = Field(TodoNode)
+    todo_edge = Field(TodoEdge)
+    viewer = Field(lazy_import('users.schema.Viewer'))
 
     @classmethod
     def mutate_and_get_payload(cls, input, context, info):
-        user_id = input.get('user_id')
+        user = get_token_user(input, context)
         text = input.get('text')
-        todo = TodoModel.objects.create(user_id=user_id, text=text)
-        return CreateTodo(todo=todo)
+        todo = TodoModel.objects.create(user=user, text=text)
+        cursor = offset_to_cursor(0)
+        edge = TodoEdge(cursor=cursor, node=todo)
+        return CreateTodo(todo_edge=edge, viewer=user)
 
+class CreateUserTodo(relay.ClientIDMutation):
+    class Input:
+        text = String(required=True)
+
+    todo_edge = Field(TodoEdge)
+    user = Field(lazy_import('users.schema.UserNode'))
+
+    @classmethod
+    def mutate_and_get_payload(cls, input, context, info):
+        user = get_token_user(input, context)
+        text = input.get('text')
+        todo = TodoModel.objects.create(user=user, text=text)
+        cursor = offset_to_cursor(0)
+        edge = TodoEdge(cursor=cursor, node=todo)
+        return CreateUserTodo(todo_edge=edge, user=user)
 
 class TodoQueries(AbstractType):
     todo = Node.Field(TodoNode)
-    all_todos = DjangoFilterConnectionField(TodoNode)
+    todos = DjangoConnectionField(TodoNode)
+
+
+class UserTodoQueries(AbstractType):
+    todos = DjangoConnectionField(TodoNode)
+
+    def resolve_todos(self, args, context, info):
+        user_todos = self.todo_set.all()
+        return user_todos
+
+
 
 
 class TodoMutations(AbstractType):
     create_todo = CreateTodo.Field()
+    create_user_todo = CreateUserTodo.Field()

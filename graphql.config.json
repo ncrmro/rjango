@@ -2,7 +2,7 @@
   "README_schema": "Specifies how to load the GraphQL schema that completion, error highlighting, and documentation is based on in the IDE",
   "schema": {
     "README_file": "Remove 'file' to use request url below. A relative or absolute path to the JSON from a schema introspection query, e.g. '{ data: ... }'. Changes to the file are watched.",
-    "file": "./webpack/server/data/schema.json",
+    "file": "./lib/schema.json",
     "README_request": "To request the schema from a url instead, remove the 'file' JSON property above (and optionally delete the default graphql.schema.json file).",
     "request": {
       "url": "http://localhost:8000/graphql",
