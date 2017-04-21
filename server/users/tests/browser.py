@@ -68,8 +68,8 @@ class CreateUserTest(SetBrowserTests, SetUpUser):
 
         # Fill out inputs and check for form valid
         email_field.send_keys(self.user.email)
-        password.send_keys(self.user_password)
-        password_confirmation.send_keys(self.user_password)
+        password.send_keys('top_secret')
+        password_confirmation.send_keys('top_secret')
         selenium.save_screenshot('./screenshots/sign_up_form_exists.png')
         selenium.find_element_by_xpath("//button[text()='Sign up']").click()
         wait_for_element(
@@ -176,11 +176,13 @@ class JwtTokenEpiredTest(SetBrowserTests, SetUpUser):
     def test_login_form(self):
         selenium = self.login_selenium_user(self)
         import time
-        time.sleep(5)
+        time.sleep(10)
         edit_profile_button = wait_for_element(
             selenium, EC.element_to_be_clickable(
                 (By.LINK_TEXT, 'Edit Profile')))
         edit_profile_button.click()
+
+        time.sleep(10)
 
         assert 'Profile' not in selenium.page_source
         assert 'Dashboard' not in selenium.page_source
