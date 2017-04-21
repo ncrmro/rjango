@@ -12,7 +12,7 @@ export default class Textfield extends React.Component {
 
   setFieldValue(e) {
     const value = e.target.value;
-    this.setState({ field: value });
+    this.setState({ value: value });
   }
 
   render() {
@@ -21,6 +21,7 @@ export default class Textfield extends React.Component {
       <MdlTextField
         onChange={this.setFieldValue.bind(this)}
         label={label}
+        value={this.state.value}
         floatingLabel={floatingLabel}
         style={{width: '100%'}}
       />
