@@ -3,10 +3,6 @@ import isAuthenticatedComponent from '../isAuthenticated/isAuthenticatedComponen
 
 export default function (ComposedClass) {
   class RequireAuth extends Component {
-    static propTypes = {
-      isAuthenticated: React.PropTypes.bool.isRequired,
-      router: React.PropTypes.object.isRequired
-    };
 
     componentWillMount() {
       const { router, isAuthenticated } = this.props;

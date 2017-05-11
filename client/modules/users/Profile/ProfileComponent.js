@@ -7,9 +7,6 @@ import styles from './Profile.scss';
 
 
 class Profile extends React.Component {
-  static propTypes = {
-    viewer: React.PropTypes.object.isRequired
-  };
 
   constructor(props) {
     super(props);

@@ -33,6 +33,7 @@ render(Root);
 // Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./root', () => {
-    render(Root);
+    const NextRoot = require('./root').default;
+    render(NextRoot)
   });
 }

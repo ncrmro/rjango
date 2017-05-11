@@ -41,7 +41,8 @@
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.8",
     "babel-plugin-react-transform": "^2.0.2",
-    "babel-preset-es2015": "^6.18.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.4.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "babel-relay-plugin": "^0.9.3",
@@ -66,5 +67,61 @@
     "url-loader": "^0.5.7",
     "webpack": "2.2.0",
     "webpack-bundle-tracker": "^0.2.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "browsers": [
+              "last 1 versions"
+            ],
+            "node": "current"
+          }
+        }
+      ],
+      "react",
+      "stage-0"
+    ],
+    "plugins": [
+      "./lib/babelRelayPlugin"
+    ],
+    "env": {
+      "development": {
+        "plugins": [
+          "react-hot-loader/babel"
+        ]
+      }
+    }
+  },
+  "eslint": {
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "rules": {
+      "comma-dangle": 0,
+      "max-len": 0,
+      "jsx-quotes": [
+        2,
+        "prefer-single"
+      ],
+      "generator-star-spacing": 0,
+      "no-plusplus": [
+        "error",
+        {
+          "allowForLoopAfterthoughts": true
+        }
+      ],
+      "import/no-dynamic-require": 0,
+      "class-methods-use-this": 0,
+      "react/jsx-no-bind": 0,
+      "react/prefer-stateless-function": 0,
+      "react/jsx-filename-extension": 0,
+      "react/forbid-prop-types": 0
+    }
   }
 }

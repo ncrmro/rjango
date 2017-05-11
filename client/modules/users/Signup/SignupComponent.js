@@ -7,11 +7,6 @@ import RequireNoAuth from '../RequireNoAuth/RequireNoAuth';
 
 
 class Signup extends React.Component {
-  static propTypes = {
-    router: React.PropTypes.shape({
-      push: React.PropTypes.func.isRequired
-    }).isRequired
-  };
 
   constructor(props) {
     super(props);

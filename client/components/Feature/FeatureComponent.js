@@ -6,9 +6,7 @@ import styles from './Feature.scss';
 import AddFeature from './AddFeatureComponent';
 
 export default class Feature extends React.Component {
-  static propTypes = {
-    viewer: React.PropTypes.object.isRequired
-  };
+
 
   render() {
     return (
