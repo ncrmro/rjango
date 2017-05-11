@@ -5,4 +5,4 @@ django-filter==1.0.1
 django-environ==0.4.1
 django-webpack-loader==0.4.1
 django-custom-user==0.7
-jwt
+django-jwt-auth==0.0.2
