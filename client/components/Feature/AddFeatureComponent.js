@@ -31,9 +31,6 @@ const inputData = {
 };
 
 export default class Feature extends React.Component {
-  static propTypes = {
-    viewer: React.PropTypes.object.isRequired
-  };
 
   state = {
     form: {

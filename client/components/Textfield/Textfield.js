@@ -1,8 +1,9 @@
-// @flow
 import React from 'react';
 import { Textfield as MdlTextField } from 'react-mdl';
+
+
 export default class Textfield extends React.Component {
-  constructor(props:Object) {
+  constructor(props) {
     super(props);
     this.state = {
       value: props.value ? props.value : ''

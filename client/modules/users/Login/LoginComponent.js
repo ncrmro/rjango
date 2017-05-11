@@ -7,10 +7,6 @@ import LoginUserMutation from './LoginUserMutation';
 import RequireNoAuth from '../RequireNoAuth/RequireNoAuth';
 
 class Login extends React.Component {
-  static propTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-
   constructor(props) {
     super(props);
     this.state = {

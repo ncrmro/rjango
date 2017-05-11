@@ -41,6 +41,8 @@
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.8",
     "babel-plugin-react-transform": "^2.0.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.4.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "babel-relay-plugin": "^0.9.3",
@@ -68,8 +70,6 @@
   },
   "babel": {
     "presets": [
-      "react",
-      "stage-0",
       [
         "env",
         {
@@ -80,7 +80,9 @@
             "node": "current"
           }
         }
-      ]
+      ],
+      "react",
+      "stage-0"
     ],
     "plugins": [
       "./lib/babelRelayPlugin"
