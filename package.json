@@ -66,5 +66,32 @@
     "url-loader": "^0.5.7",
     "webpack": "2.2.0",
     "webpack-bundle-tracker": "^0.2.0"
+  },
+  "babel": {
+    "presets": [
+      "react",
+      "stage-0",
+      [
+        "env",
+        {
+          "targets": {
+            "browsers": [
+              "last 1 versions"
+            ],
+            "node": "current"
+          }
+        }
+      ]
+    ],
+    "plugins": [
+    "./lib/babelRelayPlugin"
+  ],
+    "env": {
+      "development": {
+        "plugins": [
+          "react-hot-loader/babel"
+        ]
+      }
+    }
   }
 }
