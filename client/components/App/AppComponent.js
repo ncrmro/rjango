@@ -1,6 +1,6 @@
 import React from 'react';
 import 'normalize.css/normalize.css';
-import 'react-mdl/extra/css/material.cyan-red.min.css';
+import '../../styles/global.scss';
 
 import Navbar from '../Nav/Nav';
 import Footer from '../Footer/FooterComponent';

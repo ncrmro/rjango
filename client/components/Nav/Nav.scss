@@ -1,22 +1,36 @@
-@import '../variables.scss';
+@import '../../styles/variables.scss';
 
-.root :global {
-  .mdl-layout-title a {
-    color: $white;
-    text-decoration: none;
-    font-weight: normal;
-  }
+.title {
+  color: $white;
+  display: none
+}
 
-  .mdl-layout__header-row .mdl-navigation__link {
-    color: $white !important;
-  }
+.mobileNavButton {
+  color: white;
+  line-height: 36px !important;;
+}
 
-  .mdl-layout__drawer > .mdl-layout-title {
-    padding-top: 36px;
-    background-color: $blue;
+.rightNav {
+  text-align: right;
+  display: none;
+  button {
+    color: black;
   }
+}
 
-  .mdl-layout__drawer-button {
-    color: $white !important;
+/* This is how it looks on desktop */
+@media (min-width: 600px) {
+  .mobileNavButton {
+    display: none !important;
   }
+  .rightNav {
+    display: block !important;
+    button {
+      color: white;
+    }
+  }
+  .title {
+    display: block !important;
+  }
+;
 }

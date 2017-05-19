@@ -3,7 +3,6 @@ import Relay from 'react-relay';
 import { RelayNetworkLayer, authMiddleware } from 'react-relay-network-layer';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import '../node_modules/react-mdl/extra/material';
 import Root from './root';
 import hasValidJwtToken from './modules/users/JwtUtils';
 
