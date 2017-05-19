@@ -8,13 +8,6 @@ import Root from './root';
 import hasValidJwtToken from './modules/users/JwtUtils';
 
 
-Relay.injectNetworkLayer(new RelayNetworkLayer([
-  authMiddleware({
-    token: () => hasValidJwtToken().jwtToken,
-    allowEmptyToken: true
-  })
-]));
-
 const rootNode = document.createElement('div');
 document.body.appendChild(rootNode);
 

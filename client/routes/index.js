@@ -1,26 +1,22 @@
-import AppContainer from '../components/App/AppContainer';
-import Landing from '../components/Landing/LandingComponent';
-import ViewerQuery from '../queries/ViewerQuery';
-import UserRoutes from './users';
-import Dashboard from './dashboard';
-import Todos from './todos';
+import AppContainer from '../components/App/AppComponent';
+//import Landing from '../components/Landing/LandingComponent';
+//import UserRoutes from './users';
 
-export default () => ({
-  childRoutes: [{
-    path: '/',
+
+ const routes = [
+  { path: '/',
     component: AppContainer,
-    queries: ViewerQuery,
-    indexRoute: {
-      component: Landing
-    },
-    childRoutes: [
-      UserRoutes,
-      Dashboard,
-      Todos,
-      {
-        path: '*',
-        component: Landing
+    /*
+    routes: [
+      { path: '/tacos/bus',
+        component: Bus
+      },
+      { path: '/tacos/cart',
+        component: Cart
       }
     ]
-  }]
-});
+    */
+  }
+];
+
+export default routes
