@@ -8,7 +8,8 @@
     "lint": "eslint client && prospector src--uses django --ignore-patterns */migrations",
     "lint-fix": "eslint --fix client && autopep8 --in-place --aggressive --aggressive --recursive --max-line-length 79 server",
     "clean": "rm -rf ./static/bundles/* ./static/index.html",
-    "postinstall": "python3 ./manage.py graphql_schema && npm run build"
+    "postinstall": "python3 ./manage.py graphql_schema && npm run build",
+    "flow": "flow"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "^6.8.0",
+    "flow-bin": "^0.46.0",
     "pre-commit": "^1.1.3",
     "react-transform-catch-errors": "^1.0.2",
     "react-transform-hmr": "^1.0.4",
