@@ -6,7 +6,9 @@ const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const BundleTracker = require('webpack-bundle-tracker');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const dotenv = require('dotenv');
 
+dotenv.load();
 let appEntry;
 let devtool;
 let plugins;
@@ -20,6 +22,9 @@ const stats = new BundleTracker(
         filename: 'static/webpack-stats.json',
         indent: true
     });
+
+const env = process.env;
+const devServerPort = env.WEBPACK_PORT ? env.WEBPACK_PORT : 3000;
 
 if (process.env.NODE_ENV === 'production') {
     appEntry = [path.join(__dirname, 'client/index.js')];
@@ -50,10 +55,10 @@ if (process.env.NODE_ENV === 'production') {
         // activate HMR for React
         'react-hot-loader/patch',
         path.join(__dirname, 'client/index.js'),
-        'webpack-dev-server/client?http://localhost:3000',
+        `webpack-dev-server/client?http://localhost:${devServerPort}`,
         'webpack/hot/only-dev-server'
     ];
-    publicPath = 'http://localhost:3000/assets/bundles/'; // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
+    publicPath = `http://localhost:${devServerPort}/assets/bundles/`; // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
     devtool = 'eval';
     plugins = [
         stats,
@@ -83,6 +88,14 @@ module.exports = {
         publicPath: publicPath
     },
     devtool,
+    devServer: {
+      hot: true,
+      port: devServerPort,
+      historyApiFallback: true,
+      stats: "errors-only",
+      contentBase: path.join(__dirname, 'static', 'bundles'),
+      publicPath
+    },
     module: {
 
         rules: [{

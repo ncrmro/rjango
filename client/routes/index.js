@@ -1,21 +1,16 @@
 import AppContainer from '../components/App/AppComponent';
-//import Landing from '../components/Landing/LandingComponent';
+import Landing from '../components/Landing/LandingComponent';
 //import UserRoutes from './users';
 
 
  const routes = [
   { path: '/',
     component: AppContainer,
-    /*
     routes: [
-      { path: '/tacos/bus',
-        component: Bus
-      },
-      { path: '/tacos/cart',
-        component: Cart
+      { path: '/landing' ,
+        component: Landing
       }
     ]
-    */
   }
 ];
 
