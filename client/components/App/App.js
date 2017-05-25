@@ -8,7 +8,6 @@ import styles from './App.scss';
 
 const App = (props) =>
   <div className={styles.root} >
-    {console.log(props.route.routes)}
     <Navbar isAuthenticated />
     <div className={styles.navBackground} />
     <div className={styles.content} >
