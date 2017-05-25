@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "reango",
   "scripts": {
-    "start": "yarn run clean && node_modules/.bin/webpack-dev-server --port 3000",
+    "start": "yarn run clean && webpack-dev-server",
     "build": "yarn run clean && NODE_ENV=production webpack",
     "lint": "eslint client && prospector src--uses django --ignore-patterns */migrations",
     "lint-fix": "eslint --fix client && autopep8 --in-place --aggressive --aggressive --recursive --max-line-length 79 server",
