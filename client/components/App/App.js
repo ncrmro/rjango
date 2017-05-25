@@ -6,12 +6,13 @@ import Navbar from '../Nav/Nav';
 import Footer from '../Footer/FooterComponent';
 import styles from './App.scss';
 
-const App = ({ isAuthenticated, router, children }) =>
+const App = (props) =>
   <div className={styles.root} >
+    {console.log(props.route.routes)}
     <Navbar isAuthenticated />
     <div className={styles.navBackground} />
     <div className={styles.content} >
-      {children}
+      {props.renderSubRoutes({routes: props.route.routes})}
     </div>
     <Footer />
   </div>;

@@ -1,13 +1,14 @@
-import AppContainer from '../components/App/AppComponent';
+import App from '../components/App/App';
 import Landing from '../components/Landing/LandingComponent';
-//import UserRoutes from './users';
 
 
  const routes = [
-  { path: '/',
-    component: AppContainer,
+  {
+    path: '/',
+    component: App,
     routes: [
-      { path: '/landing' ,
+      { 
+        path: '/' ,
         component: Landing
       }
     ]
