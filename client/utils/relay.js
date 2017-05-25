@@ -45,7 +45,7 @@ export const environment = new Environment({
 export const RelayComponent = (chil, query, variables) =>
 <QueryRenderer
   environment={environment}
-  query={graphql`${query}`}
-  query={variables}
+  query={query}
+  variables={variables}
   render={({error, props}) => props ? <Component {...props} /> :  <div>Loading</div>  }
 />;

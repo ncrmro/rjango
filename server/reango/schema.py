@@ -1,5 +1,4 @@
 import graphene
-from graphene_django.debug import DjangoDebug
 
 from features.mutations import FeatureMutations
 from features.queries import FeatureQueries
@@ -14,8 +13,7 @@ class Query(
     FeatureQueries,
     graphene.ObjectType
 ):
-    debug = graphene.Field(DjangoDebug, name='__debug')
-
+    pass
 
 class Mutation(
     UserMutations,

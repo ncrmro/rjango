@@ -1,0 +1,27 @@
+.form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+}
+
+.formContainer {
+  width: 500px
+}
+
+.formActions {
+  float: right;
+  margin-top: 10px;
+  height: 50px
+
+}
+
+.textFields {
+  width: 100%;
+  margin: auto;
+  margin-bottom: 15px;
+  input {
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+  }
+}

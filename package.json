@@ -9,6 +9,7 @@
     "lint-fix": "eslint --fix client && autopep8 --in-place --aggressive --aggressive --recursive --max-line-length 79 server",
     "clean": "rm -rf ./static/bundles/* ./static/index.html",
     "postinstall": "python3 ./manage.py graphql_schema && npm run build",
+    "relay": "relay-compiler --watch --src ./client --schema ./lib/schema.json",
     "flow": "flow"
   },
   "repository": {
