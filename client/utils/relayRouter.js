@@ -12,6 +12,7 @@ function relayRoute(props) {
                 query relayRouterViewerQuery($first: Int!) {
                   viewer {
                       user{email}
+                      ...LandingComponent_viewer
                       todos(first: $first) {
                         edges{
                             node {

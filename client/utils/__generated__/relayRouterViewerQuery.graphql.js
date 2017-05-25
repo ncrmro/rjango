@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule relayRouterViewerQuery.graphql
- * @generated SignedSource<<763ab56ecbdad951bc29f42a1d5cc7ef>>
- * @relayHash 8c06e50e48b798242fdd72558e3cf861
+ * @generated SignedSource<<6b3c0f184db7261a486b02547f280e0a>>
+ * @relayHash ad425d4b6f9ac5a29ba70d6583a85879
  * @flow
  * @nogrep
  */
@@ -28,6 +28,7 @@ query relayRouterViewerQuery(
       email
       id
     }
+    ...LandingComponent_viewer
     todos(first: $first) {
       edges {
         node {
@@ -36,6 +37,14 @@ query relayRouterViewerQuery(
       }
     }
     id
+  }
+}
+
+fragment LandingComponent_viewer on Viewer {
+  id
+  user {
+    id
+    email
   }
 }
 */
@@ -79,6 +88,11 @@ const batch /*: ConcreteBatch*/ = {
               }
             ],
             "storageKey": null
+          },
+          {
+            "kind": "FragmentSpread",
+            "name": "LandingComponent_viewer",
+            "args": null
           },
           {
             "kind": "LinkedField",
@@ -184,6 +198,13 @@ const batch /*: ConcreteBatch*/ = {
             "storageKey": null
           },
           {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "id",
+            "storageKey": null
+          },
+          {
             "kind": "LinkedField",
             "alias": null,
             "args": [
@@ -229,13 +250,6 @@ const batch /*: ConcreteBatch*/ = {
               }
             ],
             "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "id",
-            "storageKey": null
           }
         ],
         "storageKey": null
@@ -251,7 +265,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query relayRouterViewerQuery(\n  $first: Int!\n) {\n  viewer {\n    user {\n      email\n      id\n    }\n    todos(first: $first) {\n      edges {\n        node {\n          id\n        }\n      }\n    }\n    id\n  }\n}\n"
+  "text": "query relayRouterViewerQuery(\n  $first: Int!\n) {\n  viewer {\n    user {\n      email\n      id\n    }\n    ...LandingComponent_viewer\n    todos(first: $first) {\n      edges {\n        node {\n          id\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment LandingComponent_viewer on Viewer {\n  id\n  user {\n    id\n    email\n  }\n}\n"
 };
 
 module.exports = batch;
