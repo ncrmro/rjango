@@ -13,6 +13,7 @@ function relayRoute(props) {
                   viewer {
                       user{email}
                       ...LandingComponent_viewer
+                      ...Todos_viewer
                       todos(first: $first) {
                         edges{
                             node {
@@ -23,13 +24,24 @@ function relayRoute(props) {
                   }
                 }
           `;
-  return <props.route.component>
-    {RelayComponent({
-      ChildComponent: comp,
-      query: rootQuery,
-      variables: { first: 10 }
-    })}
-  </props.route.component>
+  if (props.route.indexRoute) {
+    return <props.route.component>
+      {RelayComponent({
+        ChildComponent: comp,
+        query: rootQuery,
+        variables: { first: 10 }
+      })}
+    </props.route.component>
+  }
+  else {
+    return <div>
+      {RelayComponent({
+        ChildComponent: comp,
+        query: rootQuery,
+        variables: { first: 10 }
+      })}
+    </div>
+  }
 }
 
 function RenderRoutes(props) {

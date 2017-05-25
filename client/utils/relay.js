@@ -52,5 +52,5 @@ export const RelayComponent = (passedProps) =>
   environment={environment}
   query={passedProps.query}
   variables={passedProps.variables}
-  render={({error, props}) => props ? <div>{console.log(props)} <passedProps.ChildComponent {...props} /></div> :  <div>Loading</div>  }
+  render={({error, props}) => props ? <div>{ console.log('RelayComponent',props)} <passedProps.ChildComponent {...props} /></div> :  <div>Loading</div>  }
 />;

@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule relayRouterViewerQuery.graphql
- * @generated SignedSource<<6b3c0f184db7261a486b02547f280e0a>>
- * @relayHash ad425d4b6f9ac5a29ba70d6583a85879
+ * @generated SignedSource<<31e79b53380646c35254aad9b711fae9>>
+ * @relayHash 6e5784babdf27db9133acb46e13853a8
  * @flow
  * @nogrep
  */
@@ -29,6 +29,7 @@ query relayRouterViewerQuery(
       id
     }
     ...LandingComponent_viewer
+    ...Todos_viewer
     todos(first: $first) {
       edges {
         node {
@@ -41,6 +42,14 @@ query relayRouterViewerQuery(
 }
 
 fragment LandingComponent_viewer on Viewer {
+  id
+  user {
+    id
+    email
+  }
+}
+
+fragment Todos_viewer on Viewer {
   id
   user {
     id
@@ -92,6 +101,11 @@ const batch /*: ConcreteBatch*/ = {
           {
             "kind": "FragmentSpread",
             "name": "LandingComponent_viewer",
+            "args": null
+          },
+          {
+            "kind": "FragmentSpread",
+            "name": "Todos_viewer",
             "args": null
           },
           {
@@ -265,7 +279,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query relayRouterViewerQuery(\n  $first: Int!\n) {\n  viewer {\n    user {\n      email\n      id\n    }\n    ...LandingComponent_viewer\n    todos(first: $first) {\n      edges {\n        node {\n          id\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment LandingComponent_viewer on Viewer {\n  id\n  user {\n    id\n    email\n  }\n}\n"
+  "text": "query relayRouterViewerQuery(\n  $first: Int!\n) {\n  viewer {\n    user {\n      email\n      id\n    }\n    ...LandingComponent_viewer\n    ...Todos_viewer\n    todos(first: $first) {\n      edges {\n        node {\n          id\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment LandingComponent_viewer on Viewer {\n  id\n  user {\n    id\n    email\n  }\n}\n\nfragment Todos_viewer on Viewer {\n  id\n  user {\n    id\n    email\n  }\n}\n"
 };
 
 module.exports = batch;
