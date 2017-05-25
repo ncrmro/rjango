@@ -5,9 +5,9 @@ import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
 
 
 function relayRoute(props) {
-  console.log(props);
-  console.log('routeQuery', props.route.indexRoute.queries);
-  const comp = (compProps) => <props.route.indexRoute.component {...compProps} {...props}/>;
+  console.log(props.route);
+  let RouteComponment = props.route.indexRoute ? props.route.indexRoute.component : props.route.component;
+  const comp = (compProps) => <RouteComponment {...compProps} {...props}/>;
   const rootQuery = graphql`
                 query relayRouterViewerQuery($first: Int!) {
                   viewer {
@@ -40,7 +40,10 @@ function RenderRoutes(props) {
         path={route.path}
         render={router => {
         const queries = route.indexRoute && route.indexRoute.queries ? route.indexRoute.queries : route.queries;
-        if (route.indexRoute && router.match.isExact && !queries) {
+        const isIndexRoute = route.indexRoute && router.match.isExact && !queries;
+        const isRelayRoute = route.component && queries && router.match.isExact;
+        const routeHasChildRoutes = route.childRoutes;
+        if (isIndexRoute) {
           return <route.component>
               <route.indexRoute.component
                 router={router}
@@ -49,11 +52,10 @@ function RenderRoutes(props) {
               />
             </route.component>
         }
-        else if (route.indexRoute && queries && router.match.isExact) {
-
+        else if (isRelayRoute) {
           return relayRoute({...props, route, router})
         }
-        else if (route.childRoutes) {
+        else if (routeHasChildRoutes) {
           return <route.component >
               {_renderRoutes(route.childRoutes)}
             </route.component>
