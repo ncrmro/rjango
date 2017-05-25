@@ -38,7 +38,7 @@ function RenderRoutes(props) {
         exact
         path={route.path}
         render={router => {
-        const queries = route.indexRoute.queries || route.queries;
+        const queries = route.indexRoute && route.indexRoute.queries ? route.indexRoute.queries : route.queries;
         if (route.indexRoute && router.match.isExact && !queries) {
           return <route.component>
               <route.indexRoute.component

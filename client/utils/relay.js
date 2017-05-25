@@ -7,6 +7,8 @@ const {
   Store,
 } = require('relay-runtime');
 import { QueryRenderer, graphql } from 'react-relay';
+import RelayLookupQueryRenderer from './RelayLookupQueryRenderer';
+
 
 const source = new RecordSource();
 const store = new Store(source);
@@ -45,7 +47,8 @@ export const environment = new Environment({
 });
 
 export const RelayComponent = (passedProps) =>
-<QueryRenderer
+<RelayLookupQueryRenderer
+  lookup
   environment={environment}
   query={passedProps.query}
   variables={passedProps.variables}
