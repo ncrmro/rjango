@@ -2,7 +2,7 @@ import React from 'react';
 import BrowserRouter from 'react-router-dom/es/BrowserRouter';
 import { QueryRenderer, graphql } from 'react-relay';
 import routes from './routes';
-import RouteWithSubRoutes from './utils/RouteWithSubRoutes';
+import RouteWithSubRoutes from './utils/relayRouter';
 import { environment } from './utils/relay';
 
 

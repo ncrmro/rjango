@@ -16,7 +16,8 @@ export const routes = [
   { 
     component: App,
     indexRoute: {
-      component: Landing
+      component: Landing,
+      queries: 'queries'
     },
     childRoutes: [
       ...authRoutes

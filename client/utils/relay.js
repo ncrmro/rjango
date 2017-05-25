@@ -1,3 +1,5 @@
+import React from 'react';
+
 const {
   Environment,
   Network,
@@ -13,9 +15,9 @@ const store = new Store(source);
 // and returns its results as a Promise:
 function fetchQuery(operation, variables, cacheConfig, uploadables) {
   // Caching and relay records merge here
-  console.log(operation, variables);
+  //console.log(operation, variables);
   // console.log(store._recordSource._records);
-  return fetch('http://localhost:8000/graphql', {
+  return fetch('http://localhost:5500/graphql', {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
@@ -42,10 +44,10 @@ export const environment = new Environment({
   store,
 });
 
-export const RelayComponent = (chil, query, variables) =>
+export const RelayComponent = (passedProps) =>
 <QueryRenderer
   environment={environment}
-  query={query}
-  variables={variables}
-  render={({error, props}) => props ? <Component {...props} /> :  <div>Loading</div>  }
+  query={passedProps.query}
+  variables={passedProps.variables}
+  render={({error, props}) => props ? <div>{console.log(props)} <passedProps.ChildComponent {...props} /></div> :  <div>Loading</div>  }
 />;

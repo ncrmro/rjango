@@ -2,7 +2,8 @@
 import React from 'react';
 import Page from '../Page/PageComponent';
 
-const Landing = () => <Page heading={'Landing'} >
+const Landing = (props) => <Page heading={'Landing'} >
+  {console.log(props)}
   <p>This is the landing page</p>
 </Page>;
 
