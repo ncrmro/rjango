@@ -12,7 +12,6 @@ import ToolbarRow from 'react-mdc-web/lib/Toolbar/ToolbarRow';
 import Button from 'react-mdc-web/lib/Button/Button';
 import Icon from 'react-mdc-web/lib/Icon/Icon';
 import styles from './Nav.scss';
-
 const title = 'Reango';
 
 
@@ -43,7 +42,8 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { isAuthenticated, isAdmin }= this.props;
+    const { routes, isAuthenticated, isAdmin }= this.props;
+    //console.log(routes)
     return (
       <div >
         <Toolbar>
@@ -55,14 +55,16 @@ class Nav extends React.Component {
                 </NavLink>
               </ToolbarTitle>
               <Button
-                onClick={()=> { this.setState({isOpen: !this.state.isOpen}) }} ><Icon
-                name='menu'
-                className={styles.mobileNavButton}
-              /></Button>
+                onClick={()=> { this.setState({isOpen: !this.state.isOpen}) }} >
+                <Icon
+                  name='menu'
+                  className={styles.mobileNavButton}
+                />
+              </Button>
             </ToolbarSection>
             <ToolbarSection align="end" >
-              <NavLink to="/" >
-                <Button >Button</Button>
+              <NavLink to="/signup" >
+                <Button >Signup</Button>
               </NavLink>
             </ToolbarSection>
           </ToolbarRow>
@@ -72,7 +74,7 @@ class Nav extends React.Component {
           open={this.state.isOpen}
           onClose={()=> { this.setState({isOpen: false}) }}
         />
-        
+
       </div>
     );
   }

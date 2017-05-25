@@ -1,17 +1,16 @@
 import React from 'react';
+import Nav from '../Nav/Nav';
+import Footer from '../Footer/FooterComponent';
+import styles from './App.scss';
 import 'normalize.css/normalize.css';
 import '../../styles/global.scss';
 
-import Navbar from '../Nav/Nav';
-import Footer from '../Footer/FooterComponent';
-import styles from './App.scss';
-
-const App = (props) =>
+const App = ({ children, router, route, environment, renderSubRoutes }) =>
   <div className={styles.root} >
-    <Navbar isAuthenticated />
+    <Nav isAuthenticated  />
     <div className={styles.navBackground} />
     <div className={styles.content} >
-      {props.renderSubRoutes({routes: props.route.routes})}
+      {children}
     </div>
     <Footer />
   </div>;

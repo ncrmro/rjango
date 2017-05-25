@@ -1,16 +1,25 @@
 import App from '../components/App/App';
 import Landing from '../components/Landing/LandingComponent';
-
-
- const routes = [
+import Signup from '../modules/users/Signup/SignupComponent'
+export const authRoutes = [
   {
-    path: '/',
+    path: '/signup',
+    component: Signup,
+  },
+  {
+    path: '/login',
+    component: Signup,
+  }
+];
+
+export const routes = [
+  { 
     component: App,
-    routes: [
-      { 
-        path: '/' ,
-        component: Landing
-      }
+    indexRoute: {
+      component: Landing
+    },
+    childRoutes: [
+      ...authRoutes
     ]
   }
 ];
