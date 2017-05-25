@@ -6,24 +6,10 @@ import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay';
 
 function relayRoute(props) {
   console.log(props.route);
-  let RouteComponment = props.route.indexRoute ? props.route.indexRoute.component : props.route.component;
+  let RouteComponment = props.route.indexRoute && !props.route.path ? props.route.component : props.route.indexRoute.component;
   const comp = (compProps) => <RouteComponment {...compProps} {...props}/>;
-  const rootQuery = graphql`
-                query relayRouterViewerQuery($first: Int!) {
-                  viewer {
-                      user{email}
-                      ...LandingComponent_viewer
-                      ...Todos_viewer
-                      todos(first: $first) {
-                        edges{
-                            node {
-                                id
-                            }
-                        }
-                      }
-                  }
-                }
-          `;
+  console.log(RouteComponment);
+
   if (props.route.indexRoute) {
     return <props.route.component>
       {RelayComponent({
@@ -45,38 +31,11 @@ function relayRoute(props) {
 }
 
 function RenderRoutes(props) {
-  const _routeWithSubRoutes = ({ route, exact }) =>
+  const _routeWithSubRoutes = ({ route }) =>
     <div>
-      <Route
-        exact
-        path={route.path}
-        render={router => {
-        const queries = route.indexRoute && route.indexRoute.queries ? route.indexRoute.queries : route.queries;
-        const isIndexRoute = route.indexRoute && router.match.isExact && !queries;
-        const isRelayRoute = route.component && queries && router.match.isExact;
-        const routeHasChildRoutes = route.childRoutes;
-        if (isIndexRoute) {
-          return <route.component>
-              <route.indexRoute.component
-                router={router}
-                route={route}
-                environment={props.environment}
-              />
-            </route.component>
-        }
-        else if (isRelayRoute) {
-          return relayRoute({...props, route, router})
-        }
-        else if (routeHasChildRoutes) {
-          return <route.component >
-              {_renderRoutes(route.childRoutes)}
-            </route.component>
-        }
-        else {
-          return <route.component />
-        }
-      }}
-      />
+      <Route exact path={route.path} render={router => (
+    <route.component router={router} childRoutes={route.routes} />
+  )} />
     </div>;
   const _renderRoutes = (routes) =>
     <div>

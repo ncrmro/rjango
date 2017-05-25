@@ -4,11 +4,33 @@ import { QueryRenderer, graphql } from 'react-relay';
 import routes from './routes';
 import RouteWithSubRoutes from './utils/relayRouter';
 import { environment } from './utils/relay';
+import { RelayComponent } from './utils/relay';
 
+const rootQuery = graphql`
+                query rootViewerQuery($first: Int!) {
+                  viewer {
+                      user{email}
+                      ...App_viewer
+                      ...LandingComponent_viewer
+                      ...Todos_viewer
+                      todos(first: $first) {
+                        edges{
+                            node {
+                                id
+                            }
+                        }
+                      }
+                  }
+                }
+          `;
 
 const Root = () => (
   <BrowserRouter
-    children={<RouteWithSubRoutes routes={routes} environment={environment} />}
+    children={<RelayComponent {...{
+        ChildComponent: () => <RouteWithSubRoutes routes={routes} />,
+        query: rootQuery,
+        variables: { first: 10 }
+      }}/>}
   />
 );
 

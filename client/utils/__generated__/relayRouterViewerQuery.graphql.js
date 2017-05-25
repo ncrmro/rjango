@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule relayRouterViewerQuery.graphql
- * @generated SignedSource<<31e79b53380646c35254aad9b711fae9>>
- * @relayHash 6e5784babdf27db9133acb46e13853a8
+ * @generated SignedSource<<0196d2378cbbd9479315d192617ff6b8>>
+ * @relayHash 9c055d803ed51e6e9cf7285a47c1dbdf
  * @flow
  * @nogrep
  */
@@ -28,6 +28,7 @@ query relayRouterViewerQuery(
       email
       id
     }
+    ...App_viewer
     ...LandingComponent_viewer
     ...Todos_viewer
     todos(first: $first) {
@@ -38,6 +39,14 @@ query relayRouterViewerQuery(
       }
     }
     id
+  }
+}
+
+fragment App_viewer on Viewer {
+  id
+  user {
+    id
+    email
   }
 }
 
@@ -97,6 +106,11 @@ const batch /*: ConcreteBatch*/ = {
               }
             ],
             "storageKey": null
+          },
+          {
+            "kind": "FragmentSpread",
+            "name": "App_viewer",
+            "args": null
           },
           {
             "kind": "FragmentSpread",
@@ -279,7 +293,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query relayRouterViewerQuery(\n  $first: Int!\n) {\n  viewer {\n    user {\n      email\n      id\n    }\n    ...LandingComponent_viewer\n    ...Todos_viewer\n    todos(first: $first) {\n      edges {\n        node {\n          id\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment LandingComponent_viewer on Viewer {\n  id\n  user {\n    id\n    email\n  }\n}\n\nfragment Todos_viewer on Viewer {\n  id\n  user {\n    id\n    email\n  }\n}\n"
+  "text": "query relayRouterViewerQuery(\n  $first: Int!\n) {\n  viewer {\n    user {\n      email\n      id\n    }\n    ...App_viewer\n    ...LandingComponent_viewer\n    ...Todos_viewer\n    todos(first: $first) {\n      edges {\n        node {\n          id\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment App_viewer on Viewer {\n  id\n  user {\n    id\n    email\n  }\n}\n\nfragment LandingComponent_viewer on Viewer {\n  id\n  user {\n    id\n    email\n  }\n}\n\nfragment Todos_viewer on Viewer {\n  id\n  user {\n    id\n    email\n  }\n}\n"
 };
 
 module.exports = batch;

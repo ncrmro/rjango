@@ -4,15 +4,27 @@ import Footer from '../Footer/FooterComponent';
 import styles from './App.scss';
 import 'normalize.css/normalize.css';
 import '../../styles/global.scss';
+import { createFragmentContainer, graphql}  from 'react-relay';
 
-const App = ({ children, router, route, environment, renderSubRoutes }) =>
+const App = (props) =>
   <div className={styles.root} >
     <Nav isAuthenticated  />
+    {console.log(props)}
     <div className={styles.navBackground} />
     <div className={styles.content} >
-      {children}
+      {props.children}
     </div>
     <Footer />
   </div>;
 
-export default App;
+
+export default createFragmentContainer(App,{
+    viewer: graphql`
+        fragment App_viewer on Viewer {
+            id
+            user{
+                id
+                email
+            }
+        }
+    `})
