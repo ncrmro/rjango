@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import NavLink from 'react-router-dom/es/NavLink';
 import Navigation from 'react-mdc-web/lib/Drawer/Navigation';
 import Drawer from 'react-mdc-web/lib/Drawer/Drawer';
 import DrawerHeader from 'react-mdc-web/lib/Drawer/DrawerHeader';
@@ -15,15 +15,24 @@ import styles from './Nav.scss';
 
 const title = 'Reango';
 
-const RenderLinkButtons = (links) =>
-  <div className={styles.rightNav} >
-    {links.map(({ to, text, className, onClick })=>
-      <Link key={ className} to={to}
-            className={'button_' + className + '-link'} >
-        <Button onClick={ onClick ? onClick : null} >{text}</Button>
-      </Link>
-    )}
-  </div>;
+
+const MobileDrawer = (props) =>
+  <Drawer
+    {...props}
+  >
+    <DrawerHeader>
+      <DrawerHeaderContent>
+        {title}
+      </DrawerHeaderContent>
+    </DrawerHeader>
+    <DrawerContent>
+      <Navigation>
+        <NavLink to="/" >
+          <Button >Button</Button>
+        </NavLink>
+      </Navigation>
+    </DrawerContent>
+  </Drawer>;
 
 class Nav extends React.Component {
   state:{isOpen: boolean};
@@ -41,9 +50,9 @@ class Nav extends React.Component {
           <ToolbarRow>
             <ToolbarSection align="start" >
               <ToolbarTitle className={styles.title} >
-                <Link to="/" >
-                  <Button >Reango</Button>
-                </Link>
+                <NavLink to="/" >
+                  <Button >{title}</Button>
+                </NavLink>
               </ToolbarTitle>
               <Button
                 onClick={()=> { this.setState({isOpen: !this.state.isOpen}) }} ><Icon
@@ -52,30 +61,18 @@ class Nav extends React.Component {
               /></Button>
             </ToolbarSection>
             <ToolbarSection align="end" >
-                <Link to="/">
-                  <Button >Button</Button>
-                </Link>
+              <NavLink to="/" >
+                <Button >Button</Button>
+              </NavLink>
             </ToolbarSection>
           </ToolbarRow>
         </Toolbar>
 
-        <Drawer
+        <MobileDrawer
           open={this.state.isOpen}
           onClose={()=> { this.setState({isOpen: false}) }}
-        >
-          <DrawerHeader>
-            <DrawerHeaderContent>
-              JTX
-            </DrawerHeaderContent>
-          </DrawerHeader>
-          <DrawerContent>
-            <Navigation>
-              <Link to="/" >
-                  <Button >Button</Button>
-                </Link>
-            </Navigation>
-          </DrawerContent>
-        </Drawer>
+        />
+        
       </div>
     );
   }
