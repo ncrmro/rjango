@@ -8,7 +8,7 @@ const {
 } = require('relay-runtime');
 import { QueryRenderer, graphql } from 'react-relay';
 import RelayLookupQueryRenderer from './RelayLookupQueryRenderer';
-
+import Loading from '../components/Loading/Loading'
 
 const source = new RecordSource();
 const store = new Store(source);
@@ -47,10 +47,20 @@ export const environment = new Environment({
 });
 
 export const RelayComponent = (passedProps) =>
-<RelayLookupQueryRenderer
-  lookup
-  environment={environment}
-  query={passedProps.query}
-  variables={passedProps.variables}
-  render={({error, props}) => props ? <div>{ console.log('RelayComponent',props, passedProps)} <passedProps.ChildComponent {...props} /></div> :  <div>Loading</div>  }
-/>;
+  <div>
+    <RelayLookupQueryRenderer
+      lookup
+      environment={environment}
+      query={passedProps.query}
+      variables={passedProps.variables}
+      render={({error, props}) => props ?
+      <passedProps.ChildComponent
+        {...props}
+        routes={passedProps.routes}
+        setVariables={passedProps.setVariables}
+        variables={passedProps.variables}
+        environment={environment}
+      />
+      : <Loading /> }
+    />
+  </div>;

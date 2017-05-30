@@ -1,15 +1,15 @@
-import App from '../components/App/App';
-import Landing from '../components/Landing/LandingComponent';
+import Signup from '../modules/users/Signup/SignupComponent'
 
 const authRoutes = [
   {
     path: '/signup',
-    component: App,
+    component: Signup,
   },
   {
     path: '/login',
-    component: App,
+    component: Signup,
   }
 ];
+
 
 export default authRoutes

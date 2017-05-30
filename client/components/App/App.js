@@ -6,15 +6,16 @@ import 'normalize.css/normalize.css';
 import '../../styles/global.scss';
 import { createFragmentContainer, graphql}  from 'react-relay';
 
+const title = 'Reango';
+
 const App = (props) =>
   <div className={styles.root} >
-    <Nav isAuthenticated  />
-    {console.log(props)}
+    <Nav title={title} isAuthenticated  />
     <div className={styles.navBackground} />
     <div className={styles.content} >
       {props.children}
     </div>
-    <Footer />
+    <Footer title={title}/>
   </div>;
 
 

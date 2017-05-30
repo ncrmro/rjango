@@ -12,7 +12,7 @@ import ToolbarRow from 'react-mdc-web/lib/Toolbar/ToolbarRow';
 import Button from 'react-mdc-web/lib/Button/Button';
 import Icon from 'react-mdc-web/lib/Icon/Icon';
 import styles from './Nav.scss';
-const title = 'Reango';
+
 
 
 const MobileDrawer = (props) =>
@@ -21,7 +21,7 @@ const MobileDrawer = (props) =>
   >
     <DrawerHeader>
       <DrawerHeaderContent>
-        {title}
+        {props.title}
       </DrawerHeaderContent>
     </DrawerHeader>
     <DrawerContent>
@@ -42,8 +42,7 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { routes, isAuthenticated, isAdmin }= this.props;
-    //console.log(routes)
+    const { title, routes, isAuthenticated, isAdmin }= this.props;
     return (
       <div >
         <Toolbar>
