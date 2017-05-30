@@ -37,7 +37,6 @@ function RenderRoutes(props) {
     else return <route.component
       router={router}
       viewer={props.viewer}
-      organization={props.viewer.organization}
       variables={props.variables}
       setVariables={props.setVariables}
       environment={props.environment}

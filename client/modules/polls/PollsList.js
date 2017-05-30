@@ -1,10 +1,30 @@
 import React from 'react';
+import { createRefetchContainer } from 'react-relay';
 
-const PollsList = () =>
+const PollsList = (props) =>
   <div>
-    {console.log('polls')}
-  <p>This is the polls app</p>
-</div>;
+    {console.log('polls', props.viewer)}
+    <p>This is the polls app</p>
+  </div>;
 
 
-export default PollsList;
+export default createRefetchContainer(PollsList,{
+    viewer: graphql`
+        fragment PollsList_viewer on Viewer {
+            questions(first: 10){
+                edges {
+                    node {
+                        id
+                        }
+                     }
+                  }
+        }
+    `},
+  graphql`
+        query PollsListRefetchQuery($count: Int) {
+            viewer{
+                ...PollsList_viewer
+            }
+        }
+  `
+)

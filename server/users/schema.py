@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from graphene import Node, Field, GlobalID, String
 from graphene_django.types import DjangoObjectType, ObjectType
 from todos.schema import TodoQueries, UserTodoQueries
-
+from polls.schema import PollQueries
 from .jwt_schema import TokensInterface
 
 
@@ -24,7 +24,7 @@ class UserNode(DjangoObjectType, UserTodoQueries):
         interfaces = (Node, TokensInterface)
 
 
-class Viewer(ObjectType, TodoQueries):
+class Viewer(ObjectType, TodoQueries, PollQueries):
     id = GlobalID()
     user = Field(UserNode, jwt_token=String())
 

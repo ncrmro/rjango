@@ -8,9 +8,8 @@ import { RelayComponent } from './utils/relay';
 const rootQuery = graphql`
                 query rootViewerQuery {
                   viewer {
-                      user{email}
                       ...App_viewer
-                      ...LandingComponent_viewer
+                      ...PollsList_viewer
                       }
                 }
           `;
