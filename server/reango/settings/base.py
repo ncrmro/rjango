@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'custom_user',
     'users',
     'todos',
-    'features'
+    'features',
+    'polls'
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
