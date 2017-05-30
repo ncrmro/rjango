@@ -3,8 +3,12 @@ import { createRefetchContainer } from 'react-relay';
 
 const PollsList = (props) =>
   <div>
-    {console.log('polls', props.viewer)}
     <p>This is the polls app</p>
+    {props.viewer.questions.edges.map(
+      ({node}) =>
+        <div key={node.id}> {node.questionText}</div>
+
+    )}
   </div>;
 
 
@@ -15,6 +19,7 @@ export default createRefetchContainer(PollsList,{
                 edges {
                     node {
                         id
+                        questionText
                         }
                      }
                   }

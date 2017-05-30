@@ -1,22 +1,17 @@
-import React from 'react';
-import Relay from 'react-relay';
-import { RelayNetworkLayer, authMiddleware } from 'react-relay-network-layer';
-import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
 import Root from './root';
-import hasValidJwtToken from './modules/users/JwtUtils';
 
-
-const rootNode = document.createElement('div');
-document.body.appendChild(rootNode);
-
+const root = document.createElement('div');
+document.body.appendChild(root);
 
 const render = (Component) => {
   ReactDOM.render(
     <AppContainer >
       <Component />
     </AppContainer>,
-    rootNode
+    root
   );
 };
 
