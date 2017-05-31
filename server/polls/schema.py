@@ -18,3 +18,11 @@ class Choice(DjangoObjectType):
 
 class PollQueries(AbstractType):
     questions = DjangoFilterConnectionField(Question)
+
+    def resolve_questions(self, args, context, info):
+        issues = QuestionModal.objects
+        order_by = args.get('order_by')
+        if order_by:
+            issues.order_by(order_by)
+
+        return issues
