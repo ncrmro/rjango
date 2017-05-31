@@ -52,11 +52,11 @@ if (process.env.NODE_ENV === 'production') {
     ];
 } else {
     appEntry = [
-        // activate HMR for React
-        'react-hot-loader/patch',
-        path.join(__dirname, 'client/index.js'),
-        `webpack-dev-server/client?http://localhost:${devServerPort}`,
-        'webpack/hot/only-dev-server'
+    // activate HMR for React
+    'react-hot-loader/patch',
+    `webpack-dev-server/client?http://localhost:${devServerPort}`,
+    'webpack/hot/only-dev-server',
+    './client/index.js'
     ];
     publicPath = `http://localhost:${devServerPort}/assets/bundles/`; // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
     devtool = 'eval';
@@ -77,26 +77,29 @@ if (process.env.NODE_ENV === 'production') {
     ];
 }
 
+const buildPath = path.join(__dirname, 'static', 'bundles');
+
+
 module.exports = {
-    entry: {
-        app: appEntry,
-        vendor: ['react', 'react-dom', 'react-relay', 'react-router']
-    },
-    output: {
-        path: path.join(__dirname, 'static', 'bundles'),
-        filename: "[name]-[hash].js",
-        publicPath: publicPath
-    },
-    devtool,
-    devServer: {
-      hot: true,
-      port: devServerPort,
-      historyApiFallback: true,
-      stats: "errors-only",
-      contentBase: path.join(__dirname, 'static', 'bundles'),
-      publicPath
-    },
-    module: {
+  entry: {
+    app: appEntry,
+    vendor: ['react', 'react-dom', 'react-relay', 'react-router']
+  },
+  output: {
+    path: buildPath,
+    filename: "[name]-[hash].js",
+    publicPath: publicPath
+  },
+  devtool,
+  devServer: {
+    hot: true,
+    port: devServerPort,
+    historyApiFallback: true,
+    stats: "errors-only",
+    contentBase: buildPath,
+    publicPath
+  },
+  module: {
 
         rules: [{
             test: /\.jsx?$/,
@@ -166,6 +169,12 @@ module.exports = {
           }
         ]
       }]
-    },
-    plugins
+  },
+  resolve: {
+    alias: {
+      components: path.resolve(__dirname, 'client/components'),
+      modules: path.resolve(__dirname, 'client/modules'),
+    }
+  },
+  plugins
 };

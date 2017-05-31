@@ -23,24 +23,19 @@ export const parseUrlParams = (initialVariables) => {
 
 function RenderRoutes(props) {
   const _subRoutes = (route, router) => {
-    if (route.childRoutes) {
-      return <route.component
-        router={router}
-        viewer={props.viewer}
-        variables={props.variables}
-        setVariables={props.setVariables}
-        environment={props.environment}
-      >
+    const newProps = { router, ...props };
+    if (route.indexRoute) {
+      return <route.component {...newProps} >
+        <route.indexRoute.component {...newProps} />
         {_renderRoutes(route.childRoutes)}
       </route.component>
     }
-    else return <route.component
-      router={router}
-      viewer={props.viewer}
-      variables={props.variables}
-      setVariables={props.setVariables}
-      environment={props.environment}
-    />
+    if (route.childRoutes) {
+      return <route.component {...newProps} >
+        {_renderRoutes(route.childRoutes)}
+      </route.component>
+    }
+    else return <route.component {...newProps} />
   };
 
   const _routeWithSubRoutes = ({ route }) =>

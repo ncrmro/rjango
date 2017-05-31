@@ -12,10 +12,12 @@ const PollsList = (props) =>
           >
             {node.questionText}
             {console.log(node)}
-            {node.choiceSet.edges.map(({node}) => <div>
-
-              {node.choiceText}
-              {node.votes}
+            {node.choiceSet.edges.map(({ node }) =>
+              <div
+                key={node.id}
+              >
+                {node.choiceText}
+                {node.votes}
               </div>
             )}
           </li>
@@ -34,22 +36,22 @@ export default createRefetchContainer(PollsList,{
                         questionText
                         choiceSet(first:10) {
                             edges{
-                              node{
-                                votes
-                                choiceText
-                              }
+                                node{
+                                    votes
+                                    choiceText
+                                }
                             }
-                          }
                         }
-                     }
-                  }
+                    }
+                }
+            }
         }
     `},
   graphql`
-        query PollsListRefetchQuery($count: Int) {
-            viewer{
-                ...PollsList_viewer
-            }
-        }
+      query PollsListRefetchQuery($count: Int) {
+          viewer{
+              ...PollsList_viewer
+          }
+      }
   `
 )
