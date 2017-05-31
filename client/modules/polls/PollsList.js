@@ -11,11 +11,12 @@ const PollsList = (props) =>
             key={node.id}
           >
             {node.questionText}
-            {console.log(node)}
+
             {node.choiceSet.edges.map(({ node }) =>
               <div
                 key={node.id}
               >
+
                 {node.choiceText}
                 {node.votes}
               </div>
@@ -37,6 +38,7 @@ export default createRefetchContainer(PollsList,{
                         choiceSet(first:10) {
                             edges{
                                 node{
+                                    id
                                     votes
                                     choiceText
                                 }
