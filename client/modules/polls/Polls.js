@@ -1,5 +1,6 @@
 import React from 'react';
 import { createFragmentContainer, createRefetchContainer } from 'react-relay';
+import styles from './Polls.scss';
 
 let Choice = ({ choice }) =>
   <div>
@@ -48,9 +49,8 @@ Question = createFragmentContainer(Question, {
 });
 
 const PollsList = (props) =>
-  <div  >
+  <div  className={styles.root} >
     <p>This is the polls app</p>
-
     <ul>
 
       {props.viewer.questions.edges ? props.viewer.questions.edges.map(
