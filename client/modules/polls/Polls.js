@@ -64,9 +64,13 @@ const PollsList = (props) =>
 
 
 export default createRefetchContainer(PollsList,{
-    viewer: graphql`
-        fragment Polls_viewer on Viewer {
-            questions(first: 10){
+    viewer: graphql.experimental`
+        fragment Polls_viewer on Viewer
+         @argumentDefinitions(
+            first: {type: "Int", defaultValue: 10},
+        )
+        {
+            questions(first: $first){
                 edges {
                     node {
                         id
@@ -76,10 +80,12 @@ export default createRefetchContainer(PollsList,{
             }
         }
     `},
-  graphql`
-      query PollsListRefetchQuery($count: Int) {
+  graphql.experimental`
+      query PollsListRefetchQuery($first: Int) {
           viewer{
-              ...Polls_viewer
+              ...Polls_viewer @arguments(
+                    first: $first,
+                  )
           }
       }
   `
