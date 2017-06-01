@@ -9,7 +9,7 @@ const rootQuery = graphql`
                 query rootViewerQuery {
                   viewer {
                       ...App_viewer
-                      ...PollsList_viewer
+                      ...Polls_viewer
                       }
                 }
           `;
