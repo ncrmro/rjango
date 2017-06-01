@@ -1,5 +1,6 @@
 import React from 'react';
 import { createFragmentContainer, createRefetchContainer } from 'react-relay';
+import Link from 'react-router-dom/es/Link';
 import styles from './Polls.scss';
 
 let Choice = ({ choice }) =>
@@ -17,9 +18,16 @@ Choice = createFragmentContainer(Choice, {
   `
 });
 
-let Question = ({ question }) =>
+const links = () =>
   <div>
-    {question.questionText}
+      <Link to={`/polls/${question.id}/vote`} >Vote</Link>
+      <Link to={`/polls/${question.id}/results`} >Results</Link>
+    </div>
+
+let Question = ({ question }) =>
+  <div className={styles.question}>
+    <Link to={`/polls/${question.id}/detail`} >{question.questionText}</Link>
+
     <ul>
       {question.choiceSet ? question.choiceSet.edges.map(({ node }) =>
         <li
@@ -35,6 +43,7 @@ let Question = ({ question }) =>
 Question = createFragmentContainer(Question, {
   question: graphql`
       fragment Polls_question on Question {
+          id
           questionText
           choiceSet(first:10) {
               edges{
@@ -49,7 +58,7 @@ Question = createFragmentContainer(Question, {
 });
 
 const PollsList = (props) =>
-  <div  className={styles.root} >
+  <div className={styles.root} >
     <p>This is the polls app</p>
     <ul>
 
@@ -63,7 +72,7 @@ const PollsList = (props) =>
   </div>;
 
 
-export default createRefetchContainer(PollsList,{
+export default createRefetchContainer(PollsList, {
     viewer: graphql.experimental`
         fragment Polls_viewer on Viewer
          @argumentDefinitions(
@@ -79,7 +88,8 @@ export default createRefetchContainer(PollsList,{
                 }
             }
         }
-    `},
+    `
+  },
   graphql.experimental`
       query PollsListRefetchQuery($first: Int) {
           viewer{
