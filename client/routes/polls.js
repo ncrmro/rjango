@@ -1,4 +1,4 @@
-import Polls from '../modules/Polls/PollsList';
+import Polls from 'modules/polls/Polls';
 
 const pollRoutes = [
   {

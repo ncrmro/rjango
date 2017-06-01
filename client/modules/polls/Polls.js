@@ -1,26 +1,36 @@
 import React from 'react';
 import { createRefetchContainer } from 'react-relay';
 
+const Choice = ({ choice }) =>
+  <div>
+    {choice.choiceText}
+    {choice.votes}
+  </div>;
+
+const Question = ({ question }) =>
+  <div>
+    {question.questionText}
+    <ul>
+      {question.choiceSet.edges.map(({ node }) =>
+        <li
+          key={node.id}
+        >
+          <Choice choice={node} />
+
+        </li>
+      )}
+    </ul>
+  </div>;
+
 const PollsList = (props) =>
-  <div style={{ justifyContent: 'center' }} >
+  <div  >
     <p>This is the polls app</p>
+
     <ul>
       {props.viewer.questions.edges.map(
         ({ node }) =>
-          <li
-            key={node.id}
-          >
-            {node.questionText}
-
-            {node.choiceSet.edges.map(({ node }) =>
-              <div
-                key={node.id}
-              >
-
-                {node.choiceText}
-                {node.votes}
-              </div>
-            )}
+          <li key={node.id} >
+            <Question question={node} />
           </li>
       )}
     </ul>
