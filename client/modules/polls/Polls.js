@@ -6,11 +6,7 @@ import styles from './Polls.scss';
 
 
 
-const links = () =>
-  <div>
-      <Link to={`/polls/${question.id}/vote`} >Vote</Link>
-      <Link to={`/polls/${question.id}/results`} >Results</Link>
-    </div>
+
 
 let Question = ({ question }) =>
   <div className={styles.question}>

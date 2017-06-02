@@ -1,7 +1,14 @@
 import React from 'react';
 import { createFragmentContainer, graphql, QueryRenderer } from 'react-relay';
+import Link from 'react-router-dom/es/Link';
 import Page from 'components/Page/Page';
 import styles from './Polls.scss';
+
+const PollActions = ({question}) =>
+  <div className={styles.pollDetailActions}>
+      <Link to={`/polls/${question.id}/vote`} >Vote</Link>
+    <Link to={`/polls/${question.id}/results`} >Results</Link>
+  </div>
 
 let Choice = ({ choice }) =>
   <div>
@@ -19,21 +26,20 @@ Choice = createFragmentContainer(Choice, {
 });
 
 const PollDetail = ({ question }) =>
-  <Page heading="Polls Detail"  >
+  <Page heading="Polls Detail" className={styles.pollDetailRoot}>
 
     <div>
-      {console.log('poll detail', question)}
       {question.questionText}
-
+      <br/>
+      <PollActions question={question} />
       <ul>
         {question.choiceSet ? question.choiceSet.edges.map(({ node }) =>
-          <li
-            key={node.id}
-          >
-
-
+          <li key={node.id} >
+            <Choice choice={node} />
           </li>
         ) : 'loading...'}
+        {question.choiceSet.edges.length > 0 ? null : 'None found'}
+
       </ul>
     </div>
   </Page>;
