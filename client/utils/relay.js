@@ -47,7 +47,6 @@ export const environment = new Environment({
 });
 
 export const RelayComponent = (passedProps) =>
-  <div>
     <RelayLookupQueryRenderer
       lookup
       environment={environment}
@@ -57,10 +56,7 @@ export const RelayComponent = (passedProps) =>
       <passedProps.ChildComponent
         {...props}
         routes={passedProps.routes}
-        setVariables={passedProps.setVariables}
-        variables={passedProps.variables}
         environment={environment}
       />
       : <Loading /> }
-    />
-  </div>;
+    />;
