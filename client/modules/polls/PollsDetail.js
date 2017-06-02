@@ -26,21 +26,21 @@ class PollDetail extends React.Component {
   render() {
     const { viewer: { question }, router } = this.props;
     const { isLoading } = this.state;
-    console.log(this.props);
     return (
       <Page heading="Polls Detail" className={styles.pollDetailRoot} >
         { isLoading ? 'loading' :
-          <div>
-            {question.questionText}
-            <br/>
-            <br/>
+          question ?
+            <div>
+              {question.questionText}
+              <br/>
+              <br/>
 
-            <PollsVote
-              question={question}
-              router={router}
-            />
+              <PollsVote
+                question={question}
+                router={router}
+              />
 
-          </div>
+            </div> : 'None Found'
         }
       </Page>
     )
