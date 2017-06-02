@@ -1,80 +1,81 @@
 import React from 'react';
-import { createFragmentContainer, graphql, QueryRenderer } from 'react-relay';
-import Link from 'react-router-dom/es/Link';
+import { createRefetchContainer, graphql } from 'react-relay';
 import Page from 'components/Page/Page';
 import styles from './Polls.scss';
+import PollsVote from './PollsVote';
 
-const PollActions = ({question}) =>
-  <div className={styles.pollDetailActions}>
-      <Link to={`/polls/${question.id}/vote`} >Vote</Link>
-    <Link to={`/polls/${question.id}/results`} >Results</Link>
-  </div>
 
-let Choice = ({ choice }) =>
-  <div>
-    {choice.choiceText}
-    {choice.votes}
-  </div>;
+class PollDetail extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: props.router.match.params.id,
+      isLoading: true
+    }
+  }
 
-Choice = createFragmentContainer(Choice, {
-  choice: graphql`
-      fragment  PollsDetail_choice on Choice {
-          votes
-          choiceText
-      }
-  `
-});
+  componentWillMount() {
+    const variables = { id: this.state.id };
+    this.props.relay.refetch(variables, null, () => this.setState({ isLoading: false }))
+  }
 
-const PollDetail = ({ question }) =>
-  <Page heading="Polls Detail" className={styles.pollDetailRoot}>
+  _updateState(selected) {
+    this.setState({ selected })
+  }
 
-    <div>
-      {question.questionText}
-      <br/>
-      <PollActions question={question} />
-      <ul>
-        {question.choiceSet ? question.choiceSet.edges.map(({ node }) =>
-          <li key={node.id} >
-            <Choice choice={node} />
-          </li>
-        ) : 'loading...'}
-        {question.choiceSet.edges.length > 0 ? null : 'None found'}
-
-      </ul>
-    </div>
-  </Page>;
-
-export default class PollDetailContainer extends React.Component {
   render() {
-    const { environment, router } = this.props;
-    const variables = { id: router.match.params.id };
-    console.log('poll detail container', variables);
+    const { viewer: { question }, router } = this.props;
+    const { isLoading } = this.state;
+    console.log(this.props);
     return (
-      <QueryRenderer
-        environment={environment}
-        query={graphql`
-                query PollsDetailQuery($id: ID!) {
-                  question(id: $id) {
-                  id
-                      questionText
-                      choiceSet(first:10) {
-                          edges{
-                              node{
-                                  id
-                                  ...PollsDetail_choice
-                              }
-                          }
-                      }
-                  }
-                }
-          `}
-        variables={variables}
-        render={({ error, props }) => props ?
-          <PollDetail {...props} router={router} environment={environment}
-                      initialVariables={variables}
-          /> :
-          <div>loading...</div>  }
-      />
+      <Page heading="Polls Detail" className={styles.pollDetailRoot} >
+        { isLoading ? 'loading' :
+          <div>
+            {question.questionText}
+            <br/>
+            <br/>
+
+            <PollsVote
+              question={question}
+              router={router}
+            />
+
+          </div>
+        }
+      </Page>
     )
   }
 }
+
+
+export default createRefetchContainer(PollDetail, {
+    viewer: graphql.experimental`
+      fragment  PollsDetail_viewer on Viewer
+       @argumentDefinitions(
+            id: {type: "ID!", defaultValue: ""},
+        )
+      {
+          id
+          question(id: $id) {
+              questionText
+              ...PollsVote_question
+          }
+      }
+  `
+  },
+  graphql.experimental`
+        query PollsDetailViewerRefetchQuery(
+        $id: ID!,
+        ) {
+            viewer{
+                  ...PollsDetail_viewer @arguments(
+                    id: $id
+                  )
+            }
+        }
+  `
+);
+
+
+
+
