@@ -4,10 +4,6 @@ import { createFragmentContainer, createRefetchContainer } from 'react-relay';
 import Link from 'react-router-dom/es/Link';
 import styles from './Polls.scss';
 
-
-
-
-
 let Question = ({ question }) =>
   <div className={styles.question}>
     <Link to={`/polls/${question.id}/detail`} >{question.questionText}</Link>

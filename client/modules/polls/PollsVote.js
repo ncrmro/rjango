@@ -17,18 +17,23 @@ class PollsVote extends React.Component {
     this.setState({ selected })
   }
 
+  _returnToPolls(form) {
+    form.preventDefault();
+    this.props.router.history.goBack()
+  }
+
   render() {
     const { question, router } = this.props;
     const { selected } = this.state;
     return (
-      <form className={styles.pollsVoteRoot}>
+      <form className={styles.pollsVoteRoot} >
         <PollChoices
           choiceSet={question.choiceSet}
           action={(selected) => this._updateState(selected)}
           selected={selected}
         />
-        <div className={styles.pollsVoteActions}>
-          <Button onClick={() => router.history.goBack()}>Cancel</Button>
+        <div className={styles.pollsVoteActions} >
+          <Button onClick={(form) => this._returnToPolls(form)} >Cancel</Button>
           <Button>Submit</Button>
         </div>
       </form>
