@@ -10,6 +10,7 @@ class Question(DjangoObjectType):
         model = QuestionModal
         interfaces = (Node,)
 
+
 class Choice(DjangoObjectType):
     class Meta:
         model = ChoiceModal
@@ -17,6 +18,7 @@ class Choice(DjangoObjectType):
 
 
 class PollQueries(AbstractType):
+    question = Node.Field(Question)
     questions = DjangoFilterConnectionField(Question)
 
     def resolve_questions(self, args, context, info):

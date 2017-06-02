@@ -1,4 +1,5 @@
 import Polls from 'modules/polls/Polls';
+import PollsDetail from 'modules/polls/PollsDetail';
 
 const pollRoutes = [
   {
@@ -7,7 +8,7 @@ const pollRoutes = [
   },
   {
     path: '/polls/:id/detail',
-    component: Polls,
+    component: PollsDetail,
   },
   {
     path: '/polls/:id/results',

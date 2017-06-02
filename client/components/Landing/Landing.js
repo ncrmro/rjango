@@ -1,10 +1,10 @@
-/* eslint-disable global-require */
 import React from 'react';
-import Page from 'components/Page/PageComponent';
+import Page from 'components/Page/Page';
 import Link from 'react-router-dom/es/Link';
 
+
 const Landing = (props) =>
-  <Page heading={'Landing'} >
+  <Page heading='Landing' >
     <p>This is the landing page</p>
     <Link to="/polls">Polls</Link>
   </Page>;

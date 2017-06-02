@@ -6,7 +6,6 @@ import pollsRoutes from './polls';
 export const routes = [
   {
     component: App,
-
     childRoutes: [
       {
         path: '/',

@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import Textfield from 'react-mdc-web/lib/Textfield/Textfield';
 import Button from 'react-mdc-web/lib/Button';
-import Page from '../../../components/Page/PageComponent';
+import Page from '../../../components/Page/Page';
 //import SignupUserMutation from './SignupUserMutation';
 import RequireNoAuth from '../RequireNoAuth/RequireNoAuth';
 import styles from './Signup.scss';
