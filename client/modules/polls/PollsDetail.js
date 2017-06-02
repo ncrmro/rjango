@@ -4,6 +4,7 @@ import Page from 'components/Page/Page';
 import styles from './Polls.scss';
 import PollsVote from './PollsVote';
 
+const variables = { count: 10 };
 
 class PollDetail extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class PollDetail extends React.Component {
   }
 
   render() {
-    const { viewer: { question }, router } = this.props;
+    const { environment, viewer: { question }, router } = this.props;
     const { isLoading } = this.state;
     return (
       <Page heading="Polls Detail" className={styles.pollDetailRoot} >
@@ -36,6 +37,7 @@ class PollDetail extends React.Component {
               <br/>
 
               <PollsVote
+                environment={environment}
                 question={question}
                 router={router}
               />
