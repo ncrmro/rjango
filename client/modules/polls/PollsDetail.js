@@ -27,12 +27,14 @@ class PollDetail extends React.Component {
   render() {
     const { environment, viewer: { question }, router } = this.props;
     const { isLoading } = this.state;
+    console.log(this.props)
     return (
       <Page heading="Polls Detail" className={styles.pollDetailRoot} >
         { isLoading ? 'loading' :
           question ?
             <div>
               {question.questionText}
+              {console.log(question.has_viewer_voted)}
               <br/>
               <br/>
 
@@ -60,6 +62,7 @@ export default createRefetchContainer(PollDetail, {
           id
           question(id: $id) {
               questionText
+              hasViewerVoted
               ...PollsVote_question
           }
       }

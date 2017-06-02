@@ -6,7 +6,7 @@ const {
 
 const mutation = graphql`
     mutation voteMutation(
-    $input: VoteInput!
+    $input: VoteMutationInput!
     ) {
         vote(input : $input) {
             question {
@@ -14,7 +14,7 @@ const mutation = graphql`
                 choiceSet {
                     edges {
                         node {
-                            votes
+                            voteCount
                         }
                     }
                 }
@@ -29,7 +29,6 @@ function sharedUpdater(store, questionProxy, variables) {
     'PollChoices_choiceSet',
     variables
   );
-  console.log(conn)
 }
 
 

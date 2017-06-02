@@ -2,7 +2,9 @@ import graphene
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 
-from .models import Question as QuestionModal, Choice as ChoiceModal
+from users.jwt_util import get_token_user_id
+from .models import Question as QuestionModal, Choice as ChoiceModal, \
+    Vote as VodeModal
 
 
 class Question(DjangoObjectType):
@@ -10,10 +12,23 @@ class Question(DjangoObjectType):
         model = QuestionModal
         interfaces = (graphene.Node,)
 
+    has_viewer_voted = graphene.Boolean()
+
+    def resolve_has_viewer_voted(self, args, context, info):
+        print("has viewer voted", self.choice_set.all())
+
 
 class Choice(DjangoObjectType):
     class Meta:
         model = ChoiceModal
+        interfaces = (graphene.Node,)
+
+    voteCount = graphene.Int()
+
+
+class Vote(DjangoObjectType):
+    class Meta:
+        model = VodeModal
         interfaces = (graphene.Node,)
 
 
@@ -29,7 +44,8 @@ class PollQueries(graphene.AbstractType):
 
         return issues
 
-class Vote(graphene.relay.ClientIDMutation):
+
+class VoteMutation(graphene.relay.ClientIDMutation):
     class Input:
         question_id = graphene.GlobalID()
         choice_id = graphene.GlobalID()
@@ -44,11 +60,18 @@ class Vote(graphene.relay.ClientIDMutation):
 
         question = get_node(input.get('question_id'), context, info)
         selected_choice = question.choice_set.get(id=choice_id)
+        user_id = get_token_user_id(args=input, context=context)
 
-        selected_choice.votes += 1
-        selected_choice.save()
+        print(
+                selected_choice.vote_set.create(
+                        question=question,
+                        selected_choice=selected_choice,
+                        user_id=user_id
+                )
+        )
 
-        return Vote(question=question)
+        return VoteMutation(question=question)
+
 
 class PollMutations(graphene.AbstractType):
-    vote = Vote.Field()
+    vote = VoteMutation.Field()

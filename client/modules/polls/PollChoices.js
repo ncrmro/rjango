@@ -31,7 +31,6 @@ ChoiceList = createFragmentContainer(ChoiceList, {
           edges{
               node{
                   id
-                  votes
                   choiceText
               }
           }
