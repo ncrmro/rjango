@@ -46,7 +46,7 @@ class Nav extends React.Component {
     return (
       <div >
         <Toolbar>
-          <ToolbarRow>
+          <ToolbarRow className={styles.toolbarRow}>
             <ToolbarSection align="start" >
               <ToolbarTitle className={styles.title} >
                 <NavLink to="/" >
@@ -64,6 +64,9 @@ class Nav extends React.Component {
             <ToolbarSection align="end" >
               <NavLink to="/signup" >
                 <Button >Signup</Button>
+              </NavLink>
+              <NavLink to="/login" >
+                <Button >Login</Button>
               </NavLink>
             </ToolbarSection>
           </ToolbarRow>
