@@ -21,9 +21,10 @@
     ],
     "import/no-dynamic-require": 0,
     "import/no-unresolved": [2, {
-      "ignore": ["components"]
+      "ignore": ["components", "modules"]
     }],
-    "import/extensions": [0],
+    "import/no-extraneous-dependencies": 0,
+    "import/extensions": 0,
     "class-methods-use-this": 0,
     "react/jsx-no-bind": 0,
     "react/prefer-stateless-function": 0,
