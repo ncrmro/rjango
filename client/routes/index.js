@@ -3,7 +3,7 @@ import Landing from 'components/Landing/Landing';
 import authRoutes from './auth';
 import pollsRoutes from './polls';
 
-export const routes = [
+const routes = [
   {
     component: App,
     childRoutes: [
