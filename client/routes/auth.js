@@ -1,4 +1,5 @@
-import Signup from '../modules/users/Signup/SignupComponent'
+import Signup from '../modules/users/Signup';
+import Login from '../modules/users/Login';
 
 const authRoutes = [
   {
@@ -7,9 +8,9 @@ const authRoutes = [
   },
   {
     path: '/login',
-    component: Signup,
+    component: Login,
   }
 ];
 
 
-export default authRoutes
+export default authRoutes;

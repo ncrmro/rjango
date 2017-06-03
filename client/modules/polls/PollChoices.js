@@ -7,20 +7,19 @@ let ChoiceList = ({ choiceSet, selected, action }) =>
   <div>
     { choiceSet.edges.length > 0 ?
       <RadioGroup
-        name="choiceList"
+        name='choiceList'
         value={selected}
         onChange={({ target: { value } }) => {
-          action(value)
+          action(value);
         }}
       >
         {choiceSet.edges.map(({ node }) =>
-            <Radio
-              key={node.id}
-              value={node.id}
-
-            >
-              {node.choiceText}
-            </Radio>)}
+          <Radio
+            key={node.id}
+            value={node.id}
+          >
+            {node.choiceText}
+          </Radio>)}
       </RadioGroup>
       : 'This poll doesn\'t appear to to have any choices.' }
   </div>;

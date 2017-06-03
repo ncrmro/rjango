@@ -8,7 +8,7 @@ const {
 } = require('relay-runtime');
 import { QueryRenderer, graphql } from 'react-relay';
 import RelayLookupQueryRenderer from './RelayLookupQueryRenderer';
-import Loading from '../components/Loading/Loading'
+import Loading from '../components/Loading/Loading';
 
 const source = new RecordSource();
 const store = new Store(source);
@@ -17,13 +17,13 @@ const store = new Store(source);
 // and returns its results as a Promise:
 function fetchQuery(operation, variables, cacheConfig, uploadables) {
   // Caching and relay records merge here
-  //console.log(operation, variables);
+  // console.log(operation, variables);
   // console.log(store._recordSource._records);
   return fetch('http://localhost:5500/graphql', {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
 
     }, // Add authentication and other headers here
@@ -31,14 +31,11 @@ function fetchQuery(operation, variables, cacheConfig, uploadables) {
       query: operation.text, // GraphQL text from input
       variables,
     }),
-  }).then(response => {
-    return response.json();
-  });
+  }).then(response => response.json());
 }
 
 // Create a network layer from the fetch function
 const network = Network.create(fetchQuery);
-
 
 
 export const environment = new Environment({
@@ -46,17 +43,17 @@ export const environment = new Environment({
   store,
 });
 
-export const RelayComponent = (passedProps) =>
-    <RelayLookupQueryRenderer
-      lookup
-      environment={environment}
-      query={passedProps.query}
-      variables={passedProps.variables}
-      render={({error, props}) => props ?
+export const RelayComponent = passedProps =>
+  <RelayLookupQueryRenderer
+    lookup
+    environment={environment}
+    query={passedProps.query}
+    variables={passedProps.variables}
+    render={({ error, props }) => props ?
       <passedProps.ChildComponent
         {...props}
         routes={passedProps.routes}
         environment={environment}
       />
-      : <Loading /> }
-    />;
+      : <Loading />}
+  />;

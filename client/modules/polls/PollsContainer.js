@@ -2,10 +2,10 @@ import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 
 function withRelayContainer(WrappedComponent, selectData) {
-  return ({environment, variables, router}) =>
-  <QueryRenderer
-    environment={environment}
-    query={graphql`
+  return ({ environment, variables, router }) =>
+    <QueryRenderer
+      environment={environment}
+      query={graphql`
                 query PollsContainerQuery($id: ID!) {
                   question(id: $id) {
                   id
@@ -15,16 +15,16 @@ function withRelayContainer(WrappedComponent, selectData) {
                   }
                 }
           `}
-    variables={{ id: router.match.params.id }}
-    render={({ error, props }) => props ?
-      <WrappedComponent
-        {...props}
-        router={router}
-        environment={environment}
-        initialVariables={{ id: router.match.params.id }}
-      /> :
-      <div>loading...</div>  }
-  />
+      variables={{ id: router.match.params.id }}
+      render={({ error, props }) => props ?
+        <WrappedComponent
+          {...props}
+          router={router}
+          environment={environment}
+          initialVariables={{ id: router.match.params.id }}
+        /> :
+        <div>loading...</div>}
+    />;
 }
 
-export default withRelayContainer
+export default withRelayContainer;

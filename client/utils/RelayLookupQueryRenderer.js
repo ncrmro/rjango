@@ -1,4 +1,4 @@
-'use strict';
+
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -16,7 +16,7 @@ const deepFreeze = require('deep-freeze');
 class ReactRelayQueryRenderer extends React.Component {
   constructor(props, context) {
     super(props, context);
-    let {query, variables, lookup} = props;
+    let { query, variables, lookup } = props;
     const environment = props.environment;
     let operation = null;
     if (query) {
@@ -79,7 +79,7 @@ class ReactRelayQueryRenderer extends React.Component {
       nextProps.environment !== this.props.environment ||
       !areEqual(nextProps.variables, this.props.variables)
     ) {
-      const {query, variables} = nextProps;
+      const { query, variables } = nextProps;
       const environment = nextProps.environment;
       if (query) {
         const {
@@ -156,7 +156,7 @@ class ReactRelayQueryRenderer extends React.Component {
   }
 
   _fetch(operation, cacheConfig) {
-    const {environment} = this._relayContext;
+    const { environment } = this._relayContext;
 
     // Immediately retain the results of the new query to prevent relevant data
     // from being freed. This is not strictly required if all new data is
@@ -170,7 +170,7 @@ class ReactRelayQueryRenderer extends React.Component {
     const onCompleted = () => {
       this._pendingFetch = null;
     };
-    const onError = error => {
+    const onError = (error) => {
       readyState = {
         error,
         props: null,
@@ -183,7 +183,7 @@ class ReactRelayQueryRenderer extends React.Component {
       }
       this._pendingFetch = null;
       this._selectionReference = nextReference;
-      this.setState({readyState});
+      this.setState({ readyState });
     };
     const onNext = () => {
       // `onNext` can be called multiple times by network layers that support
@@ -206,7 +206,7 @@ class ReactRelayQueryRenderer extends React.Component {
       }
       this._rootSubscription = environment.subscribe(snapshot, this._onChange);
       this._selectionReference = nextReference;
-      this.setState({readyState});
+      this.setState({ readyState });
     };
 
     if (this._pendingFetch) {

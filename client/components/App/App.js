@@ -4,23 +4,23 @@ import Footer from 'components/Footer/FooterComponent';
 import styles from './App.scss';
 import 'normalize.css/normalize.css';
 import '../../styles/global.scss';
-import { createFragmentContainer, graphql}  from 'react-relay';
+import { createFragmentContainer, graphql } from 'react-relay';
 
 const title = 'Reango';
 
-const App = (props) =>
+const App = props =>
   <div className={styles.root} >
-    <Nav title={title} isAuthenticated  />
+    <Nav title={title} isAuthenticated />
     <div className={styles.navBackground} />
     <div className={styles.content} >
       {props.children}
     </div>
-    <Footer title={title}/>
+    <Footer title={title} />
   </div>;
 
 
-export default createFragmentContainer(App,{
-    viewer: graphql`
+export default createFragmentContainer(App, {
+  viewer: graphql`
         fragment App_viewer on Viewer {
             id
             user{
@@ -28,4 +28,4 @@ export default createFragmentContainer(App,{
                 email
             }
         }
-    `})
+    ` });

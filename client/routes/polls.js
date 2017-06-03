@@ -22,4 +22,4 @@ const pollRoutes = [
   }
 ];
 
-export default pollRoutes
+export default pollRoutes;

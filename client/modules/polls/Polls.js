@@ -18,7 +18,7 @@ Question = createFragmentContainer(Question, {
   `
 });
 
-const PollsList = (props) =>
+const PollsList = props =>
   <Page
     className={styles.root}
     heading='Polls'
@@ -37,7 +37,7 @@ const PollsList = (props) =>
 
 
 export default createRefetchContainer(PollsList, {
-    viewer: graphql.experimental`
+  viewer: graphql.experimental`
         fragment Polls_viewer on Viewer
          @argumentDefinitions(
             first: {type: "Int", defaultValue: 10},
@@ -53,7 +53,7 @@ export default createRefetchContainer(PollsList, {
             }
         }
     `
-  },
+},
   graphql.experimental`
       query PollsListRefetchQuery($first: Int) {
           viewer{
@@ -63,4 +63,4 @@ export default createRefetchContainer(PollsList, {
           }
       }
   `
-)
+);

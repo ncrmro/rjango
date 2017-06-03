@@ -14,8 +14,7 @@ import Icon from 'react-mdc-web/lib/Icon/Icon';
 import styles from './Nav.scss';
 
 
-
-const MobileDrawer = (props) =>
+const MobileDrawer = props =>
   <Drawer
     {...props}
   >
@@ -26,7 +25,7 @@ const MobileDrawer = (props) =>
     </DrawerHeader>
     <DrawerContent>
       <Navigation>
-        <NavLink to="/" >
+        <NavLink to='/' >
           <Button >Button</Button>
         </NavLink>
       </Navigation>
@@ -42,30 +41,31 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { title, routes, isAuthenticated, isAdmin }= this.props;
+    const { title, routes, isAuthenticated, isAdmin } = this.props;
     return (
       <div >
         <Toolbar>
           <ToolbarRow className={styles.toolbarRow}>
-            <ToolbarSection align="start" >
+            <ToolbarSection align='start' >
               <ToolbarTitle className={styles.title} >
-                <NavLink to="/" >
+                <NavLink to='/' >
                   <Button >{title}</Button>
                 </NavLink>
               </ToolbarTitle>
               <Button
-                onClick={()=> { this.setState({isOpen: !this.state.isOpen}) }} >
+                onClick={() => { this.setState({ isOpen: !this.state.isOpen }); }}
+              >
                 <Icon
                   name='menu'
                   className={styles.mobileNavButton}
                 />
               </Button>
             </ToolbarSection>
-            <ToolbarSection align="end" >
-              <NavLink to="/signup" >
+            <ToolbarSection align='end' >
+              <NavLink to='/signup' >
                 <Button >Signup</Button>
               </NavLink>
-              <NavLink to="/login" >
+              <NavLink to='/login' >
                 <Button >Login</Button>
               </NavLink>
             </ToolbarSection>
@@ -74,7 +74,7 @@ class Nav extends React.Component {
 
         <MobileDrawer
           open={this.state.isOpen}
-          onClose={()=> { this.setState({isOpen: false}) }}
+          onClose={() => { this.setState({ isOpen: false }); }}
         />
 
       </div>

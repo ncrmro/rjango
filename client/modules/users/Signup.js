@@ -2,9 +2,9 @@ import React from 'react';
 import Relay from 'react-relay';
 import Textfield from 'react-mdc-web/lib/Textfield/Textfield';
 import Button from 'react-mdc-web/lib/Button';
-import Page from '../../../components/Page/Page';
-//import SignupUserMutation from './SignupUserMutation';
-import RequireNoAuth from '../RequireNoAuth/RequireNoAuth';
+import Page from 'components/Page/Page';
+// import SignupUserMutation from './SignupUserMutation';
+import RequireNoAuth from './RequireNoAuth/RequireNoAuth';
 import styles from './Signup.scss';
 
 class Signup extends React.Component {
@@ -22,7 +22,7 @@ class Signup extends React.Component {
 
     };
   }
-  
+
   handleEmailChange(e) {
     const value = e.target.value;
     this.setState({ email: value });
@@ -64,8 +64,10 @@ class Signup extends React.Component {
   render() {
     const { email, password, passwordConfirmation, isEmailValid, isPasswordsMatching } = this.state;
     return (
-      <Page heading='Signup'
-            style={{ display: 'flex', justifyContent: 'center' }} >
+      <Page
+        heading='Signup'
+        style={{ display: 'flex', justifyContent: 'center' }}
+      >
 
         <form onSubmit={this.signupUser} className={styles.form} >
           <div className={styles.formContainer} >
@@ -75,12 +77,12 @@ class Signup extends React.Component {
               value={email}
               className={styles.textFields}
               floatingLabel='Email'
-              helptext="Check email again please."
+              helptext='Check email again please.'
               helptextValidation
               pattern={!isEmailValid ? true : null}
 
             />
-            <br/>
+            <br />
             <Textfield
               onChange={this.handlePasswordChange.bind(this)}
               value={password}
@@ -88,10 +90,10 @@ class Signup extends React.Component {
               floatingLabel='Password'
               minLength={8}
               type='password'
-              helptext="Your password must be at least 8 characters"
+              helptext='Your password must be at least 8 characters'
               helptextValidation
             />
-            <br/>
+            <br />
             <Textfield
               onChange={this.handlePasswordConfirmationChange.bind(this)}
               value={passwordConfirmation}
@@ -100,7 +102,7 @@ class Signup extends React.Component {
               type='password'
               minLength={8}
               type='password'
-              helptext="Your password must be at least 8 characters"
+              helptext='Your password must be at least 8 characters'
               helptextValidation
             />
             <div style={{ textAlign: 'right' }} >

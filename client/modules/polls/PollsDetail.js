@@ -12,31 +12,31 @@ class PollDetail extends React.Component {
     this.state = {
       id: props.router.match.params.id,
       isLoading: true
-    }
+    };
   }
 
   componentWillMount() {
     const variables = { id: this.state.id };
-    this.props.relay.refetch(variables, null, () => this.setState({ isLoading: false }))
+    this.props.relay.refetch(variables, null, () => this.setState({ isLoading: false }));
   }
 
   _updateState(selected) {
-    this.setState({ selected })
+    this.setState({ selected });
   }
 
   render() {
     const { environment, viewer: { question }, router } = this.props;
     const { isLoading } = this.state;
-    console.log(this.props)
+    console.log(this.props);
     return (
-      <Page heading="Polls Detail" className={styles.pollDetailRoot} >
+      <Page heading='Polls Detail' className={styles.pollDetailRoot} >
         { isLoading ? 'loading' :
           question ?
             <div>
               {question.questionText}
               {console.log(question.has_viewer_voted)}
-              <br/>
-              <br/>
+              <br />
+              <br />
 
               <PollsVote
                 environment={environment}
@@ -47,13 +47,13 @@ class PollDetail extends React.Component {
             </div> : 'None Found'
         }
       </Page>
-    )
+    );
   }
 }
 
 
 export default createRefetchContainer(PollDetail, {
-    viewer: graphql.experimental`
+  viewer: graphql.experimental`
       fragment  PollsDetail_viewer on Viewer
        @argumentDefinitions(
             id: {type: "ID!", defaultValue: ""},
@@ -67,7 +67,7 @@ export default createRefetchContainer(PollDetail, {
           }
       }
   `
-  },
+},
   graphql.experimental`
         query PollsDetailViewerRefetchQuery(
         $id: ID!,
@@ -80,7 +80,4 @@ export default createRefetchContainer(PollDetail, {
         }
   `
 );
-
-
-
 

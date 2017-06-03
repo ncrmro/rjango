@@ -14,16 +14,16 @@ class PollsVote extends React.Component {
       choice: {
         id: ''
       }
-    }
+    };
   }
 
   _updateState(selected) {
-    this.setState({ choice: { id: selected } })
+    this.setState({ choice: { id: selected } });
   }
 
   _returnToPolls(form) {
     form.preventDefault();
-    this.props.router.history.goBack()
+    this.props.router.history.goBack();
   }
 
   _submitVote(form) {
@@ -32,8 +32,7 @@ class PollsVote extends React.Component {
     const { choice } = this.state;
     const mutation = vote(environment, question, choice, variables);
 
-    return mutation
-
+    return mutation;
   }
 
   render() {
@@ -43,19 +42,19 @@ class PollsVote extends React.Component {
       <form className={styles.pollsVoteRoot} >
         <PollChoices
           choiceSet={question.choiceSet}
-          action={(selected) => this._updateState(selected)}
+          action={selected => this._updateState(selected)}
           selected={choice.id}
         />
         <div className={styles.pollsVoteActions} >
           <Button
-            onClick={(form) => this._returnToPolls(form)}
+            onClick={form => this._returnToPolls(form)}
           >
             Cancel
           </Button>
-          <Button onClick={(form) => this._submitVote(form)} >Submit</Button>
+          <Button onClick={form => this._submitVote(form)} >Submit</Button>
         </div>
       </form>
-    )
+    );
   }
 }
 
@@ -71,5 +70,4 @@ export default createFragmentContainer(PollsVote, {
       }
   `
 });
-
 

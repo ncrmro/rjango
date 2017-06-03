@@ -4,11 +4,11 @@ import { createFragmentContainer } from 'react-relay';
 import withRelayContainer from './PollsContainer';
 import PollChoices from './PollChoices';
 
-let PollsResult = ({question}) =>
-  <Page heading="Polls Results">
+let PollsResult = ({ question }) =>
+  <Page heading='Polls Results'>
     {question.questionText}
     <PollChoices choiceSet={question.choiceSet} />
-</Page>;
+  </Page>;
 
 PollsResult = createFragmentContainer(PollsResult, {
   question: graphql`

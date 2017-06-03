@@ -3,10 +3,10 @@ import Page from 'components/Page/Page';
 import Link from 'react-router-dom/es/Link';
 
 
-const Landing = (props) =>
+const Landing = props =>
   <Page heading='Landing' >
     <p>This is the landing page</p>
-    <Link to="/polls">Polls</Link>
+    <Link to='/polls'>Polls</Link>
   </Page>;
 
-export default Landing
+export default Landing;

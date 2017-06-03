@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/href-no-hash */
 import React from 'react';
 import Relay from 'react-relay';
-import { Grid, Cell, Textfield, Button, Checkbox } from 'react-mdl';
-import Page from '../../../components/Page/PageComponent';
-import LoginUserMutation from './LoginUserMutation';
-import RequireNoAuth from '../RequireNoAuth/RequireNoAuth';
+import Textfield from 'react-mdc-web/lib/Textfield/Textfield';
+import Button from 'react-mdc-web/lib/Button';
+import Checkbox from 'react-mdc-web/lib/Checkbox';
+import Page from 'components/Page/Page';
+// import LoginUserMutation from './mutations/Login';
+import RequireNoAuth from './RequireNoAuth/RequireNoAuth';
+import styles from './Login.scss';
 
 class Login extends React.Component {
   constructor(props) {
@@ -87,35 +90,43 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Page heading='Login'>
-        <div style={{ width: '70%', margin: 'auto' }}>
-          <Grid>
-            <form style={{ margin: 'auto' }} onSubmit={this.loginUser}>
-              <Cell col={12}>
-                <Textfield
-                  onChange={this.handleEmailChange.bind(this)}
-                  label='Email'
-                  error={this.state.errorEmail}
-                />
-              </Cell>
-              <Cell col={12}>
-                <Textfield
-                  onChange={this.handlePasswordChange.bind(this)}
-                  label='Password'
-                  type='password'
-                  error={this.state.errorPassword}
-                />
-              </Cell>
-              <Cell col={12}>
-                <Checkbox label='Remember me' ripple style={{ textAlign: 'right' }} />
-              </Cell>
-              <Cell col={12} style={{ textAlign: 'right' }}>
-                <a href='#'>Forgot password</a>
-                <Button primary>Login</Button>
-              </Cell>
-            </form>
-          </Grid>
-        </div>
+      <Page
+        heading='Login'
+        style={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <form onSubmit={this.loginUser} className={styles.form} >
+
+          <div className={styles.formContainer} >
+            <Textfield
+              className={styles.textFields}
+              onChange={this.handleEmailChange.bind(this)}
+              floatingLabel='Email'
+              // error={this.state.errorEmail}
+
+            />
+            <br />
+
+            <Textfield
+              className={styles.textFields}
+              onChange={this.handlePasswordChange.bind(this)}
+              floatingLabel='Password'
+              type='password'
+              // error={this.state.errorPassword}
+            />
+
+            <div style={{ textAlign: 'right' }} >
+              <Checkbox
+                label='Remember me'
+                style={{ textAlign: 'right' }}
+              />
+              <a href='#' >Forgot password</a>
+              <Button
+                primary
+                className='button_submit-login-form'
+              >Login</Button>
+            </div>
+          </div>
+        </form>
       </Page>
     );
   }

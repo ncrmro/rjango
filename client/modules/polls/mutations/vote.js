@@ -38,7 +38,7 @@ function Vote(environment, question, choice, variables) {
     {
       mutation,
       variables: {
-        input: { questionId: question.id, choiceId: choice.id}
+        input: { questionId: question.id, choiceId: choice.id }
       },
       updater: (store) => {
         const payload = store.getRootField('vote');
