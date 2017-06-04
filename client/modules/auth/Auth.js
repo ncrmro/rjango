@@ -48,11 +48,8 @@ class Login extends React.Component {
   handleFieldChange(e) {
     const input = this.state.input;
     const inputName = e.target.id;
-    const value = e.target.value;
-    input[inputName] = value;
+    input[inputName] = e.target.value;
     this.setState({ input });
-    console.log(value);
-
   }
 
   loginUser = (environment, input) => {

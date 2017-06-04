@@ -1,3 +1,12 @@
+const tokenName = 'jwtToken';
+
+export function setToken(token) {
+  // Used when login or sign up mutation returns a jwt token successfully
+  localStorage.setItem(tokenName, token);
+  window.location.replace('/profile');
+  window.location.reload();
+}
+
 function parseJwt(token) {
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -19,20 +28,17 @@ function isTokenExpired(parsedToken) {
  * Check for valid jwtToken
  * @return {String} jwtToken
  */
-function hasValidJwtToken() {
-  let jwtToken = localStorage.getItem('jwtToken');
+export function hasValidJwtToken() {
+  let token = localStorage.getItem(tokenName);
   let parsedToken = '';
-  if (jwtToken) {
-    parsedToken = parseJwt(jwtToken);
-    const isJwtTokenExpired = isTokenExpired(parsedToken);
-    if (isJwtTokenExpired) {
-      localStorage.removeItem('jwtToken');
-      window.location.replace('/account/login');
+  if (token) {
+    parsedToken = parseJwt(token);
+    if (isTokenExpired(parsedToken)) {
+      localStorage.removeItem(tokenName);
+      window.location.replace('/login');
       window.location.reload();
-      jwtToken = null;
+      token = null;
     }
   }
-  return { jwtToken, parsedToken };
+  return { token, parsedToken };
 }
-
-export default hasValidJwtToken;

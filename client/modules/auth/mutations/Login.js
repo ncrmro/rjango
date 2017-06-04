@@ -1,4 +1,5 @@
 import { ConnectionHandler } from 'relay-runtime';
+import { setToken } from '../jwtUtils';
 
 const {
   commitMutation,
@@ -33,6 +34,8 @@ function Login(environment, input: {email: string, password: string}) {
     environment,
     {
       mutation,
+      onCompleted: (response) =>
+        setToken(response.login.authFormPayload.tokens.token),
       variables: {
         input
       }

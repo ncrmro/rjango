@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import hasValidJwtToken from './JwtUtils';
+import { hasValidJwtToken } from './jwtUtils';
 
 
 export function isAuthenticated(ComposedClass) {
@@ -28,7 +28,8 @@ export function isAuthenticated(ComposedClass) {
 
     render() {
       const { isAdmin, isAuthenticated } = this.state;
-      return <ComposedClass isAdmin={isAdmin} isAuthenticated={isAuthenticated} {...this.props} />;
+      return <ComposedClass isAdmin={isAdmin}
+                            isAuthenticated={isAuthenticated} {...this.props} />;
     }
 
   }
@@ -37,19 +38,19 @@ export function isAuthenticated(ComposedClass) {
 }
 
 
-export function authenticatedRoute(requireAuth=true, ComposedClass) {
+export function authenticatedRoute(requireAuth = true, ComposedClass) {
   // Higher order component used to restrict routes depending on if users is authenticated or not.
   class RequireAuth extends Component {
 
     componentWillMount() {
-      const { router, isAuthenticated } = this.props;
+      const { router: {history}, isAuthenticated } = this.props;
       if (!requireAuth && isAuthenticated) {
         // If route is meant for non authenticated user redirect to profile
-        router.push('/profile');
+        history.push('/profile');
       }
       else if (requireAuth && !isAuthenticated) {
         // If route is meant for authenticated user redirect to login page
-        router.push('/login');
+        history.push('/login');
       }
     }
 
@@ -57,7 +58,7 @@ export function authenticatedRoute(requireAuth=true, ComposedClass) {
       return <ComposedClass {...this.props} />;
     }
 
-    }
+  }
 
   return isAuthenticated(RequireAuth);
 }
