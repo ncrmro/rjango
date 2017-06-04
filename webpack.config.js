@@ -97,6 +97,9 @@ module.exports = {
     historyApiFallback: true,
     stats: "errors-only",
     contentBase: buildPath,
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+    },
     publicPath
   },
   module: {

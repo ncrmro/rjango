@@ -1,14 +1,13 @@
-import Signup from '../modules/users/Signup';
-import Login from '../modules/users/Login';
+import Auth from '../modules/users/Auth';
 
 const authRoutes = [
   {
     path: '/signup',
-    component: Signup,
+    component: Auth,
   },
   {
     path: '/login',
-    component: Login,
+    component: Auth,
   }
 ];
 
