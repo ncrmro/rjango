@@ -3,8 +3,7 @@ from graphene import Node, Field, GlobalID, String
 from graphene_django.types import DjangoObjectType, ObjectType
 from todos.schema import TodoQueries, UserTodoQueries
 from polls.schema import PollQueries
-from .jwt_schema import TokensInterface
-
+from users.jwt_schema import TokensInterface
 
 class UserNode(DjangoObjectType, UserTodoQueries):
     class Meta:

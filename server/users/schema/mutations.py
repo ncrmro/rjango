@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate, get_user_model
 from graphene import AbstractType, relay, Field, String, ObjectType, Union, List
 
-from .jwt_schema import TokensSuccess
-from .jwt_util import get_jwt_token
-from .schema import Viewer
+from users.jwt_schema import TokensSuccess
+from users.jwt_util import get_jwt_token
+from users.schema.definitions import Viewer
 
 
 class Error(ObjectType):
@@ -28,7 +28,7 @@ class AuthFormUnion(Union):
         types = (Viewer, FormErrors)
 
 
-class LogInUser(relay.ClientIDMutation):
+class LoginMutation(relay.ClientIDMutation):
     class Input:
         email = String(required=True)
         password = String(required=True)
@@ -64,10 +64,10 @@ class LogInUser(relay.ClientIDMutation):
                 user=user,
                 tokens=tokens
             )
-            return LogInUser(viewer)
+            return LoginMutation(viewer)
 
 
-class CreateUser(relay.ClientIDMutation):
+class SignupUserMutation(relay.ClientIDMutation):
     class Input:
         email = String(required=True)
         password = String(required=True)
@@ -90,15 +90,15 @@ class CreateUser(relay.ClientIDMutation):
                 user=user,
                 tokens=token
             )
-            return CreateUser(viewer)
+            return SignupUserMutation(viewer)
         if user:
             error = Error(
                 key='email',
                 message='A user with this email already exists.')
             errors.append(error)
-            return CreateUser(FormErrors(errors))
+            return SignupUserMutation(FormErrors(errors))
 
 
 class UserMutations(AbstractType):
-    login_user = LogInUser.Field()
-    create_user = CreateUser.Field()
+    login = LoginMutation.Field()
+    signin = SignupUserMutation.Field()

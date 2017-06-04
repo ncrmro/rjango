@@ -1,12 +1,12 @@
 from django.contrib.auth import get_user_model
 from graphene import AbstractType, Field, String
 
-from .jwt_util import get_token_user_id
-from .schema import Viewer
+from users.jwt_util import get_token_user_id
+from .definitions import Viewer
 
 
 class UserQueries(AbstractType):
-    viewer = Field(Viewer, jwt_token=String())
+    viewer = Field(Viewer)
 
     @staticmethod
     def resolve_viewer(self, args, context, info):
