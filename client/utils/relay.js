@@ -1,4 +1,5 @@
 import React from 'react';
+import {hasValidJwtToken} from 'modules/auth/jwtUtils';
 import RelayLookupQueryRenderer from './RelayLookupQueryRenderer';
 import Loading from '../components/Loading/Loading';
 
@@ -12,6 +13,7 @@ const {
 const source = new RecordSource();
 const store = new Store(source);
 
+
 // Define a function that fetches the results of an operation (query/mutation/etc)
 // and returns its results as a Promise:
 function fetchQuery(operation, variables/* , cacheConfig, uploadables*/) {
@@ -22,6 +24,7 @@ function fetchQuery(operation, variables/* , cacheConfig, uploadables*/) {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
+      authorization: `Bearer ${hasValidJwtToken().token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
 
