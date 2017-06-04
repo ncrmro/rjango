@@ -1,6 +1,6 @@
 from graphene import AbstractType, Field, String, relay, Int
 
-from users.schema import Viewer
+from users.schema.definitions import Viewer
 from .models import FeatureModel
 from .schema import FeatureEdge
 

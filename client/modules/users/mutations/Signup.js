@@ -1,70 +1,43 @@
-import Relay from 'react-relay';
+import { ConnectionHandler } from 'relay-runtime';
 
-class SignupUserMutation extends Relay.Mutation {
+const {
+  commitMutation,
+  graphql,
+} = require('react-relay');
 
-  getMutation() {
-    return Relay.QL`
-            mutation { createUser }
-        `;
-  }
-
-  getVariables() {
-    return {
-      email: this.props.email,
-      password: this.props.password
-    };
-  }
-
-  getFatQuery() {
-    return Relay.QL`
-            fragment on CreateUserPayload {
-                authFormPayload{
+const mutation = graphql`
+    mutation SignupUserMutation(
+    $input: SignupUserMutationInput!
+    ) {
+        signup(input : $input) {
+            authFormPayload{
                     __typename
-                    ... on Viewer {
-                        tokens {
-                            ... on TokensSuccess{
+                    ... on Viewer{
+                        tokens{
+                            __typename
+                            ... on TokensSuccess {
                                 token
                             }
-                        }
-                        user{
-                            firstName, email
-                        }
-                    }
-                    ... on FormErrors {
-                        errors { key, message}
-                    }
-                }
-
-            }
-        `;
-  }
-
-  getConfigs() {
-    return [{
-      type: 'REQUIRED_CHILDREN',
-            // Forces these fragments to be included in the query
-      children: [Relay.QL`
-                fragment on CreateUserPayload {
-                    authFormPayload{
-                    __typename
-                    ... on Viewer {
-                        tokens {
-                            ... on TokensSuccess{
-                                token
+                            ... on TokenError {
+                                error
                             }
                         }
-                        user{
-                            firstName, email
-                        }
-                    }
-                    ... on FormErrors {
-                        errors { key, message}
                     }
                 }
-                }
-            `],
-    }];
-  }
+        }
+    }
+`;
+
+function Signup(environment, input: {email: string, password: string}) {
+  commitMutation(
+    environment,
+    {
+      mutation,
+      variables: {
+        input
+      }
+    },
+  );
 }
 
-export default SignupUserMutation;
+export default Signup;

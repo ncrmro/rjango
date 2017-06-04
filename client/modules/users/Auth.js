@@ -4,7 +4,8 @@ import Textfield from 'react-mdc-web/lib/Textfield/Textfield';
 import Button from 'react-mdc-web/lib/Button';
 import Checkbox from 'react-mdc-web/lib/Checkbox';
 import Page from 'components/Page/Page';
-// import LoginUserMutation from './mutations/Login';
+import LoginUserMutation from './mutations/Login';
+import SignupUserMutation from './mutations/Signup';
 import RequireNoAuth from './RequireNoAuth/RequireNoAuth';
 import styles from './Auth.scss';
 
@@ -51,11 +52,12 @@ class Login extends React.Component {
   }
 
   loginUser = (email, password) => {
+    const mutation = LoginUserMutation();
 
 
   };
   signupUser = (email, password) => {
-
+    const mutation = SignupUserMutation();
 
   };
 

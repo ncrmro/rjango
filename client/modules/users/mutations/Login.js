@@ -1,26 +1,16 @@
-import Relay from 'react-relay';
+import { ConnectionHandler } from 'relay-runtime';
 
-class LoginMutation extends Relay.Mutation {
-    // This method should return a GraphQL operation that represents
-    // the mutation to be performed. This presumes that the server
-    // implements a mutation type named ‘login_user’.
-  getMutation() {
-    return Relay.QL`
-            mutation { loginUser }
-        `;
-  }
+const {
+  commitMutation,
+  graphql,
+} = require('react-relay');
 
-  getVariables() {
-    return {
-      email: this.props.email,
-      password: this.props.password
-    };
-  }
-
-  getFatQuery() {
-    return Relay.QL`
-            fragment on LogInUserPayload {
-                authFormPayload{
+const mutation = graphql`
+    mutation LoginMutation(
+    $input: LoginMutationInput!
+    ) {
+        login(input : $input) {
+            authFormPayload{
                     __typename
                     ... on Viewer{
                         tokens{
@@ -34,37 +24,20 @@ class LoginMutation extends Relay.Mutation {
                         }
                     }
                 }
+        }
+    }
+`;
 
-            }
-        `;
-  }
-
-  getConfigs() {
-    return [{
-      type: 'REQUIRED_CHILDREN',
-            // Forces these fragments to be included in the query
-      children: [Relay.QL`
-                fragment on LogInUserPayload {
-                    authFormPayload{
-                    __typename
-                    ... on Viewer{
-                        user{email}
-                        tokens{
-                            __typename
-                            ... on TokensSuccess {
-                                token
-                            }
-                            ... on TokenError {
-                                error
-                            }
-                        }
-                    }
-                }
-                }
-            `],
-    }];
-  }
-
+function Login(environment, input: {email: string, password: string}) {
+  commitMutation(
+    environment,
+    {
+      mutation,
+      variables: {
+        input
+      }
+    },
+  );
 }
 
-export default LoginMutation;
+export default Login;
