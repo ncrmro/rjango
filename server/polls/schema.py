@@ -2,8 +2,9 @@ import graphene
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 
+from users.jwt_util import get_token_user_id
 from .models import Question as QuestionModal, Choice as ChoiceModal, \
-    Vote as VoteModal
+    Vote as VodeModal
 
 
 class Question(DjangoObjectType):
@@ -14,7 +15,8 @@ class Question(DjangoObjectType):
     has_viewer_voted = graphene.Boolean()
 
     def resolve_has_viewer_voted(self, args, context, info):
-        print("has viewer voted", self.choice_set.all())
+        return bool(
+            self.vote_set.filter(user_id=get_token_user_id(args, context)))
 
 
 class Choice(DjangoObjectType):
@@ -27,7 +29,7 @@ class Choice(DjangoObjectType):
 
 class Vote(DjangoObjectType):
     class Meta:
-        model = VoteModal
+        model = VodeModal
         interfaces = (graphene.Node,)
 
 
@@ -59,7 +61,7 @@ class VoteMutation(graphene.relay.ClientIDMutation):
 
         question = get_node(input.get('question_id'), context, info)
         selected_choice = question.choice_set.get(id=choice_id)
-        user_id = get_user_id(context)
+        user_id = get_token_user_id(input, context)
 
         print(
                 selected_choice.vote_set.create(
@@ -67,6 +69,12 @@ class VoteMutation(graphene.relay.ClientIDMutation):
                         selected_choice=selected_choice,
                         user_id=user_id
                 )
+        )
+
+        selected_choice.vote_set.create(
+                question=question,
+                selected_choice=selected_choice,
+                user_id=user_id
         )
 
         return VoteMutation(question=question)
