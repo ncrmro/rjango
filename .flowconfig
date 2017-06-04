@@ -1,12 +1,23 @@
 [ignore]
-<PROJECT_ROOT>/.*/server/.*
+<PROJECT_ROOT>/server/.*
 <PROJECT_ROOT>/lib/.*
-<PROJECT_ROOT>/node_modules/.*
+<PROJECT_ROOT>/node_modules/fbjs/.*
+<PROJECT_ROOT>/node_modules/json3/.*
+<PROJECT_ROOT>/node_modules/graphql/.*
 <PROJECT_ROOT>/.*/__generated__/.*
 
 
 [include]
+client
+
 
 [libs]
 
 [options]
+module.name_mapper='^components\(\/?*\)$' -> '<PROJECT_ROOT>/clients/components/\1'
+module.name_mapper='.+\.s?css' -> 'empty/object'
+module.name_mapper='.+\.s?scss' -> 'empty/object'
+
+
+
+

@@ -11,7 +11,7 @@
     "postinstall": "python3 ./manage.py graphql_schema && npm run build",
     "relay": "relay-compiler --watch --src ./client --schema ./lib/schema.json",
     "flow-server": "flow server",
-    "flow": "flow"
+    "flow": "flow status"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,9 @@
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^7.1.1",
+    "babel-preset-flow": "^6.23.0",
     "chalk": "^1.1.3",
+    "empty": "^0.10.1",
     "eslint": "^3.17.0",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.2.0",
