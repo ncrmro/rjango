@@ -20,7 +20,7 @@ render(Root);
 // Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./root', () => {
-    const NextRoot = require('./root').default;
+    const NextRoot = require('./root').default; // eslint-disable-line global-require
     render(NextRoot);
   });
 }
