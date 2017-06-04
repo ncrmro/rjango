@@ -101,4 +101,4 @@ class SignupUserMutation(relay.ClientIDMutation):
 
 class UserMutations(AbstractType):
     login = LoginMutation.Field()
-    signin = SignupUserMutation.Field()
+    signup = SignupUserMutation.Field()
