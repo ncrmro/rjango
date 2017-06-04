@@ -10,18 +10,18 @@ import { authenticatedRoute } from './utils';
 import styles from './Auth.scss';
 
 function isLoginCheck(props) {
-  return props.router.match.path === "/login"
+  return props.router.match.path === '/login';
 }
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    let initialInput = {
-        email: '',
-        password: '',
-      };
+    const initialInput = {
+      email: '',
+      password: '',
+    };
     if (!isLoginCheck(props)) {
-      initialInput['passwordConfirmation'] = ''
+      initialInput.passwordConfirmation = '';
     }
 
     this.state = {
@@ -54,12 +54,9 @@ class Login extends React.Component {
 
   loginUser = (environment, input) => {
     const mutation = LoginUserMutation(environment, input);
-
-
   };
   signupUser = (environment, input) => {
     const mutation = SignupUserMutation(environment, input);
-
   };
 
   submitForm = (form) => {
@@ -69,7 +66,6 @@ class Login extends React.Component {
     const { environment } = this.props;
 
     isLogin ? this.loginUser(environment, input) : this.signupUser(environment, input);
-
   };
 
   render() {
@@ -88,7 +84,7 @@ class Login extends React.Component {
         >
           <div className={styles.formContainer} >
             <Textfield
-              id="email"
+              id='email'
               className={styles.textFields}
               onChange={this.handleFieldChange.bind(this)}
               value={input.email}
@@ -99,7 +95,7 @@ class Login extends React.Component {
             <br />
 
             <Textfield
-              id="password"
+              id='password'
               className={styles.textFields}
               onChange={this.handleFieldChange.bind(this)}
               value={input.password}
@@ -109,7 +105,7 @@ class Login extends React.Component {
             />
             {!isLogin ?
               <Textfield
-                id="passwordConfirmation"
+                id='passwordConfirmation'
                 onChange={this.handleFieldChange.bind(this)}
                 value={input.passwordConfirmation}
                 className={styles.textFields}
@@ -128,7 +124,7 @@ class Login extends React.Component {
                 primary
                 className='button_submit-login-form'
               >{isLogin ? 'Login' : 'Sign up'}</Button>
-              <br/>
+              <br />
               { isLogin ?
                 <div>
                   <Checkbox

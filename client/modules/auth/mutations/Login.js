@@ -34,7 +34,7 @@ function Login(environment, input: {email: string, password: string}) {
     environment,
     {
       mutation,
-      onCompleted: (response) =>
+      onCompleted: response =>
         setToken(response.login.authFormPayload.tokens.token),
       variables: {
         input

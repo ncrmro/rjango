@@ -4,14 +4,19 @@ import 'normalize.css/normalize.css';
 import Footer from 'components/Footer/Footer';
 import Nav from '../Nav/Nav';
 import styles from './App.scss';
+import { isAuthenticated } from 'modules/auth/utils';
 import '../../styles/global.scss';
 
 
 const title = 'Reango';
 
-const App = (props: { children: Object }) =>
+let App = (props: { children: Object }) =>
   <div className={styles.root} >
-    <Nav title={title} isAuthenticated />
+    <Nav
+      title={title}
+      isAuthenticated={props.isAuthenticated}
+      isAdmin={props.isAdmin}
+    />
     <div className={styles.navBackground} />
     <div className={styles.content} >
       {props.children}
@@ -19,6 +24,7 @@ const App = (props: { children: Object }) =>
     <Footer title={title} />
   </div>;
 
+App = isAuthenticated(App);
 
 export default createFragmentContainer(App, {
   viewer: graphql`

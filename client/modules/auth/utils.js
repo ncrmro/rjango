@@ -28,8 +28,10 @@ export function isAuthenticated(ComposedClass) {
 
     render() {
       const { isAdmin, isAuthenticated } = this.state;
-      return <ComposedClass isAdmin={isAdmin}
-                            isAuthenticated={isAuthenticated} {...this.props} />;
+      return (<ComposedClass
+        isAdmin={isAdmin}
+        isAuthenticated={isAuthenticated} {...this.props}
+      />);
     }
 
   }
@@ -43,12 +45,11 @@ export function authenticatedRoute(requireAuth = true, ComposedClass) {
   class RequireAuth extends Component {
 
     componentWillMount() {
-      const { router: {history}, isAuthenticated } = this.props;
+      const { router: { history }, isAuthenticated } = this.props;
       if (!requireAuth && isAuthenticated) {
         // If route is meant for non authenticated user redirect to profile
         history.push('/profile');
-      }
-      else if (requireAuth && !isAuthenticated) {
+      } else if (requireAuth && !isAuthenticated) {
         // If route is meant for authenticated user redirect to login page
         history.push('/login');
       }

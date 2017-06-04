@@ -13,21 +13,66 @@ import Button from 'react-mdc-web/lib/Button/Button';
 import Icon from 'react-mdc-web/lib/Icon/Icon';
 import styles from './Nav.scss';
 
+type NavPropsType = { title: string, isAuthenticated: boolean, isAdmin: boolean }
 
-const MobileDrawer = (props: { title: string }) =>
+const HomeLink = ({ title }: { title: NavPropsType.title }) =>
+  <NavLink to='/' >
+    <Button >{title}</Button>
+  </NavLink>;
+
+const AdminLink = () =>
+  <NavLink to='/admin/' >
+    <Button >Admin</Button>
+  </NavLink>;
+
+type LinksPropType = { isAuthenticated: NavPropsType.isAuthenticated, isAdmin: NavPropsType.isAdmin };
+
+const links = (props: LinksPropType) => {
+  let NavLinks;
+  if (props.isAuthenticated) {
+    NavLinks = () =>
+      <div>
+        <NavLink to='/polls' >
+          <Button >Polls</Button>
+        </NavLink>
+        {props.isAdmin ? <AdminLink /> : null}
+        <NavLink to='/polls' >
+          <Button >Sign out</Button>
+        </NavLink>
+      </div>;
+  }
+  if (!props.isAuthenticated) {
+    NavLinks = () =>
+      <div>
+        <NavLink to='/signup' >
+          <Button >Signup</Button>
+        </NavLink>
+        <NavLink to='/login' >
+          <Button >Login</Button>
+        </NavLink>
+      </div>;
+  }
+
+
+  return NavLinks;
+};
+
+const MobileDrawer = (props: NavPropsType) =>
   <Drawer
     {...props}
   >
     <DrawerHeader>
+
       <DrawerHeaderContent>
-        {props.title}
+        <HomeLink title={props.title} />
       </DrawerHeaderContent>
     </DrawerHeader>
     <DrawerContent>
       <Navigation>
-        <NavLink to='/' >
-          <Button >Button</Button>
-        </NavLink>
+        <props.Links
+          isAuthenticated={props.isAuthenticated}
+          isAdmin={props.isAdmin}
+        />
       </Navigation>
     </DrawerContent>
   </Drawer>;
@@ -39,21 +84,19 @@ class Nav extends React.Component {
   }
 
   state: { isOpen: boolean };
-  props: {
-    title: string,
-  };
+  props: NavPropsType;
 
   render() {
-    const { title /* routes, isAuthenticated, isAdmin*/ } = this.props;
+    const { isAuthenticated, isAdmin, title } = this.props;
+    const Links = links({ isAuthenticated, isAdmin, title });
+
     return (
       <div >
         <Toolbar>
           <ToolbarRow className={styles.toolbarRow} >
             <ToolbarSection align='start' >
               <ToolbarTitle className={styles.title} >
-                <NavLink to='/' >
-                  <Button >{title}</Button>
-                </NavLink>
+                <HomeLink title={title} />
               </ToolbarTitle>
               <Button
                 onClick={() => {
@@ -67,12 +110,10 @@ class Nav extends React.Component {
               </Button>
             </ToolbarSection>
             <ToolbarSection align='end' >
-              <NavLink to='/signup' >
-                <Button >Signup</Button>
-              </NavLink>
-              <NavLink to='/login' >
-                <Button >Login</Button>
-              </NavLink>
+              <Links
+                isAuthenticated={isAuthenticated}
+                isAdmin={isAdmin}
+              />
             </ToolbarSection>
           </ToolbarRow>
         </Toolbar>
@@ -82,6 +123,9 @@ class Nav extends React.Component {
           onClose={() => {
             this.setState({ isOpen: false });
           }}
+          isAuthenticated={isAuthenticated}
+          isAdmin={isAdmin}
+          Links={Links}
         />
 
       </div>
