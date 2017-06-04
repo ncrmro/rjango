@@ -14,7 +14,7 @@ import Icon from 'react-mdc-web/lib/Icon/Icon';
 import styles from './Nav.scss';
 
 
-const MobileDrawer = props =>
+const MobileDrawer = (props: { title: String }) =>
   <Drawer
     {...props}
   >
@@ -33,19 +33,22 @@ const MobileDrawer = props =>
   </Drawer>;
 
 class Nav extends React.Component {
-  state:{isOpen: boolean};
-
-  constructor(props:Object) {
+  constructor(props: Object) {
     super(props);
     this.state = { isOpen: false };
   }
 
+  state: { isOpen: boolean };
+  props: {
+    title: String,
+  };
+
   render() {
-    const { title, routes, isAuthenticated, isAdmin } = this.props;
+    const { title /* routes, isAuthenticated, isAdmin*/ } = this.props;
     return (
       <div >
         <Toolbar>
-          <ToolbarRow className={styles.toolbarRow}>
+          <ToolbarRow className={styles.toolbarRow} >
             <ToolbarSection align='start' >
               <ToolbarTitle className={styles.title} >
                 <NavLink to='/' >
@@ -53,7 +56,9 @@ class Nav extends React.Component {
                 </NavLink>
               </ToolbarTitle>
               <Button
-                onClick={() => { this.setState({ isOpen: !this.state.isOpen }); }}
+                onClick={() => {
+                  this.setState({ isOpen: !this.state.isOpen });
+                }}
               >
                 <Icon
                   name='menu'
@@ -74,7 +79,9 @@ class Nav extends React.Component {
 
         <MobileDrawer
           open={this.state.isOpen}
-          onClose={() => { this.setState({ isOpen: false }); }}
+          onClose={() => {
+            this.setState({ isOpen: false });
+          }}
         />
 
       </div>
