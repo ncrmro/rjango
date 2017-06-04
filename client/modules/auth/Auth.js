@@ -6,7 +6,7 @@ import Checkbox from 'react-mdc-web/lib/Checkbox';
 import Page from 'components/Page/Page';
 import LoginUserMutation from './mutations/Login';
 import SignupUserMutation from './mutations/Signup';
-import RequireNoAuth from './RequireNoAuth/RequireNoAuth';
+import { authenticatedRoute } from './utils';
 import styles from './Auth.scss';
 
 function isLoginCheck(props) {
@@ -16,12 +16,16 @@ function isLoginCheck(props) {
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      input: {
+    let initialInput = {
         email: '',
         password: '',
-        passwordConfirmation: '',
-      },
+      };
+    if (!isLoginCheck(props)) {
+      initialInput['passwordConfirmation'] = ''
+    }
+
+    this.state = {
+      input: initialInput,
       isEmailValid: false,
       isPasswordPresent: false,
       errorEmail: false,
@@ -46,18 +50,18 @@ class Login extends React.Component {
     const inputName = e.target.id;
     const value = e.target.value;
     input[inputName] = value;
-    this.setState({input});
+    this.setState({ input });
     console.log(value);
 
   }
 
-  loginUser = (email, password) => {
-    const mutation = LoginUserMutation();
+  loginUser = (environment, input) => {
+    const mutation = LoginUserMutation(environment, input);
 
 
   };
-  signupUser = (email, password) => {
-    const mutation = SignupUserMutation();
+  signupUser = (environment, input) => {
+    const mutation = SignupUserMutation(environment, input);
 
   };
 
@@ -65,8 +69,9 @@ class Login extends React.Component {
     form.preventDefault();
     const isLogin = isLoginCheck(this.props);
     const { input, isEmailValid, isPasswordPresent } = this.state;
+    const { environment } = this.props;
 
-    isLogin ? this.loginUser(input) : this.signupUser(input);
+    isLogin ? this.loginUser(environment, input) : this.signupUser(environment, input);
 
   };
 
@@ -144,4 +149,4 @@ class Login extends React.Component {
 
 }
 
-export default RequireNoAuth(Login);
+export default authenticatedRoute(false, Login);

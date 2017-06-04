@@ -1,4 +1,4 @@
-import Auth from '../modules/users/Auth';
+import Auth from '../modules/auth/Auth';
 
 const authRoutes = [
   {
