@@ -14,7 +14,7 @@ import Icon from 'react-mdc-web/lib/Icon/Icon';
 import styles from './Nav.scss';
 
 
-const MobileDrawer = (props: { title: String }) =>
+const MobileDrawer = (props: { title: string }) =>
   <Drawer
     {...props}
   >
@@ -40,7 +40,7 @@ class Nav extends React.Component {
 
   state: { isOpen: boolean };
   props: {
-    title: String,
+    title: string,
   };
 
   render() {

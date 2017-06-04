@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Page.scss';
 
-const Page = props =>
+const Page = (props: {heading: String, children: Object}) =>
   <div className={styles.root}>
     <h1 className={styles.heading} >
       {props.heading}
