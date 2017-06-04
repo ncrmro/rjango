@@ -1,7 +1,8 @@
 [ignore]
-<PROJECT_ROOT>/server/.*
+<PROJECT_ROOT>/.*/server/.*
 <PROJECT_ROOT>/lib/.*
 <PROJECT_ROOT>/node_modules/.*
+<PROJECT_ROOT>/.*/__generated__/.*
 
 
 [include]
