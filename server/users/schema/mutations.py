@@ -46,12 +46,12 @@ class LoginMutation(relay.ClientIDMutation):
                 key='email',
                 message='A user with this email doesn\'t exist.')
             errors.append(error)
-            return LogInUser(FormErrors(errors))
+            return LoginMutation(FormErrors(errors))
         user_password_correct = user_exists[0].check_password(password)
         if not user_password_correct:
             error = Error(key='password', message='Password is incorrect')
             errors.append(error)
-            return LogInUser(FormErrors(errors))
+            return LoginMutation(FormErrors(errors))
 
         user = authenticate(username=email, password=password)
         jwt_token = get_jwt_token(user)

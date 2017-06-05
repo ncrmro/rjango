@@ -1,18 +1,20 @@
-import json
+from django.test import tag, TestCase
 
-from django.test import Client, tag
-
-from .helpers import SetUpUser
-
+from tests.utils import set_up_user, login_mutation_with_token, get_token, \
+    make_query
 
 # Create your tests here.
 @tag('unit', 'graphql')
-class LogInUserMutationTests(SetUpUser):
+class LogInUserMutationTests(TestCase):
+    def setUp(self):
+        self = set_up_user(self)
+        super(LogInUserMutationTests, self).setUp()
+
     def test_success(self):
         query = {
             "query": '''
             mutation {
-              loginUser(input: {email: "test@user.com", password: "top_secret"}) {
+              login(input: {email: "test@user.com", password: "top_secret"}) {
                 authFormPayload {
                   __typename
                   ... on Viewer {
@@ -30,13 +32,13 @@ class LogInUserMutationTests(SetUpUser):
         }
         expected = {
             "data": {
-                "loginUser": {
+                "login": {
                     "authFormPayload": {
                         "__typename": "Viewer",
-                        "user": {
+                        "user":       {
                             "email": "test@user.com"
                         },
-                        "tokens": {
+                        "tokens":     {
                             "__typename": "TokensSuccess"
                         }
                     }
@@ -51,7 +53,7 @@ class LogInUserMutationTests(SetUpUser):
         query = {
             "query": '''
             mutation {
-              loginUser(input: {email: "userdoesnotexist@user.com", password: "top_secret"}) {
+              login(input: {email: "userdoesnotexist@user.com", password: "top_secret"}) {
                 authFormPayload {
                   __typename
                   ... on Viewer {
@@ -76,9 +78,12 @@ class LogInUserMutationTests(SetUpUser):
         }
         expected = {
             'data': {
-                'loginUser': {
+                'login': {
                     'authFormPayload': {
-                        'errors': [{'message': "A user with this email doesn't exist.", 'key': 'email'}],
+                        'errors':     [{
+                                           'message': "A user with this email doesn't exist.",
+                                           'key':     'email'
+                                       }],
                         '__typename': 'FormErrors'
                     }
                 }
@@ -92,7 +97,7 @@ class LogInUserMutationTests(SetUpUser):
         query = {
             "query": '''
             mutation {
-              loginUser(input: {email: "test@user.com", password: "wrong_secret"}) {
+              login(input: {email: "test@user.com", password: "wrong_secret"}) {
                 authFormPayload {
                   __typename
                   ... on Viewer {
@@ -117,9 +122,13 @@ class LogInUserMutationTests(SetUpUser):
         }
         expected = {
             'data': {
-                'loginUser': {
+                'login': {
                     'authFormPayload': {
-                        'errors': [{'key': 'password', 'message': 'Password is incorrect'}], '__typename': 'FormErrors'
+                        'errors':                    [{
+                                                          'key':     'password',
+                                                          'message': 'Password is incorrect'
+                                                      }],
+                        '__typename':                'FormErrors'
                     }
                 }
             }
@@ -129,7 +138,7 @@ class LogInUserMutationTests(SetUpUser):
         self.assertEqual(response, expected)
 
 
-class CreateUserMutationTests(SetUpUser):
+class CreateUserMutationTests(TestCase):
     def test_success(self):
         query = {
             "query": '''
@@ -162,10 +171,10 @@ class CreateUserMutationTests(SetUpUser):
                 "createUser": {
                     "authFormPayload": {
                         "__typename": "Viewer",
-                        "user": {
+                        "user":       {
                             "email": "test_fake_user@fakerusers.com"
                         },
-                        "tokens": {
+                        "tokens":     {
                             "__typename": "TokensSuccess"
                         }
                     }
@@ -173,7 +182,6 @@ class CreateUserMutationTests(SetUpUser):
             }
         }
         response = self.make_query(query)
-        print(response)
         self.assertEqual(response, expected)
 
     def test_user_already_exists(self):
@@ -209,7 +217,10 @@ class CreateUserMutationTests(SetUpUser):
                 'createUser': {
                     'authFormPayload': {
                         '__typename': 'FormErrors',
-                        'errors': [{'message': 'A user with this email already exists.', 'key': 'email'}]
+                        'errors':     [{
+                                           'message': 'A user with this email already exists.',
+                                           'key':     'email'
+                                       }]
                     }
                 }
             }
@@ -219,23 +230,27 @@ class CreateUserMutationTests(SetUpUser):
         self.assertEqual(response, expected)
 
 
-class ViewerQueryTests(SetUpUser):
+@tag('unit', 'graphql')
+class ViewerQueryTests(TestCase):
     def test_success(self):
-        query = self.login_mutation_with_token
-        response = self.make_query(query)
-        token = self.get_token(response)
+        self = set_up_user(self)
+        login_mutation_query = login_mutation_with_token
+
+        login_response = make_query(login_mutation_query)
+        token = get_token(login_response)
 
         query_with_token = '''
             {
-              viewer(jwtToken: "%(token)s") {
+              viewer {
                 user {
                   email
                 }
               }
             }
-        ''' % {'token': token}
+        '''
 
-        query = {"query": query_with_token}
+        viewer_query = {"query": query_with_token}
+        response = make_query(viewer_query, token)
 
         expected = {
             "data": {
@@ -246,7 +261,5 @@ class ViewerQueryTests(SetUpUser):
                 }
             }
         }
-
-        response = self.make_query(query)
 
         self.assertEqual(response, expected)
