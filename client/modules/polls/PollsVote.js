@@ -1,6 +1,8 @@
 import React from 'react';
 import Button from 'react-mdc-web/lib/Button/Button';
 import { createFragmentContainer } from 'react-relay';
+import { authenticatedRoute } from 'modules/auth/utils';
+
 import PollChoices from './PollChoices';
 import styles from './Polls.scss';
 import vote from './mutations/vote';
@@ -8,6 +10,12 @@ import vote from './mutations/vote';
 export const variables = { count: 10 };
 
 class PollsVote extends React.Component {
+  props = {
+    environment: Object,
+    router: Object,
+    question: Object,
+
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -58,6 +66,7 @@ class PollsVote extends React.Component {
   }
 }
 
+PollsVote = authenticatedRoute(true, PollsVote);
 
 export default createFragmentContainer(PollsVote, {
   question: graphql`

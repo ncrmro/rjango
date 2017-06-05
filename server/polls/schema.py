@@ -16,7 +16,7 @@ class Question(DjangoObjectType):
 
     def resolve_has_viewer_voted(self, args, context, info):
         return bool(
-            self.vote_set.filter(user_id=get_token_user_id(args, context)))
+                self.vote_set.filter(user_id=get_token_user_id(args, context)))
 
 
 class Choice(DjangoObjectType):
@@ -24,7 +24,10 @@ class Choice(DjangoObjectType):
         model = ChoiceModal
         interfaces = (graphene.Node,)
 
-    voteCount = graphene.Int()
+    vote_count = graphene.Int()
+
+    def resolve_vote_count(self, args, context, info):
+        return self.vote_set.all().count()
 
 
 class Vote(DjangoObjectType):

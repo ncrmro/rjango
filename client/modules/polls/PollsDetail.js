@@ -3,6 +3,7 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import Page from 'components/Page/Page';
 import styles from './Polls.scss';
 import PollsVote from './PollsVote';
+import PollsResults from './PollsResults';
 
 const variables = { count: 10 };
 
@@ -27,24 +28,29 @@ class PollDetail extends React.Component {
   render() {
     const { environment, viewer: { question }, router } = this.props;
     const { isLoading } = this.state;
-    console.log(this.props);
+
     return (
       <Page heading='Polls Detail' className={styles.pollDetailRoot} >
-        { isLoading ? 'loading' :
-          question ?
-            <div>
-              {question.questionText}
-              {console.log(question.has_viewer_voted)}
-              <br />
-              <br />
+        { isLoading ? 'loading' : null }
 
+        { question ?
+          <div>
+            <h2>Question: {question.questionText}</h2>
+
+            {question.hasViewerVoted ?
+              <PollsResults
+                environment={environment}
+                question={question}
+                router={router}
+              /> :
               <PollsVote
                 environment={environment}
                 question={question}
                 router={router}
               />
+            }
 
-            </div> : 'None Found'
+          </div> : 'None Found'
         }
       </Page>
     );
@@ -53,7 +59,7 @@ class PollDetail extends React.Component {
 
 
 export default createRefetchContainer(PollDetail, {
-  viewer: graphql.experimental`
+    viewer: graphql.experimental`
       fragment  PollsDetail_viewer on Viewer
        @argumentDefinitions(
             id: {type: "ID!", defaultValue: ""},
@@ -64,10 +70,11 @@ export default createRefetchContainer(PollDetail, {
               questionText
               hasViewerVoted
               ...PollsVote_question
+              ...PollsResults_question
           }
       }
   `
-},
+  },
   graphql.experimental`
         query PollsDetailViewerRefetchQuery(
         $id: ID!,
