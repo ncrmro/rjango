@@ -20,14 +20,13 @@ function fetchQuery(operation, variables/* , cacheConfig, uploadables*/) {
   // Caching and relay records merge here
   // console.log(operation, variables);
   // console.log(store._recordSource._records);
-  return fetch('http://localhost:5500/graphql', {
+  return fetch('/graphql', {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
       authorization: `Bearer ${hasValidJwtToken().token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
-
     }, // Add authentication and other headers here
     body: JSON.stringify({
       query: operation.text, // GraphQL text from input

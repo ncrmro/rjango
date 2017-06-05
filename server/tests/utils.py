@@ -9,7 +9,6 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-
 def make_query(query, jwt_token=None):
     c = Client()
     if jwt_token:
@@ -53,19 +52,13 @@ def login_selenium_user(self):
     selenium.get(self.live_server_url)
     self.assertTrue(get_user_model().objects.get(email='test@user.com'))
 
-    login_button = wait_for_element(selenium, EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, '.button_login-link')))
-
-    login_button.click()
-
-    email_field = wait_for_element(selenium, EC.element_to_be_clickable(
-            (By.ID, 'textfield-Email')))
-
-    password = selenium.find_element_by_id("textfield-Password")
+    css_selector(selenium, '.button_login-link').click()
+    email_field = id_selector(selenium, 'textfield-Email')
+    password = id_selector(selenium, 'textfield-Password')
 
     email_field.send_keys("test@user.com")
     password.send_keys("top_secret")
-    selenium.find_element_by_css_selector('.button_submit-login-form').click()
+    css_selector(selenium, '.button_submit-login-form').click()
 
     wait_for_element(selenium, EC.visibility_of_element_located(
             (By.XPATH, "//h1[text()='Dashboard']")))
