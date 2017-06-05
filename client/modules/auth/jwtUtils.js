@@ -3,7 +3,7 @@ const tokenName = 'jwtToken';
 export function setToken(token) {
   // Used when login or sign up mutation returns a jwt token successfully
   localStorage.setItem(tokenName, token);
-  window.location.replace('/profile');
+  window.location.replace('/polls');
   window.location.reload();
 }
 

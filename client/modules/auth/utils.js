@@ -48,7 +48,7 @@ export function authenticatedRoute(requireAuth = true, ComposedClass) {
       const { router: { history }, isAuthenticated } = this.props;
       if (!requireAuth && isAuthenticated) {
         // If route is meant for non authenticated user redirect to profile
-        history.push('/profile');
+        history.push('/polls');
       } else if (requireAuth && !isAuthenticated) {
         // If route is meant for authenticated user redirect to login page
         history.push('/login');
