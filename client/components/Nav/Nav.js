@@ -12,6 +12,7 @@ import ToolbarRow from 'react-mdc-web/lib/Toolbar/ToolbarRow';
 import Button from 'react-mdc-web/lib/Button/Button';
 import Icon from 'react-mdc-web/lib/Icon/Icon';
 import styles from './Nav.scss';
+import { logoutViewer } from 'modules/auth/jwtUtils';
 
 type NavPropsType = { title: string, isAuthenticated: boolean, isAdmin: boolean }
 
@@ -32,22 +33,22 @@ const links = (props: LinksPropType) => {
   if (props.isAuthenticated) {
     NavLinks = () =>
       <div>
-        <NavLink to='/polls' >
+        <NavLink className='button_polls-link' to='/polls' >
           <Button >Polls</Button>
         </NavLink>
         {props.isAdmin ? <AdminLink /> : null}
-        <NavLink to='/polls' >
-          <Button >Sign out</Button>
+        <NavLink className='button_signout-link' to='#' >
+          <Button onClick={() => logoutViewer()} >Sign out</Button>
         </NavLink>
       </div>;
   }
   if (!props.isAuthenticated) {
     NavLinks = () =>
       <div>
-        <NavLink to='/signup' >
+        <NavLink className='button_signup-link' to='/signup' >
           <Button >Signup</Button>
         </NavLink>
-        <NavLink to='/login' >
+        <NavLink className='button_login-link' to='/login' >
           <Button >Login</Button>
         </NavLink>
       </div>;
@@ -64,7 +65,7 @@ const MobileDrawer = (props: NavPropsType) =>
     <DrawerHeader>
 
       <DrawerHeaderContent>
-        <HomeLink title={props.title} />
+        <HomeLink className='button_home-link' title={props.title} />
       </DrawerHeaderContent>
     </DrawerHeader>
     <DrawerContent>

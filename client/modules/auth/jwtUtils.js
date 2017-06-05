@@ -7,6 +7,11 @@ export function setToken(token) {
   window.location.reload();
 }
 
+export function logoutViewer() {
+  localStorage.removeItem(tokenName);
+  window.location.replace('/');
+}
+
 function parseJwt(token) {
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace('-', '+').replace('_', '/');
