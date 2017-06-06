@@ -5,7 +5,10 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const BundleTracker = require('webpack-bundle-tracker');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const dotenv = require('dotenv');
 
+dotenv.load();
 let appEntry;
 let devtool;
 let plugins;
@@ -20,6 +23,9 @@ const stats = new BundleTracker(
         indent: true
     });
 
+const env = process.env;
+const devServerPort = env.WEBPACK_PORT ? env.WEBPACK_PORT : 3000;
+
 if (process.env.NODE_ENV === 'production') {
     appEntry = [path.join(__dirname, 'client/index.js')];
     devtool = 'source-map';
@@ -33,6 +39,11 @@ if (process.env.NODE_ENV === 'production') {
                 NODE_ENV: JSON.stringify('production')
             }
         }),
+        new ExtractTextPlugin({
+            filename: '[name]-[hash].css',
+            allChunks: true
+          }
+        ),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
@@ -41,17 +52,22 @@ if (process.env.NODE_ENV === 'production') {
     ];
 } else {
     appEntry = [
-        // activate HMR for React
-        'react-hot-loader/patch',
-        path.join(__dirname, 'client/index.js'),
-        'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server'
+    // activate HMR for React
+    'react-hot-loader/patch',
+    `webpack-dev-server/client?http://localhost:${devServerPort}`,
+    'webpack/hot/only-dev-server',
+    './client/index.js'
     ];
-    publicPath = 'http://localhost:3000/assets/bundles/'; // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
+    publicPath = `http://localhost:${devServerPort}/assets/bundles/`; // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
     devtool = 'eval';
     plugins = [
         stats,
         new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'vendor.js'}),
+        new ExtractTextPlugin({
+                filename: '[name]-[hash].css',
+                allChunks: true
+              }
+        ),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
@@ -61,64 +77,107 @@ if (process.env.NODE_ENV === 'production') {
     ];
 }
 
+const buildPath = path.join(__dirname, 'static', 'bundles');
+
+
 module.exports = {
-    entry: {
-        app: appEntry,
-        vendor: ['react', 'react-dom', 'react-mdl', 'react-relay', 'react-router', 'react-router-relay']
+  entry: {
+    app: appEntry,
+    vendor: ['react', 'react-dom', 'react-relay', 'react-router']
+  },
+  output: {
+    path: buildPath,
+    filename: "[name]-[hash].js",
+    publicPath: publicPath
+  },
+  devtool,
+  devServer: {
+    hot: true,
+    port: devServerPort,
+    historyApiFallback: true,
+    stats: "errors-only",
+    contentBase: buildPath,
+    headers: {
+      "Access-Control-Allow-Origin": "*"
     },
-    output: {
-        path: path.join(__dirname, 'static', 'bundles'),
-        filename: "[name]-[hash].js",
-        publicPath: publicPath
-    },
-    devtool,
-    module: {
+    publicPath
+  },
+  module: {
 
         rules: [{
             test: /\.jsx?$/,
             use: 'babel-loader',
             exclude: /node_modules/
         }, {
-            test: /\.css$/,
-            use: [
-                'style-loader',
-                'css-loader'
-            ],
-        }, {
-            test: /\.scss$/,
-            use: [
-                'style-loader',
-                {
-                    loader: 'css-loader',
-                    options: {
-                        modules: true,
-                        importLoaders: 1,
-                        localIdentName: "[name]__[local]___[hash:base64:5]",
-                    }
-                },
-                {
-                    loader: 'postcss-loader',
-                    options: {
-                        ident: 'postcss', plugins: () => [
-                            require('precss'),
-                            require('autoprefixer')
-                        ]
-                    }
-
-                }
-            ]
-        }, {
-            test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
-            use: [
-                {
-                    loader: 'url-loader',
-                    options: {
-                        limit: 1000,
-                        name: "assets/[hash].[ext]"
-                    }
-                }
-            ]
-        }]
+      test: /\.css$/,
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: {
+          loader: 'css-loader',
+          options: {
+            modules: true
+          }
+        }
+      })
+    }, {
+      test: /\.scss$/,
+      include: [path.join(__dirname, 'node_modules'), path.join(__dirname, 'client', 'styles')],
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: [
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: [
+                path.resolve(__dirname, 'node_modules'),
+                path.join(__dirname, 'client', 'styles')
+              ],
+            }
+          },
+        ]
+      })
     },
-    plugins
+      {
+        test: /\.scss$/,
+        exclude: [path.join(__dirname, 'node_modules'), path.join(__dirname, 'client', 'styles')],
+        include: path.join(__dirname, 'client'),
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [{
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }},
+            {
+              loader: 'sass-loader',
+              options: {
+                includePaths: [
+                  path.resolve(__dirname, 'node_modules'),
+                  path.join(__dirname, 'client', 'styles')
+                ],
+              }
+            },
+          ]
+        })
+      }, {
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1000,
+              name: "assets/[hash].[ext]"
+            }
+          }
+        ]
+      }]
+  },
+  resolve: {
+    alias: {
+      components: path.resolve(__dirname, 'client/components'),
+      modules: path.resolve(__dirname, 'client/modules'),
+    }
+  },
+  plugins
 };

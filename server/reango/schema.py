@@ -1,26 +1,20 @@
 import graphene
-from graphene_django.debug import DjangoDebug
 
-from features.mutations import FeatureMutations
-from features.queries import FeatureQueries
-from todos.schema import TodoQueries, TodoMutations
-from users.mutations import UserMutations
-from users.queries import UserQueries
+from polls.schema import PollQueries
+from polls.schema import PollMutations
+from users.schema import UserQueries, UserMutations
 
 
 class Query(
     UserQueries,
-    TodoQueries,
-    FeatureQueries,
+    PollQueries,
     graphene.ObjectType
 ):
-    debug = graphene.Field(DjangoDebug, name='__debug')
-
+    pass
 
 class Mutation(
     UserMutations,
-    TodoMutations,
-    FeatureMutations,
+    PollMutations,
     graphene.ObjectType
 ):
     pass

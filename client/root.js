@@ -1,15 +1,28 @@
-// ./src/components/App.js
 import React from 'react';
-import Relay from 'react-relay';
-import { browserHistory, applyRouterMiddleware, Router } from 'react-router';
-import useRelay from 'react-router-relay';
-import Routes from './routes/';
+import BrowserRouter from 'react-router-dom/es/BrowserRouter';
+import { graphql } from 'react-relay';
+import routes from './routes';
+import RouteWithSubRoutes from './utils/RouteUtil';
+import { RelayComponent } from './utils/relay';
+
+const rootQuery = graphql`
+    query rootViewerQuery {
+        viewer {
+            ...App_viewer
+            ...Polls_viewer
+            ...PollsDetail_viewer
+        }
+    }
+`;
 
 const Root = () => (
-  <Router
-    history={browserHistory} routes={Routes()} render={applyRouterMiddleware(useRelay)}
-    environment={Relay.Store}
-  />
+  <BrowserRouter>
+    <RelayComponent
+      ChildComponent={RouteWithSubRoutes}
+      routes={routes}
+      query={rootQuery}
+    />
+  </BrowserRouter>
 );
 
 export default Root;

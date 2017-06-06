@@ -146,3 +146,4 @@ screenshots
 /static/
 /webpack/server/data/schema.json
 /lib/schema.json
+__generated__

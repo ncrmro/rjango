@@ -1,10 +1,12 @@
-@import '../variables.scss';
+@import '../../styles/variables.scss';
+
 .root {
   background-color: $black-light !important;
   justify-content: center !important;
   padding: 30px 16px !important;
+  text-align: center;
 
-  a {
+  span {
     color: $white;
     text-decoration: none;
   }

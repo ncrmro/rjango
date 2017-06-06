@@ -1,26 +1,22 @@
-import AppContainer from '../components/App/AppContainer';
-import Landing from '../components/Landing/LandingComponent';
-import ViewerQuery from '../queries/ViewerQuery';
-import UserRoutes from './users';
-import Dashboard from './dashboard';
-import Todos from './todos';
+import App from 'components/App/App';
+import Landing from 'components/Landing/Landing';
+import authRoutes from './auth';
+import pollsRoutes from './polls';
 
-export default () => ({
-  childRoutes: [{
-    path: '/',
-    component: AppContainer,
-    queries: ViewerQuery,
-    indexRoute: {
-      component: Landing
-    },
+const routes = [
+  {
+    component: App,
     childRoutes: [
-      UserRoutes,
-      Dashboard,
-      Todos,
       {
-        path: '*',
-        component: Landing
-      }
+        path: '/',
+        component: Landing,
+        queries: 'queries'
+      },
+      ...authRoutes,
+      ...pollsRoutes
     ]
-  }]
-});
+  }
+
+];
+
+export default routes;

@@ -1,30 +1,17 @@
 import React from 'react';
-import Relay from 'react-relay';
-import { RelayNetworkLayer, authMiddleware } from 'react-relay-network-layer';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import '../node_modules/react-mdl/extra/material';
 import Root from './root';
-import hasValidJwtToken from './modules/users/JwtUtils';
 
-
-Relay.injectNetworkLayer(new RelayNetworkLayer([
-  authMiddleware({
-    token: () => hasValidJwtToken().jwtToken,
-    allowEmptyToken: true
-  })
-]));
-
-const rootNode = document.createElement('div');
-document.body.appendChild(rootNode);
-
+const root = document.createElement('div');
+document.body.appendChild(root);
 
 const render = (Component) => {
   ReactDOM.render(
     <AppContainer >
       <Component />
     </AppContainer>,
-    rootNode
+    root
   );
 };
 
@@ -33,7 +20,7 @@ render(Root);
 // Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./root', () => {
-    const NextRoot = require('./root').default;
-    render(NextRoot)
+    const NextRoot = require('./root').default; // eslint-disable-line global-require
+    render(NextRoot);
   });
 }
