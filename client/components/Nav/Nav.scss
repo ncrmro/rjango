@@ -1,0 +1,41 @@
+@import '../../styles/variables.scss';
+
+.title {
+  color: $white;
+  display: none
+}
+
+.toolbarRow{
+  height: 55px !important;
+  padding: 10px 20px !important;
+}
+
+.mobileNavButton {
+  color: white;
+  line-height: 36px !important;;
+}
+
+.rightNav {
+  text-align: right;
+  display: none;
+  button {
+    color: black;
+  }
+}
+
+/* This is how it looks on desktop */
+@media (min-width: 600px) {
+  .mobileNavButton {
+    display: none !important;
+  }
+  .rightNav {
+    display: block !important;
+    button {
+      color: white;
+    }
+  }
+  .title {
+    display: block !important;
+  }
+;
+}

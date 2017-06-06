@@ -1,1 +1,1 @@
--r deps/prod.txt
+-r lib/deps/prod.txt
