@@ -17,6 +17,15 @@ pip3 install -r ./deps/dev.txt
 yarn
 ```
 
+## Getting started
+Define a django model, register the node and query with in the ./server/reango/schema.py
+
+To work with the client side, add a route in the ./client/routes
+
+Reusable components go in ./client/components, 
+If you'd like you can split of django apps into there own folders in the 
+./client/modules like the django apps concept
+
 ## Prod
 
 See readme in `./lib/deployment`
