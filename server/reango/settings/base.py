@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'webpack_loader',
     'graphene_django',
     'custom_user',
+    'reango',
     'users',
     'polls'
 ]

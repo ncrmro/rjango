@@ -10,6 +10,9 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         if settings.DEBUG:
-            management.call_command("stageusers")
+            management.call_command("flush")
+            management.call_command("stageusers", '25')
             management.call_command("stagepolls")
+        else:
+            Exception('Stagedata is only available when debug is true!')
 
