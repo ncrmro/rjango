@@ -33,23 +33,27 @@ class VoteFactory(factory.DjangoModelFactory):
     class Meta:
         model = Vote
 
-    choice = factory.SubFactory(ChoiceFactory)
+    selected_choice = factory.SubFactory(ChoiceFactory)
     question = factory.SubFactory(QuestionFactory)
     user = factory.Iterator(get_user_model().objects.all())
 
 
-class ChoiceWithVotesFactor(Choice):
-    vote = factory.RelatedFactory(VoteFactory)
+class ChoiceWithVotesFactor(ChoiceFactory):
+    vote = factory.RelatedFactory(
+            VoteFactory,
+            'selected_choice',
+
+    )
 
 
 class QuestionWithChoicesFactor(QuestionFactory):
     choice = factory.RelatedFactory(
-            ChoiceFactory,
+            ChoiceWithVotesFactor,
             'question',
             choice_text='yes'
     )
     choice1 = factory.RelatedFactory(
-            ChoiceFactory,
+            ChoiceWithVotesFactor,
             'question',
             choice_text='no'
     )
@@ -57,4 +61,9 @@ class QuestionWithChoicesFactor(QuestionFactory):
 
 def stage_polls():
     """Create admin user if none exist"""
-    QuestionWithChoicesFactor(question_text='Do andriods dream of sheep')
+    QuestionWithChoicesFactor(
+            question_text='Do andriods dream of sheep'
+    )
+    QuestionWithChoicesFactor(
+            question_text='Will we make it to marks'
+    )
