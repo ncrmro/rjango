@@ -21,6 +21,8 @@ function validateInput(input) {
   let errors = []
   let id = 0
   const passwordsMatch = passwordMatchValidation(input)
+  // So we don't delete the original state values
+  input = {...input}
 
   if (!passwordsMatch) {
     id++
@@ -82,6 +84,10 @@ class Login extends React.Component {
     this.setState({ input })
   }
 
+  setErrors = (errors) => {
+    console.log('errors', errors)
+    this.setState({ errors })
+  }
 
   submitForm = (form) => {
     form.preventDefault()
@@ -89,16 +95,13 @@ class Login extends React.Component {
     const { input, errors } = validateInput(this.state.input)
     const { environment, router } = this.props
     if (!errors && isLogin) {
-      console.log('login')
-      LoginUserMutation(environment, router, input)
+      LoginUserMutation(environment, router, this.setErrors.bind(this), input)
     }
     else if (!errors) {
-      console.log('signup')
-      SignupUserMutation(environment, router, input)
+      SignupUserMutation(environment, router, this.setErrors.bind(this), input)
     }
     else {
-      console.log('errors', errors)
-      this.setState({ errors })
+      this.setErrors(errors)
     }
   }
 
@@ -113,6 +116,7 @@ class Login extends React.Component {
   render() {
     const { input, errors } = this.state
     const isLogin = isLoginCheck(this.props)
+    //const formErrors = this.getErrors('')
 
     return (
       <Page
@@ -128,8 +132,8 @@ class Login extends React.Component {
           { errors.length ?
             <ul className="errorMessages" >
               {
-                this.getErrors('').map(error =>
-                  <li key={error.id} >
+                errors.map(error =>
+                  <li key={error.id || error.key} >
                     {error.message}
                   </li>
                 )
@@ -146,8 +150,10 @@ class Login extends React.Component {
               onChange={this.handleFieldChange.bind(this)}
               value={input.email}
               floatingLabel='Email'
-              // error={this.state.errorEmail}
-
+              minLength={1}
+              required
+              helptext={''}
+              helptextValidation
             />
             <br />
 

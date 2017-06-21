@@ -1,9 +1,22 @@
-import { ConnectionHandler } from 'relay-runtime';
-
 const {
   commitMutation,
   graphql,
-} = require('react-relay');
+} = require('react-relay')
+
+
+function loginUser(router, setErrors, response) {
+  const { login, signup } = response
+  response = login || signup
+  response = response.authFormPayload
+  if (response.errors.length > 0) {
+
+    setErrors(response.errors)
+  }
+  else {
+    router.push()
+  }
+
+}
 
 const mutation = graphql`
     mutation SignupUserMutation(
@@ -18,27 +31,31 @@ const mutation = graphql`
                             ... on TokensSuccess {
                                 token
                             }
-                            ... on TokenError {
-                                error
-                            }
                         }
+                        
+                    }
+                    ... on FormErrors {
+                      errors{
+                        key 
+                        message
+                      }
                     }
                 }
         }
     }
-`;
+`
 
-function Signup(environment, router, input: {email: string, password: string}) {
+function Signup(environment, router, setErrors, input: { email: string, password: string }) {
   commitMutation(
     environment,
     {
       mutation,
-      onCompleted: response => {},
+      onCompleted: response => loginUser(router, setErrors, response),
       variables: {
         input
       }
     },
-  );
+  )
 }
 
-export default Signup;
+export default Signup
