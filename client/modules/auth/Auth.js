@@ -13,6 +13,48 @@ function isLoginCheck(props) {
   return props.router.match.path === '/login'
 }
 
+function passwordMatchValidation(input) {
+  return input.password === input.passwordConfirmation
+}
+
+function validateInput(input) {
+  let errors = []
+  let id = 0
+  const passwordsMatch = passwordMatchValidation(input)
+
+  if (!passwordsMatch) {
+    id++
+    errors.push({
+      id,
+      key: '',
+      message: 'The password confirmation field did not match the password you entered below'
+    })
+  }
+  if (!input.email) {
+    id++
+    errors.push({
+      id,
+      key: '',
+      message: 'Please fill out the email field'
+    })
+  }
+  if (!input.password) {
+    id++
+    errors.push({
+      id,
+      key: '',
+      message: 'Please fill out the password field'
+    })
+  }
+  if (errors.length === 0) {
+    // Empty array will still return true
+    errors = false
+    // Passwords remove mutation doesn't require password confirmation field.
+    input.passwordConfirmation = null;
+  }
+  return { input, errors }
+}
+
 class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -32,9 +74,6 @@ class Login extends React.Component {
     }
   }
 
-  passwordMatchValidation(input) {
-    return input.password === input.passwordConfirmation
-  }
 
   handleFieldChange(e) {
     const input = this.state.input
@@ -43,54 +82,24 @@ class Login extends React.Component {
     this.setState({ input })
   }
 
-  loginUser = (environment, input) => {
-    const mutation = LoginUserMutation(environment, input)
-  }
-  signupUser = (environment, input) => {
-    const mutation = SignupUserMutation(environment, input)
-  }
 
   submitForm = (form) => {
     form.preventDefault()
     const isLogin = isLoginCheck(this.props)
-    const { input } = this.state
-    const passwordsMatch = this.passwordMatchValidation(input)
-    const errors = []
-    let id = 0
-
-    if (!passwordsMatch) {
-      id++
-      errors.push({
-        id,
-        key: '',
-        message: 'The password confirmation field did not match the password you entered below'
-      })
+    const { input, errors } = validateInput(this.state.input)
+    const { environment, router } = this.props
+    if (!errors && isLogin) {
+      console.log('login')
+      LoginUserMutation(environment, router, input)
     }
-    if (!input.email) {
-      id++
-      errors.push({
-        id,
-        key: '',
-        message: 'Please fill out the email field'
-      })
+    else if (!errors) {
+      console.log('signup')
+      SignupUserMutation(environment, router, input)
     }
-    if (!input.password) {
-      id++
-      errors.push({
-        id,
-        key: '',
-        message: 'Please fill out the password field'
-      })
-
+    else {
+      console.log('errors', errors)
+      this.setState({ errors })
     }
-    if (passwordsMatch && input.email && input.password) {
-      const { environment } = this.props
-      isLogin ? this.loginUser(environment, input) : this.signupUser(environment, {
-        email: input.email,
-        password: input.password
-      })
-    }
-    this.setState({ errors })
   }
 
   getErrors(fieldId) {
@@ -104,7 +113,6 @@ class Login extends React.Component {
   render() {
     const { input, errors } = this.state
     const isLogin = isLoginCheck(this.props)
-    console.log('error', this.getErrors(''))
 
     return (
       <Page

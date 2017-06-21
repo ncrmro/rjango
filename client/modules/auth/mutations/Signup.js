@@ -28,11 +28,12 @@ const mutation = graphql`
     }
 `;
 
-function Signup(environment, input: {email: string, password: string}) {
+function Signup(environment, router, input: {email: string, password: string}) {
   commitMutation(
     environment,
     {
       mutation,
+      onCompleted: response => {},
       variables: {
         input
       }
