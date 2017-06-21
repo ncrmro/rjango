@@ -50,7 +50,7 @@ function validateInput(input) {
     // Empty array will still return true
     errors = false
     // Passwords remove mutation doesn't require password confirmation field.
-    input.passwordConfirmation = null;
+    delete input.passwordConfirmation
   }
   return { input, errors }
 }
