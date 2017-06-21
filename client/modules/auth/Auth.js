@@ -85,7 +85,10 @@ class Login extends React.Component {
     }
     if (passwordsMatch && input.email && input.password) {
       const { environment } = this.props
-      isLogin ? this.loginUser(environment, input) : this.signupUser(environment, input)
+      isLogin ? this.loginUser(environment, input) : this.signupUser(environment, {
+        email: input.email,
+        password: input.password
+      })
     }
     this.setState({ errors })
   }
