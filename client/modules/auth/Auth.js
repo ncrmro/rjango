@@ -1,91 +1,137 @@
 /* eslint-disable jsx-a11y/href-no-hash */
-import React from 'react';
-import Textfield from 'react-mdc-web/lib/Textfield/Textfield';
-import Button from 'react-mdc-web/lib/Button';
-import Checkbox from 'react-mdc-web/lib/Checkbox';
-import Page from 'components/Page/Page';
-import LoginUserMutation from './mutations/Login';
-import SignupUserMutation from './mutations/Signup';
-import { authenticatedRoute } from './utils';
-import styles from './Auth.scss';
+import React from 'react'
+import Textfield from 'react-mdc-web/lib/Textfield/Textfield'
+import Button from 'react-mdc-web/lib/Button'
+import Checkbox from 'react-mdc-web/lib/Checkbox'
+import Page from 'components/Page/Page'
+import LoginUserMutation from './mutations/Login'
+import SignupUserMutation from './mutations/Signup'
+import { authenticatedRoute } from './utils'
+import styles from './Auth.scss'
 
 function isLoginCheck(props) {
-  return props.router.match.path === '/login';
+  return props.router.match.path === '/login'
 }
 
 class Login extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     const initialInput = {
       email: '',
       password: '',
-    };
+    }
     if (!isLoginCheck(props)) {
-      initialInput.passwordConfirmation = '';
+      initialInput.passwordConfirmation = ''
     }
 
     this.state = {
       input: initialInput,
       isEmailValid: false,
       isPasswordPresent: false,
-      errorEmail: false,
-      errorPassword: false
-    };
+      errors: []
+    }
   }
 
-
-  setFormErrors = () => {
-    const { isEmailValid, isPasswordPresent } = this.state;
-    // If not valid!
-    if (!isEmailValid) {
-      this.setState({ errorEmail: "Email isn't valid" });
-    }
-    if (!isPasswordPresent) {
-      this.setState({ errorPassword: 'Passwords is blank' });
-    }
-  };
+  passwordMatchValidation(input) {
+    return input.password === input.passwordConfirmation
+  }
 
   handleFieldChange(e) {
-    const input = this.state.input;
-    const inputName = e.target.id;
-    input[inputName] = e.target.value;
-    this.setState({ input });
+    const input = this.state.input
+    const inputName = e.target.id
+    input[inputName] = e.target.value
+    this.setState({ input })
   }
 
   loginUser = (environment, input) => {
-    const mutation = LoginUserMutation(environment, input);
-  };
+    const mutation = LoginUserMutation(environment, input)
+  }
   signupUser = (environment, input) => {
-    const mutation = SignupUserMutation(environment, input);
-  };
+    const mutation = SignupUserMutation(environment, input)
+  }
 
   submitForm = (form) => {
-    form.preventDefault();
-    const isLogin = isLoginCheck(this.props);
-    const { input, isEmailValid, isPasswordPresent } = this.state;
-    const { environment } = this.props;
+    form.preventDefault()
+    const isLogin = isLoginCheck(this.props)
+    const { input } = this.state
+    const passwordsMatch = this.passwordMatchValidation(input)
+    const errors = []
+    let id = 0
 
-    isLogin ? this.loginUser(environment, input) : this.signupUser(environment, input);
-  };
+    if (!passwordsMatch) {
+      id++
+      errors.push({
+        id,
+        key: '',
+        message: 'The password confirmation field did not match the password you entered below'
+      })
+    }
+    if (!input.email) {
+      id++
+      errors.push({
+        id,
+        key: '',
+        message: 'Please fill out the email field'
+      })
+    }
+    if (!input.password) {
+      id++
+      errors.push({
+        id,
+        key: '',
+        message: 'Please fill out the password field'
+      })
+
+    }
+    if (passwordsMatch && input.email && input.password) {
+      const { environment } = this.props
+      isLogin ? this.loginUser(environment, input) : this.signupUser(environment, input)
+    }
+    this.setState({ errors })
+  }
+
+  getErrors(fieldId) {
+    const { errors } = this.state
+    if (errors.length > 0) {
+      return errors.filter(x => x.key === fieldId)
+    }
+    else return []
+  }
 
   render() {
-    const { input, passwordConfirmation, isEmailValid, isPasswordsMatching } = this.state;
-    const isLogin = isLoginCheck(this.props);
+    const { input, errors } = this.state
+    const isLogin = isLoginCheck(this.props)
+    console.log('error', this.getErrors(''))
 
     return (
       <Page
         heading={isLogin ? 'Login' : ' Sign up'}
         style={{ display: 'flex', justifyContent: 'center' }}
       >
+
         <form
           id={isLogin ? 'Login' : ' Sign up'}
           onSubmit={this.submitForm}
           className={styles.form}
         >
+          { errors.length ?
+            <ul className="errorMessages" >
+              {
+                this.getErrors('').map(error =>
+                  <li key={error.id} >
+                    {error.message}
+                  </li>
+                )
+              }
+            </ul>
+            :
+            null
+          }
+
           <div className={styles.formContainer} >
             <Textfield
               id='email'
-              className={styles.textFields}
+              className={`${styles.textFields} email_input`}
               onChange={this.handleFieldChange.bind(this)}
               value={input.email}
               floatingLabel='Email'
@@ -101,7 +147,6 @@ class Login extends React.Component {
               value={input.password}
               floatingLabel='Password'
               type='password'
-              // error={this.state.errorPassword}
             />
             {!isLogin ?
               <Textfield
@@ -136,10 +181,10 @@ class Login extends React.Component {
           </div>
         </form>
       </Page>
-    );
+    )
   }
 
 
 }
 
-export default authenticatedRoute(false, Login);
+export default authenticatedRoute(false, Login)
