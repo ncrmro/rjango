@@ -9,8 +9,8 @@ import SignupUserMutation from './mutations/Signup'
 import { authenticatedRoute } from './utils'
 import styles from './Auth.scss'
 
-function isLoginCheck(props) {
-  return props.router.match.path === '/login'
+function isLoginCheck() {
+  return window.location.pathname === '/login'
 }
 
 function passwordMatchValidation(input) {
@@ -24,7 +24,7 @@ function validateInput(input) {
   // So we don't delete the original state values
   input = {...input}
 
-  if (!passwordsMatch) {
+  if (!passwordsMatch && !isLoginCheck()) {
     id++
     errors.push({
       id,
@@ -150,10 +150,7 @@ class Login extends React.Component {
               onChange={this.handleFieldChange.bind(this)}
               value={input.email}
               floatingLabel='Email'
-              minLength={1}
               required
-              helptext={''}
-              helptextValidation
             />
             <br />
 
@@ -164,6 +161,10 @@ class Login extends React.Component {
               value={input.password}
               floatingLabel='Password'
               type='password'
+              minLength={8}
+              helptext='Your password must be at least 8 characters'
+              helptextValidation
+              required
             />
             {!isLogin ?
               <Textfield
@@ -173,9 +174,7 @@ class Login extends React.Component {
                 className={styles.textFields}
                 floatingLabel='Password Confirmation'
                 type='password'
-                minLength={8}
-                helptext='Your password must be at least 8 characters'
-                helptextValidation
+                required
               />
               : null}
 

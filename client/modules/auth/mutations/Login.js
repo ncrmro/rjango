@@ -29,7 +29,7 @@ const mutation = graphql`
     }
 `;
 
-function Login(environment, input: {email: string, password: string}) {
+function Login(environment, router, setErrors, input: {email: string, password: string}) {
   commitMutation(
     environment,
     {
