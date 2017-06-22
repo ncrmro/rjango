@@ -7,9 +7,10 @@ import MenuDivider from 'react-mdc-web/lib/Menu/MenuDivider'
 import Button from 'react-mdc-web/lib/Button/Button'
 import NavLink from 'react-router-dom/es/NavLink'
 import styles from './Nav.scss'
+import withRouter from 'react-router-dom/es/withRouter'
 
 
-const UserProfileDropDownButton = (props) =>
+let UserProfileDropDownButton = (props) =>
   <NavLink to="" >
     <Button
       onClick={ e => {
@@ -27,7 +28,7 @@ const UserProfileDropDownButton = (props) =>
         <MenuItem
           onClick={e => {
             e.preventDefault()
-            props.router.history.push('/account')
+            props.history.push('/account')
           }}
         >
           Account
@@ -43,6 +44,7 @@ const UserProfileDropDownButton = (props) =>
     </MenuAnchor>
   </NavLink>
 
+UserProfileDropDownButton = withRouter(UserProfileDropDownButton)
 
 export default createFragmentContainer(UserProfileDropDownButton, {
     user: graphql`
