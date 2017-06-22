@@ -1,10 +1,5 @@
 import React from 'react';
 import NavLink from 'react-router-dom/es/NavLink';
-import Navigation from 'react-mdc-web/lib/Drawer/Navigation';
-import Drawer from 'react-mdc-web/lib/Drawer/Drawer';
-import DrawerHeader from 'react-mdc-web/lib/Drawer/DrawerHeader';
-import DrawerHeaderContent from 'react-mdc-web/lib/Drawer/DrawerHeaderContent';
-import DrawerContent from 'react-mdc-web/lib/Drawer/DrawerContent';
 import Toolbar from 'react-mdc-web/lib/Toolbar/Toolbar';
 import ToolbarSection from 'react-mdc-web/lib/Toolbar/ToolbarSection';
 import ToolbarTitle from 'react-mdc-web/lib/Toolbar/ToolbarTitle';
@@ -14,29 +9,11 @@ import Icon from 'react-mdc-web/lib/Icon/Icon';
 import UserProfileDropbdownButton from './UserProfileDropdownButton';
 import styles from './Nav.scss';
 import { logoutViewer } from 'modules/auth/jwtUtils';
-
+import MobileDrawer from './MobileDrawer';
 type NavPropsType = { title: string, isAuthenticated: boolean, isAdmin: boolean }
 
-const loggedInLinks = [
-  { to: '/orders/buy', text: 'Market', className: 'market' },
-  { to: '/dashboard', text: 'Dashboard', className: 'dashboard' },
-  { to: '/parts/cpu', text: 'Parts', className: 'parts' },
-  { to: '/account/profile', text: 'Profile', className: 'profile' },
-  {
-    to: '',
-    text: 'Sign out',
-    className: 'signout',
 
-  },
-];
-
-const loggedOutLinks = [
-  { to: '/account/signup', text: 'Sign Up', className: 'sign-up' },
-  { to: '/account/login', text: 'Login', className: 'login' },
-];
-
-
-const HomeLink = ({ title }: { title: NavPropsType.title }) =>
+export const HomeLink = ({ title }: { title: NavPropsType.title }) =>
   <NavLink to='/' >
     <Button >{title}</Button>
   </NavLink>;
@@ -47,12 +24,12 @@ const AdminLink = () =>
   </NavLink>;
 
 type LinksPropType = { isAuthenticated: NavPropsType.isAuthenticated, isAdmin: NavPropsType.isAdmin };
+
 const AuthenticatedLinks = (props) =>
   <div>
-    <NavLink className='button_polls-link' to='/upgrades/' >
-      <Button >Upgrade</Button>
+    <NavLink className='button_polls-link' to='/polls/' >
+      <Button >Polls</Button>
     </NavLink>
-    {props.isAdmin ? <AdminLink /> : null}
     <UserProfileDropbdownButton
       userDropdownIsOpen={props.userDropdownIsOpen}
       handleUserDropdown={props.handleUserDropdown}
@@ -82,38 +59,24 @@ const Links = (props: LinksPropType) =>
         // overide messes with style for now
         viewer={props.viewer}
         isAdmin={props.isAdmin}
+        mobile={props.mobile}
       /> :
       <NonAuthenticatedLinks />
     }
   </div>;
 
-const MobileDrawer = (props: NavPropsType) =>
-  <Drawer
-    {...props}
-  >
-    <DrawerHeader>
 
-      <DrawerHeaderContent>
-        <HomeLink className='button_home-link' title={props.title} />
-      </DrawerHeaderContent>
-    </DrawerHeader>
-    <DrawerContent>
-      <Navigation>
-        <props.children />
-      </Navigation>
-    </DrawerContent>
-  </Drawer>;
 
 class Nav extends React.Component {
   constructor(props: Object) {
     super(props);
     this.state = {
-      navIsOpen: false,
+      mobileNavOpen: false,
       userDropdownIsOpen: false
     };
   }
 
-  state: { navIsOpen: boolean };
+  state: { mobileNavOpen: boolean };
   props: NavPropsType;
 
   handleUserDropdown(open = true) {
@@ -134,7 +97,7 @@ class Nav extends React.Component {
               </ToolbarTitle>
               <Button
                 onClick={() => {
-                  this.setState({ navIsOpen: !this.state.navIsOpen });
+                  this.setState({ mobileNavOpen: !this.state.mobileNavOpen });
                 }}
               >
                 <Icon
@@ -155,22 +118,24 @@ class Nav extends React.Component {
             </ToolbarSection>
           </ToolbarRow>
         </Toolbar>
-        {this.state.navIsOpen ?
+        {this.state.mobileNavOpen ?
           <MobileDrawer
             open
             onClose={() => {
-              this.setState({ navIsOpen: false });
+              this.setState({ mobileNavOpen: false });
             }}
             isAuthenticated={isAuthenticated}
             isAdmin={isAdmin}
-
+            title={title}
           >
             <Links
               isAuthenticated={isAuthenticated}
               isAdmin={isAdmin}
               userDropdownIsOpen={userDropdownIsOpen}
               handleUserDropdown={() => this.handleUserDropdown}
+              viewer={viewer}
               router={router}
+              mobile
             />
           </MobileDrawer> : null
         }
