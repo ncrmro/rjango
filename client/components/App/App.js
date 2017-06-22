@@ -14,6 +14,7 @@ let App = (props: { children: Object }) =>
   <div className={styles.root} >
     <Nav
       title={title}
+      viewer={props.viewer}
       isAuthenticated={props.isAuthenticated}
       isAdmin={props.isAdmin}
     />
@@ -29,10 +30,8 @@ App = isAuthenticated(App);
 export default createFragmentContainer(App, {
   viewer: graphql`
       fragment App_viewer on Viewer {
-          id
           user{
-              id
-              email
+              ...UserProfileDropdownButton_user
           }
       }
   ` });

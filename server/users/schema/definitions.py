@@ -11,6 +11,7 @@ class UserNode(DjangoObjectType):
             'id',
             'last_login',
             'is_superuser',
+            'username',
             'first_name',
             'last_name',
             'email',

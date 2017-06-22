@@ -5,7 +5,7 @@
   display: none
 }
 
-.toolbarRow{
+.toolbarRow {
   height: 55px !important;
   padding: 10px 20px !important;
 }
@@ -16,11 +16,18 @@
 }
 
 .rightNav {
-  text-align: right;
-  display: none;
-  button {
-    color: black;
+
+}
+
+.currentUserDropdown {
+  left: 134px;
+  div {
+    ul {
+      width: 150px;
+    }
+
   }
+
 }
 
 /* This is how it looks on desktop */
