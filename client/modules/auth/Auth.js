@@ -22,7 +22,7 @@ function validateInput(input) {
   let id = 0
   const passwordsMatch = passwordMatchValidation(input)
   // So we don't delete the original state values
-  input = {...input}
+  input = { ...input }
 
   if (!passwordsMatch && !isLoginCheck()) {
     id++
@@ -95,10 +95,10 @@ class Login extends React.Component {
     const { input, errors } = validateInput(this.state.input)
     const { environment, router } = this.props
     if (!errors && isLogin) {
-      LoginUserMutation(environment, router, this.setErrors.bind(this), input)
+      LoginUserMutation(environment, this.setErrors.bind(this), input)
     }
     else if (!errors) {
-      SignupUserMutation(environment, router, this.setErrors.bind(this), input)
+      SignupUserMutation(environment, this.setErrors.bind(this), input)
     }
     else {
       this.setErrors(errors)
@@ -150,6 +150,7 @@ class Login extends React.Component {
               onChange={this.handleFieldChange.bind(this)}
               value={input.email}
               floatingLabel='Email'
+              type='email'
               required
             />
             <br />
@@ -181,10 +182,21 @@ class Login extends React.Component {
             <div style={{ textAlign: 'right' }} >
 
               <a href='#' >Forgot password</a>
-              <Button
-                primary
-                className='button_submit-login-form'
-              >{isLogin ? 'Login' : 'Sign up'}</Button>
+              {isLogin ?
+                <Button
+                  primary
+                  className='button_submit-login-form'
+                >
+                  Login
+                </Button>
+                :
+                <Button
+                  primary
+                  className='button_submit-signup-form'
+                >
+                  Sign up
+                </Button>
+              }
               <br />
               { isLogin ?
                 <div>

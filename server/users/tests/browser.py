@@ -5,7 +5,31 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 from tests.utils import SetBrowserTests, wait_for_element, \
-    css_selector, create_test_user, login_selenium_user,id_selector
+    css_selector, create_test_user, login_selenium_user
+
+
+def fill_out_auth_form(
+        selenium,
+        password_confirm=None,
+        password='test_password',
+        email='sign_up_test_user@test.com',
+):
+    # Find Fields
+    email_field = css_selector(selenium, 'input#email')
+    password_field = css_selector(selenium, 'input#password')
+
+    # Fill out inputs and check for form valid
+    email_field.send_keys(email)
+    password_field.send_keys(password)
+    password_confirm_selector = 'input#passwordConfirmation'
+
+    if password_confirm:
+        password_confirm_field = css_selector(
+                selenium,
+                password_confirm_selector
+        )
+        password_confirm_field.send_keys(password)
+
 
 class CreateUserTest(SetBrowserTests):
     def setUp(self):
@@ -21,23 +45,23 @@ class CreateUserTest(SetBrowserTests):
         selenium.get(self.live_server_url)
 
         css_selector(selenium, '.button_signup-link').click()
+        # Click Button to check for empty values
+        fill_out_auth_form(
+                selenium=selenium,
+                password_confirm=True,
+                password='',
+                email=''
 
-        # Find Fields
-        email_field = wait_for_element(selenium, EC.element_to_be_clickable(
-                (By.ID, 'textfield-Email')))
-        password = selenium.find_element_by_id("textfield-Password")
-        password_confirmation = selenium.find_element_by_id(
-                "textfield-PasswordConfirmation")
+        )
 
-        # Click Button to check for empty values and check
         css_selector(selenium, '.button_submit-signup-form').click()
-        # assert 'Email isn\'t valid' in selenium.page_source
+        css_selector(selenium, '.mdc-textfield-helptext')
+        # assert 'Please fill out this field' in selenium.page_source
+
         # assert 'Passwords don\'t match' in selenium.page_source
 
-        # Fill out inputs and check for form valid
-        email_field.send_keys("sign_up_test_user@test.com")
-        password.send_keys("test_password")
-        password_confirmation.send_keys("test_password")
+        # Fill out inputs with valid fields and check for form valid
+        fill_out_auth_form(selenium)
 
         assert 'Email isn\'t valid' not in selenium.page_source
         assert 'Passwords don\'t match' not in selenium.page_source
@@ -50,22 +74,12 @@ class CreateUserTest(SetBrowserTests):
         css_selector(selenium, '.button_signup-link').click()
 
         # Find Fields
-        email_field = id_selector(selenium, 'textfield-Email')
-        password = id_selector(selenium, 'textfield-Password')
-        password_confirmation = id_selector(selenium, 'textfield-PasswordConfirmation')
-
-        # Fill out inputs and check for form valid
-        email_field.send_keys("sign_up_test_user@test.com")
-        password.send_keys("test_password")
-        password_confirmation.send_keys("test_password")
+        fill_out_auth_form(selenium, password_confirm=True)
 
         # Click Button to check for empty values and check
         css_selector(selenium, '.button_submit-signup-form').click()
         wait_for_element(selenium, EC.visibility_of_element_located(
-            (By.XPATH, "//h1[text()='Dashboard']")))
-
-        assert 'Email isn\'t valid' not in selenium.page_source
-        assert 'Dashboard' in selenium.page_source
+                (By.XPATH, "//h1[text()='Polls']")))
 
 
 class LoginUserTest(SetBrowserTests):
@@ -98,16 +112,15 @@ class JwtTokenExpiredTest(SetBrowserTests):
         super(JwtTokenExpiredTest, self).tearDown()
 
     @override_settings(JWT_EXPIRATION_DELTA=datetime.timedelta(seconds=3))
-    def test_login_form(self):
+    def test_expired_token_logs_out_user(self):
         selenium = self.login_selenium_user(self)
         import time
         time.sleep(3)
-
 
         css_selector(selenium, '.button_profile-link').click()
 
         wait_for_element(
                 selenium, EC.invisibility_of_element_located(
-                        (By.XPATH, "//h1[text()='Dashboard']")))
+                        (By.XPATH, "//h1[text()='Polls']")))
 
         css_selector(selenium, '.button_sign-up-link')

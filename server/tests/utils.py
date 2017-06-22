@@ -53,16 +53,15 @@ def login_selenium_user(self):
     self.assertTrue(get_user_model().objects.get(email='test@user.com'))
 
     css_selector(selenium, '.button_login-link').click()
-    email_field = id_selector(selenium, 'textfield-Email')
-    password = id_selector(selenium, 'textfield-Password')
+    email_field = css_selector(selenium, 'input#email')
+    password_field = css_selector(selenium, 'input#password')
 
     email_field.send_keys("test@user.com")
-    password.send_keys("top_secret")
+    password_field.send_keys("top_secret")
     css_selector(selenium, '.button_submit-login-form').click()
 
     wait_for_element(selenium, EC.visibility_of_element_located(
-            (By.XPATH, "//h1[text()='Dashboard']")))
-    assert 'Dashboard' in selenium.page_source
+            (By.XPATH, "//h1[text()='Polls']")))
     return selenium
 
 

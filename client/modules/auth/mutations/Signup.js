@@ -2,18 +2,19 @@ const {
   commitMutation,
   graphql,
 } = require('react-relay')
+import { setToken } from '../jwtUtils';
 
 
-function loginUser(router, setErrors, response) {
+function loginUser(setErrors, response) {
   const { login, signup } = response
   response = login || signup
   response = response.authFormPayload
-  if (response.errors.length > 0) {
-
+  if (response.__typename === "FormErrors") {
     setErrors(response.errors)
   }
-  else {
-    router.push()
+  else if (response.__typename === "Viewer") {
+    console.log('success')
+    setToken(response.tokens.token)
   }
 
 }
@@ -45,12 +46,12 @@ const mutation = graphql`
     }
 `
 
-function Signup(environment, router, setErrors, input: { email: string, password: string }) {
+function Signup(environment, setErrors, input: { email: string, password: string }) {
   commitMutation(
     environment,
     {
       mutation,
-      onCompleted: response => loginUser(router, setErrors, response),
+      onCompleted: response => loginUser(setErrors, response),
       variables: {
         input
       }
