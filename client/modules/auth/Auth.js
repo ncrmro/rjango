@@ -57,7 +57,7 @@ function validateInput(input) {
   return { input, errors }
 }
 
-class Login extends React.Component {
+class Auth extends React.Component {
   constructor(props) {
     super(props)
     const initialInput = {
@@ -215,4 +215,4 @@ class Login extends React.Component {
 
 }
 
-export default authenticatedRoute(false, Login)
+export default authenticatedRoute(Auth, false)
