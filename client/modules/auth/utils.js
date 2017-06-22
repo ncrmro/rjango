@@ -40,7 +40,7 @@ export function isAuthenticated(ComposedClass) {
 }
 
 
-export function authenticatedRoute(requireAuth = true, ComposedClass) {
+export function authenticatedRoute(ComposedClass, requireAuth = true, ) {
   // Higher order component used to restrict routes depending on if users is authenticated or not.
   class RequireAuth extends Component {
 

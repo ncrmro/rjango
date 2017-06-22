@@ -11,6 +11,7 @@ const rootQuery = graphql`
             ...App_viewer
             ...Polls_viewer
             ...PollsDetail_viewer
+            ...Account_viewer
         }
     }
 `;
