@@ -54,7 +54,7 @@ UserDropDown = withRouter(UserDropDown)
 
 export default createFragmentContainer(UserDropDown, {
     user: graphql`
-       fragment UserProfileDropdownButton_user on UserNode {
+       fragment UserDropDown_user on UserNode {
            username
            email
     }`

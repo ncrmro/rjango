@@ -31,7 +31,7 @@ export default createFragmentContainer(App, {
   viewer: graphql`
       fragment App_viewer on Viewer {
           user{
-              ...UserProfileDropdownButton_user
+              ...UserDropDown_user
           }
       }
   ` });
