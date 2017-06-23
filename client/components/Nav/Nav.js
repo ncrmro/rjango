@@ -6,7 +6,7 @@ import ToolbarTitle from 'react-mdc-web/lib/Toolbar/ToolbarTitle';
 import ToolbarRow from 'react-mdc-web/lib/Toolbar/ToolbarRow';
 import Button from 'react-mdc-web/lib/Button/Button';
 import Icon from 'react-mdc-web/lib/Icon/Icon';
-import UserProfileDropbdownButton from './UserProfileDropdownButton';
+import UserDropDown from './UserDropDown';
 import styles from './Nav.scss';
 import { logoutViewer } from 'modules/auth/jwtUtils';
 import MobileDrawer from './MobileDrawer';
@@ -30,7 +30,7 @@ const AuthenticatedLinks = (props) =>
     <NavLink className='button_polls-link' to='/polls/' >
       <Button >Polls</Button>
     </NavLink>
-    <UserProfileDropbdownButton
+    <UserDropDown
       userDropdownIsOpen={props.userDropdownIsOpen}
       handleUserDropdown={props.handleUserDropdown}
       signoutViewer={() => logoutViewer()}

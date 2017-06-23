@@ -113,14 +113,17 @@ class JwtTokenExpiredTest(SetBrowserTests):
 
     @override_settings(JWT_EXPIRATION_DELTA=datetime.timedelta(seconds=3))
     def test_expired_token_logs_out_user(self):
+        # Login user
         selenium = self.login_selenium_user(self)
+        # Wait for JWT to expire
         import time
         time.sleep(3)
 
-        css_selector(selenium, '.button_profile-link').click()
+        # Open user drop down and click account page
+        css_selector(selenium, '.button_open-user-dropdown').click()
+        css_selector(selenium, '.button_account-link').click()
 
-        wait_for_element(
-                selenium, EC.invisibility_of_element_located(
-                        (By.XPATH, "//h1[text()='Polls']")))
-
-        css_selector(selenium, '.button_sign-up-link')
+        # Should be on login page and signup button should be visible
+        wait_for_element(selenium, EC.visibility_of_element_located(
+                (By.XPATH, "//h1[text()='Login']")))
+        css_selector(selenium, '.button_signup-link')

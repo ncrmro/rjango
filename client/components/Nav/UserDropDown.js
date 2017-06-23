@@ -9,13 +9,21 @@ import NavLink from 'react-router-dom/es/NavLink'
 import styles from './Nav.scss'
 import withRouter from 'react-router-dom/es/withRouter'
 
+function onClick(e, props) {
+  e.preventDefault()
+  props.handleUserDropdown(true)
+}
 
-let UserProfileDropDownButton = (props) =>
+function pushRoute(e, props, route) {
+  e.preventDefault()
+  props.history.push(route)
+}
+
+let UserDropDown = (props) =>
   <NavLink to="" >
     <Button
-      onClick={ e => {
-        e.preventDefault(), props.handleUserDropdown(true)
-      }}
+      onClick={ e => onClick(e, props)}
+      className='button_open-user-dropdown'
     >
       {props.user.username || props.user.email}
     </Button>
@@ -26,10 +34,8 @@ let UserProfileDropDownButton = (props) =>
         onClose={() => props.handleUserDropdown(false)}
       >
         <MenuItem
-          onClick={e => {
-            e.preventDefault()
-            props.history.push('/account')
-          }}
+          className='button_account-link'
+          onClick={e => pushRoute(e, props, '/account')}
         >
           Account
         </MenuItem>
@@ -44,15 +50,14 @@ let UserProfileDropDownButton = (props) =>
     </MenuAnchor>
   </NavLink>
 
-UserProfileDropDownButton = withRouter(UserProfileDropDownButton)
+UserDropDown = withRouter(UserDropDown)
 
-export default createFragmentContainer(UserProfileDropDownButton, {
+export default createFragmentContainer(UserDropDown, {
     user: graphql`
        fragment UserProfileDropdownButton_user on UserNode {
            username
            email
-    }
-    `
+    }`
   }
 )
 
