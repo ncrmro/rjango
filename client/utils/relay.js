@@ -1,17 +1,15 @@
-import React from 'react';
-import {hasValidJwtToken} from 'modules/auth/jwtUtils';
-import RelayLookupQueryRenderer from './RelayLookupQueryRenderer';
-import Loading from '../components/Loading/Loading';
+import React from 'react'
+import { hasValidJwtToken } from 'modules/auth/jwtUtils'
+import RelayLookupQueryRenderer from './RelayLookupQueryRenderer'
+import Loading from '../components/Loading/Loading'
+import Environment from 'relay-runtime/lib/RelayModernEnvironment'
+import Network from 'relay-runtime/lib/RelayNetwork'
+import RecordSource from 'relay-runtime/lib/RelayInMemoryRecordSource'
+import Store from 'relay-runtime/lib/RelayMarkSweepStore'
 
-const {
-  Environment,
-  Network,
-  RecordSource,
-  Store,
-} = require('relay-runtime');
 
-const source = new RecordSource();
-const store = new Store(source);
+const source = new RecordSource()
+const store = new Store(source)
 
 
 // Define a function that fetches the results of an operation (query/mutation/etc)
@@ -32,30 +30,32 @@ function fetchQuery(operation, variables/* , cacheConfig, uploadables*/) {
       query: operation.text, // GraphQL text from input
       variables,
     }),
-  }).then(response => response.json());
+  }).then(response => response.json())
 }
 
 // Create a network layer from the fetch function
-const network = Network.create(fetchQuery);
+const network = Network.create(fetchQuery)
 
 
 export const environment = new Environment({
   network,
   store,
-});
+})
 
 const RelayChild = (passedProps, error, props) => {
   if (props) {
-    return (<passedProps.ChildComponent
-      {...props}
-      routes={passedProps.routes}
-      environment={environment}
-    />);
+    return (
+      <passedProps.ChildComponent
+        {...props}
+        routes={passedProps.routes}
+        environment={environment}
+      />
+    )
   } else if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Error: {error}</div>
   }
-  return <Loading />;
-};
+  return <Loading />
+}
 
 export const RelayComponent = passedProps =>
   <RelayLookupQueryRenderer
@@ -64,4 +64,4 @@ export const RelayComponent = passedProps =>
     query={passedProps.query}
     variables={passedProps.variables}
     render={({ error, props }) => RelayChild(passedProps, error, props)}
-  />;
+  />

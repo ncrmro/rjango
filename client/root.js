@@ -1,29 +1,33 @@
 import React from 'react';
 import BrowserRouter from 'react-router-dom/es/BrowserRouter';
 import { graphql } from 'react-relay';
+import App from 'components/App/App'
 import routes from './routes';
-import RouteWithSubRoutes from './utils/RouteUtil';
+import RenderRoutes from './utils/RouteUtil';
 import { RelayComponent } from './utils/relay';
 
 const rootQuery = graphql`
     query rootViewerQuery {
         viewer {
-            ...App_viewer
-            ...Polls_viewer
-            ...PollsDetail_viewer
             ...Account_viewer
+            ...UserSystems_viewer
+            user {
+                ...UserDropDown_user
+                }
+            
         }
     }
 `;
 
-const Root = () => (
+const AppWrapper = App(RenderRoutes)
+
+const Root = () =>
   <BrowserRouter>
     <RelayComponent
-      ChildComponent={RouteWithSubRoutes}
+      ChildComponent={AppWrapper}
       routes={routes}
       query={rootQuery}
     />
-  </BrowserRouter>
-);
+  </BrowserRouter>;
 
 export default Root;
