@@ -185,6 +185,7 @@ class Auth extends React.Component {
               {isLogin ?
                 <Button
                   primary
+                  type="submit"
                   className='button_submit-login-form'
                 >
                   Login
@@ -192,6 +193,7 @@ class Auth extends React.Component {
                 :
                 <Button
                   primary
+                  type="submit"
                   className='button_submit-signup-form'
                 >
                   Sign up
