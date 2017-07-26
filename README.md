@@ -26,6 +26,15 @@ Reusable components go in ./client/components,
 If you'd like you can split of django apps into there own folders in the 
 ./client/modules like the django apps concept
 
+## Staging Data
+Factories should be used to generate the staging data during tests as well and in the development environment.
+
+A single django managment command should be available to get everything staged initial.
+
+This command should be composed of smaller commands defined in each django app's management folder. This way you can delete a single users object and regenerate or generate multiple for each users.
+
+`python3 manage.py stagedata`
+
 ## Prod
 
 See readme in `./lib/deployment`
