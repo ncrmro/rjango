@@ -14,10 +14,9 @@ client
 [libs]
 
 [options]
-module.name_mapper='^components\(\/?*\)$' -> '<PROJECT_ROOT>/clients/components/\1'
 module.name_mapper='.+\.s?css' -> 'empty/object'
 module.name_mapper='.+\.s?scss' -> 'empty/object'
-
-
+module.name_mapper='^components\(.*\)$' -> '<PROJECT_ROOT>/client/comonents/\1'
+module.name_mapper='^modules\(.*\)$' -> '<PROJECT_ROOT>/client/modules/\2'
 
 
