@@ -10,7 +10,7 @@ const rootQuery = graphql`
     query rootViewerQuery {
         viewer {
             ...Account_viewer
-            ...UserSystems_viewer
+            ...Polls_viewer
             user {
                 ...UserDropDown_user
                 }

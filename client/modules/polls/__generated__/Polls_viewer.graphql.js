@@ -3,7 +3,7 @@
  *   relay-compiler
  *
  * @providesModule Polls_viewer.graphql
- * @generated SignedSource<<1105db068e49a6b962d1eff1ba45de29>>
+ * @generated SignedSource<<23c0127f978314b67efaf4d8b22cbfc4>>
  * @flow
  * @nogrep
  */
@@ -33,12 +33,6 @@ const fragment /*: ConcreteFragment*/ = {
       "name": "first",
       "type": "Int",
       "defaultValue": 10
-    },
-    {
-      "kind": "LocalArgument",
-      "name": "active",
-      "type": "Boolean",
-      "defaultValue": true
     }
   ],
   "kind": "Fragment",

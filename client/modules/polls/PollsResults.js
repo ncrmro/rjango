@@ -8,7 +8,7 @@ import {
   Tooltip,
   XAxis,
   YAxis
-} from 'Recharts';
+} from 'recharts';
 
 import withRelayContainer from './PollsContainer';
 
