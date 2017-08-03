@@ -72,7 +72,7 @@
     "react-relay": "^1.0.0",
     "react-relay-network-layer": "^2.0.1",
     "react-router-dom": "^4.1.1",
-    "recharts": "^1.0.0-alpha.0",
+    "recharts": "^1.0.0-alpha.2",
     "relay-compiler": "^1.0.0",
     "relay-runtime": "^1.0.0",
     "sass-loader": "^6.0.5",
