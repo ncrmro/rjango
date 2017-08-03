@@ -22,16 +22,16 @@ dependencies:
     # Pulls images if they aren't already cached
     - docker pull ncrmro/adbase:alpine
     - docker pull selenium/standalone-chrome-debug:3.0.1-fermium
-    - docker build -t ncrmro/reango .
+    - docker build -f ./lib/deployment/docker/Dockerfile -t ncrmro/reango .
     # Setup and save docker cache
     - mkdir -p ~/docker
     - docker save ncrmro/adbase:alpine selenium/standalone-chrome-debug:3.0.1-fermium > ~/docker/image.tar
 
 test:
   pre:
-    - docker-compose -f docker-compose.test.yml run --name selenium_chrome -d selenium_chrome
+    - docker-compose -f ./lib/deployment/docker/docker-compose.test.yml run --name selenium_chrome -d selenium_chrome
   override:
-    - docker-compose -f docker-compose.test.yml run --name reango --no-deps reango
+    - docker-compose -f ./lib/deployment/docker/docker-compose.test.yml run --name reango --no-deps reango
   post:
      # docker-compose stop was not stopping containers started with docker-compose run
      # so using this hackity hack to force stop them all
