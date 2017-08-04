@@ -1,13 +1,13 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 import React from 'react'
 import Textfield from 'react-mdc-web/lib/Textfield/Textfield'
 import Button from 'react-mdc-web/lib/Button'
 import Checkbox from 'react-mdc-web/lib/Checkbox'
-import Page from 'components/Page/Page'
 import LoginUserMutation from './mutations/Login'
 import SignupUserMutation from './mutations/Signup'
 import { authenticatedRoute } from './utils'
+import FormMessageList from 'components/FormMessageList/FormMessageList'
 import styles from './Auth.scss'
+import Page from 'components/Page/Page'
 
 function isLoginCheck() {
   return window.location.pathname === '/login'
@@ -23,7 +23,6 @@ function validateInput(input) {
   const passwordsMatch = passwordMatchValidation(input)
   // So we don't delete the original state values
   input = { ...input }
-
   if (!passwordsMatch && !isLoginCheck()) {
     id++
     errors.push({
@@ -62,7 +61,7 @@ class Auth extends React.Component {
     super(props)
     const initialInput = {
       email: '',
-      password: '',
+      password: ''
     }
     if (!isLoginCheck(props)) {
       initialInput.passwordConfirmation = ''
@@ -85,7 +84,6 @@ class Auth extends React.Component {
   }
 
   setErrors = (errors) => {
-    console.log('errors', errors)
     this.setState({ errors })
   }
 
@@ -113,6 +111,7 @@ class Auth extends React.Component {
     else return []
   }
 
+
   render() {
     const { input, errors } = this.state
     const isLogin = isLoginCheck(this.props)
@@ -121,93 +120,77 @@ class Auth extends React.Component {
     return (
       <Page
         heading={isLogin ? 'Login' : ' Sign up'}
-        style={{ display: 'flex', justifyContent: 'center' }}
-      >
 
+      >
         <form
           id={isLogin ? 'Login' : ' Sign up'}
           onSubmit={this.submitForm}
           className={styles.form}
         >
-          { errors.length ?
-            <ul className="errorMessages" >
-              {
-                errors.map(error =>
-                  <li key={error.id || error.key} >
-                    {error.message}
-                  </li>
-                )
-              }
-            </ul>
-            :
-            null
-          }
+          <FormMessageList messages={errors} />
+          <Textfield
+            id='email'
+            className={`${styles.textFields} email_input`}
+            onChange={this.handleFieldChange.bind(this)}
+            value={input.email}
+            floatingLabel='Email'
+            type='email'
+            required
+          />
+          <br />
 
-          <div className={styles.formContainer} >
+          <Textfield
+            id='password'
+            className={styles.textFields}
+            onChange={this.handleFieldChange.bind(this)}
+            value={input.password}
+            floatingLabel='Password'
+            type='password'
+            minLength={8}
+            helptext='Your password must be at least 8 characters'
+            helptextValidation
+            required
+          />
+          {!isLogin ?
             <Textfield
-              id='email'
-              className={`${styles.textFields} email_input`}
+              id='passwordConfirmation'
               onChange={this.handleFieldChange.bind(this)}
-              value={input.email}
-              floatingLabel='Email'
-              type='email'
-              required
-            />
-            <br />
-
-            <Textfield
-              id='password'
+              value={input.passwordConfirmation}
               className={styles.textFields}
-              onChange={this.handleFieldChange.bind(this)}
-              value={input.password}
-              floatingLabel='Password'
+              floatingLabel='Password Confirmation'
               type='password'
-              minLength={8}
-              helptext='Your password must be at least 8 characters'
-              helptextValidation
               required
             />
-            {!isLogin ?
-              <Textfield
-                id='passwordConfirmation'
-                onChange={this.handleFieldChange.bind(this)}
-                value={input.passwordConfirmation}
-                className={styles.textFields}
-                floatingLabel='Password Confirmation'
-                type='password'
-                required
-              />
-              : null}
+            : null}
 
-            <div style={{ textAlign: 'right' }} >
+          <div style={{ textAlign: 'right' }} >
 
-              <a href='#' >Forgot password</a>
-              {isLogin ?
-                <Button
-                  primary
-                  type="submit"
-                  className='button_submit-login-form'
-                >
-                  Login
-                </Button>
-                :
-                <Button
-                  primary
-                  type="submit"
-                  className='button_submit-signup-form'
-                >
-                  Sign up
-                </Button>
-              }
-              <br />
-              { isLogin ?
-                <div>
-                  <Checkbox
-                    label='Remember me'
-                    style={{ textAlign: 'right' }}
-                  /> <label>Remember Me</label>
-                </div> : null }
-            </div>
+            <a href='#' >Forgot password</a>
+            {isLogin ?
+              <Button
+                primary
+                type="submit"
+                className='button_submit-login-form'
+              >
+                Login
+              </Button>
+              :
+              <Button
+                primary
+                type="submit"
+                className='button_submit-signup-form'
+              >
+                Sign up
+              </Button>
+            }
+            <br />
+            { isLogin ?
+              <div>
+                <Checkbox
+                  label='Remember me'
+                  style={{ textAlign: 'right' }}
+                /> <label>Remember Me</label>
+              </div> : null }
           </div>
         </form>
       </Page>

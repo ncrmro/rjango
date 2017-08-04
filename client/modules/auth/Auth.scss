@@ -1,12 +1,10 @@
 .form {
-  width: 100%;
-  display: grid;
-  justify-content: center;
-
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-.formContainer {
-  width: 500px
+.formFields {
+  max-width: 500px
 }
 
 .formActions {
