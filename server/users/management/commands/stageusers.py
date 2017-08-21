@@ -1,3 +1,10 @@
+from django.conf import settings
+from django.core.management.base import BaseCommand
+from django.contrib.auth import get_user_model
+from ...factory import create_test_admin
+from ...factory import generate_fake_users
+
+
 class Command(BaseCommand):
     """Create admin and fake users"""
 
