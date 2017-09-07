@@ -5,6 +5,7 @@ import Route from 'react-router-dom/es/Route'
 import Switch from 'react-router-dom/es/Switch'
 
 import queryString from 'query-string'
+//import analyticsCallback from './analyticsCallback'
 
 export const cleanNullKeysFromObject = (object) => {
   // Remove null values from object
@@ -12,8 +13,26 @@ export const cleanNullKeysFromObject = (object) => {
   return object
 }
 
-export const parseUrlParams = (initialVariables) => {
-  const parsed = queryString.parse(window.location.search)
+function isObject(val) {
+  if (val === null) {
+    return false
+  }
+  return ( (typeof val === 'function') || (typeof val === 'object') )
+}
+
+
+function parseSubObjects(obj) {
+  for (const key in obj) {
+    if (isObject(obj[key])) {
+      obj[key] = JSON.parse(obj[key])
+    }
+  }
+  return obj
+}
+
+export const parseUrlParams = (initialVariables? = {}) => {
+  let parsed = queryString.parse(window.location.search)
+  parsed = parseSubObjects(parsed)
   for (const index in parsed) {
     const attr = parsed[index]
     initialVariables[index] = attr
@@ -24,24 +43,14 @@ export const parseUrlParams = (initialVariables) => {
   return initialVariables
 }
 
+
 function RenderRoutes(props) {
   const _subRoutes = (route, router) => {
+    router.urlParams = parseUrlParams()
+    router.queryString = queryString
+    router.pushParams = params => router.history.push(`?${queryString.stringify(params)}`)
     const newProps = { router, ...props }
-    if (route.indexRoute) {
-      return (
-        <route.component {...newProps} >
-          <route.indexRoute.component {...newProps} />
-          {_renderRoutes(route.childRoutes)}
-        </route.component>
-      )
-    }
-    if (route.childRoutes) {
-      return (
-        <route.component {...newProps} >
-          {_renderRoutes(route.childRoutes)}
-        </route.component>
-      )
-    }
+    //analyticsCallback(newProps)
     return <route.component {...newProps} />
   }
 
