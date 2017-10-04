@@ -177,6 +177,7 @@ module.exports = {
     alias: {
       components: path.resolve(__dirname, 'client/components'),
       modules: path.resolve(__dirname, 'client/modules'),
+      utils: path.resolve(__dirname, 'client/utils'),
     }
   },
   plugins
