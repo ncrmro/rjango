@@ -1,44 +1,31 @@
-import React from 'react';
-import NavLink from 'react-router-dom/es/NavLink';
-import Toolbar from 'react-mdc-web/lib/Toolbar/Toolbar';
-import ToolbarSection from 'react-mdc-web/lib/Toolbar/ToolbarSection';
-import ToolbarTitle from 'react-mdc-web/lib/Toolbar/ToolbarTitle';
-import ToolbarRow from 'react-mdc-web/lib/Toolbar/ToolbarRow';
-import Button from 'react-mdc-web/lib/Button/Button';
-import Icon from 'react-mdc-web/lib/Icon/Icon';
-import UserDropDown from './UserDropDown';
-import styles from './Nav.scss';
-import { logoutViewer } from 'modules/auth/jwtUtils';
-import MobileDrawer from './MobileDrawer';
-type NavPropsType = { title: string, isAuthenticated: boolean, isAdmin: boolean }
+// @flow
+import React from 'react'
+import NavLink from 'react-router-dom/es/NavLink'
+import Toolbar from 'react-mdc-web/lib/Toolbar/Toolbar'
+import ToolbarSection from 'react-mdc-web/lib/Toolbar/ToolbarSection'
+import ToolbarTitle from 'react-mdc-web/lib/Toolbar/ToolbarTitle'
+import ToolbarRow from 'react-mdc-web/lib/Toolbar/ToolbarRow'
+import Button from 'react-mdc-web/lib/Button/Button'
+import Icon from 'react-mdc-web/lib/Icon/Icon'
+import UserDropDown from './UserDropDown'
+import { logoutViewer } from 'modules/auth/jwtUtils'
+import MobileDrawer from './MobileDrawer'
+import styles from './Nav.scss'
 
-
-export const HomeLink = ({ title }: { title: NavPropsType.title }) =>
+const HomeLink = ({ title }: { title: NavPropsType.title }) =>
   <NavLink to='/' >
-    <Button >{title}</Button>
-  </NavLink>;
+    <Button
+    >
+      {title}
+    </Button>
+  </NavLink>
 
-const AdminLink = () =>
-  <NavLink to='/admin/' >
-    <Button >Admin</Button>
-  </NavLink>;
 
-type LinksPropType = { isAuthenticated: NavPropsType.isAuthenticated, isAdmin: NavPropsType.isAdmin };
-
-const AuthenticatedLinks = (props) =>
-  <div>
-    <NavLink className='button_polls-link' to='/polls/' >
-      <Button >Polls</Button>
-    </NavLink>
-    <UserDropDown
-      userDropdownIsOpen={props.userDropdownIsOpen}
-      handleUserDropdown={props.handleUserDropdown}
-      signoutViewer={() => logoutViewer()}
-      user={props.viewer.user}
-      router={props.router}
-    />
-  </div>;
-
+type viewerType = {
+  isAuthenticated: boolean,
+  isAdmin: boolean,
+  user: Object
+}
 const NonAuthenticatedLinks = () =>
   <div>
     <NavLink className='button_signup-link' to='/signup' >
@@ -47,48 +34,100 @@ const NonAuthenticatedLinks = () =>
     <NavLink className='button_login-link' to='/login' >
       <Button >Login</Button>
     </NavLink>
-  </div>;
+  </div>
 
+/*<NavLink className='button_upgrades-link' to='/upgrades/' >
+ <Button >Upgrade</Button>
+ </NavLink>
+ */
+const AuthenticatedLinks = (props) =>
+  <div style={{ display: 'inline-flex' }} >
+    {
+      props.viewer.isAdmin ?
+        <NavLink className='button_admin-link' to='/admin/dashboard' >
+          <Button >Admin</Button>
+        </NavLink> :
+        null
+    }
+
+    <UserDropDown
+      userDropdownIsOpen={props.userDropdownIsOpen}
+      toggleUserDropdown={props.toggleUserDropdown}
+      signoutViewer={() => logoutViewer()}
+      user={props.viewer.user}
+      router={props.router}
+    />
+  </div>
+
+type LinksPropType = {
+  viewer: viewerType,
+  router: Object,
+  mobile: Boolean,
+  userDropdownIsOpen: Boolean,
+  partBrowserDropdownIsOpen: Boolean,
+  toggleUserDropdown: Function,
+};
 const Links = (props: LinksPropType) =>
-  <div>
-    {props.isAuthenticated ?
+  <div className={styles.rightNav} >
+    {props.viewer.isAuthenticated ?
       <AuthenticatedLinks
         userDropdownIsOpen={props.userDropdownIsOpen}
-        handleUserDropdown={props.handleUserDropdown}
+        toggleUserDropdown={props.toggleUserDropdown}
+        partBrowserDropdownIsOpen={props.partBrowserDropdownIsOpen}
+        togglePartBrowserDropdown={props.togglePartBrowserDropdown}
         router={props.router}
         // overide messes with style for now
         viewer={props.viewer}
-        isAdmin={props.isAdmin}
         mobile={props.mobile}
       /> :
       <NonAuthenticatedLinks />
     }
-  </div>;
+  </div>
 
 
+type NavPropsType = {
+  title: string,
+  viewer: viewerType
+}
 
-class Nav extends React.Component {
+type NavStateType = {
+  mobileNavOpen: boolean,
+  userDropdownIsOpen: boolean,
+  partBrowserDropdownIsOpen: boolean
+}
+
+class Nav extends React.PureComponent {
   constructor(props: Object) {
-    super(props);
+    super(props)
     this.state = {
       mobileNavOpen: false,
-      userDropdownIsOpen: false
-    };
+      userDropdownIsOpen: false,
+      partBrowserDropdownIsOpen: false
+    }
   }
 
-  state: { mobileNavOpen: boolean };
-  props: NavPropsType;
+  state: NavStateType
+  props: NavPropsType
 
-  handleUserDropdown(open = true) {
-    this.setState({ userDropdownIsOpen: open } )}
+  toggleUserDropdown() {
+    this.setState({ userDropdownIsOpen: !this.state.userDropdownIsOpen })
+  }
+
+  togglePartBrowserDropdown() {
+    this.setState({ partBrowserDropdownIsOpen: !this.state.partBrowserDropdownIsOpen })
+  }
+
+  toggleMobileNav() {
+    this.setState({ mobileNavOpen: !this.state.mobileNavOpen })
+  }
 
 
   render() {
-    const { isAuthenticated, isAdmin, title, router, routes, viewer } = this.props;
-    const { userDropdownIsOpen } = this.state;
+    const { title, router, viewer } = this.props
+    const { userDropdownIsOpen, partBrowserDropdownIsOpen, mobileNavOpen } = this.state
 
     return (
-      <div >
+      <div className={styles.navRoot} >
         <Toolbar>
           <ToolbarRow className={styles.toolbarRow} >
             <ToolbarSection align='start' >
@@ -96,9 +135,7 @@ class Nav extends React.Component {
                 <HomeLink title={title} />
               </ToolbarTitle>
               <Button
-                onClick={() => {
-                  this.setState({ mobileNavOpen: !this.state.mobileNavOpen });
-                }}
+                onClick={() => this.toggleMobileNav()}
               >
                 <Icon
                   name='menu'
@@ -106,42 +143,35 @@ class Nav extends React.Component {
                 />
               </Button>
             </ToolbarSection>
-            <ToolbarSection align='end' style={{overflow: 'visible'}}>
+            <ToolbarSection align='end' style={{ overflow: 'visible' }} >
               <Links
-                isAuthenticated={isAuthenticated}
-                isAdmin={isAdmin}
                 userDropdownIsOpen={userDropdownIsOpen}
-                handleUserDropdown={this.handleUserDropdown.bind(this)}
+                toggleUserDropdown={this.toggleUserDropdown.bind(this)}
+                partBrowserDropdownIsOpen={partBrowserDropdownIsOpen}
+                togglePartBrowserDropdown={this.togglePartBrowserDropdown.bind(this)}
                 router={router}
                 viewer={viewer}
               />
             </ToolbarSection>
           </ToolbarRow>
         </Toolbar>
-        {this.state.mobileNavOpen ?
+        {mobileNavOpen ?
           <MobileDrawer
             open
-            onClose={() => {
-              this.setState({ mobileNavOpen: false });
-            }}
-            isAuthenticated={isAuthenticated}
-            isAdmin={isAdmin}
+            onClose={() => this.toggleMobileNav()}
             title={title}
           >
             <Links
-              isAuthenticated={isAuthenticated}
-              isAdmin={isAdmin}
               userDropdownIsOpen={userDropdownIsOpen}
-              handleUserDropdown={() => this.handleUserDropdown}
+              toggleUserDropdown={() => this.toggleUserDropdown}
               viewer={viewer}
               router={router}
               mobile
             />
           </MobileDrawer> : null
         }
-
       </div>
-    );
+    )
   }
 
 

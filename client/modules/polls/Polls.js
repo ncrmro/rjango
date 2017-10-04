@@ -1,13 +1,14 @@
-import React from 'react';
-import Page from 'components/Page/Page';
-import { createFragmentContainer, createRefetchContainer } from 'react-relay';
-import Link from 'react-router-dom/es/Link';
-import styles from './Polls.scss';
+import React from 'react'
+import Page from 'components/Page/Page'
+import { createFragmentContainer, createRefetchContainer } from 'react-relay'
+import Link from 'react-router-dom/es/Link'
+import styles from './Polls.scss'
+import withRelayContainer from 'utils/relay'
 
 let Question = ({ question }) =>
-  <div className={styles.question}>
+  <div className={styles.question} >
     <Link to={`/polls/${question.id}/detail`} >{question.questionText}</Link>
-  </div>;
+  </div>
 
 Question = createFragmentContainer(Question, {
   question: graphql`
@@ -16,7 +17,7 @@ Question = createFragmentContainer(Question, {
           questionText
       }
   `
-});
+})
 
 const PollsList = props =>
   <Page
@@ -33,13 +34,13 @@ const PollsList = props =>
           </li>
       ) : 'loading..'}
     </ul>
-  </Page>;
+  </Page>
 
 
-export default createRefetchContainer(PollsList, {
-  viewer: graphql.experimental`
+const PollsListRefetchContainer = createRefetchContainer(PollsList, {
+    viewer: graphql.experimental`
         fragment Polls_viewer on Viewer
-         @argumentDefinitions(
+        @argumentDefinitions(
             first: {type: "Int", defaultValue: 10},
         )
         {
@@ -53,14 +54,31 @@ export default createRefetchContainer(PollsList, {
             }
         }
     `
-},
+  },
   graphql.experimental`
       query PollsListRefetchQuery($first: Int) {
           viewer{
               ...Polls_viewer @arguments(
-                    first: $first,
-                  )
+                  first: $first,
+              )
           }
       }
   `
-);
+)
+
+const query = graphql`
+    query PollsQuery{
+        viewer{
+            id
+            questions{
+                edges {
+                    node {
+                        id
+                        ...Polls_question
+                    }
+                }
+            }
+        }
+    }
+`
+export default withRelayContainer(PollsList, query)

@@ -1,33 +1,25 @@
-import React from 'react';
-import BrowserRouter from 'react-router-dom/es/BrowserRouter';
-import { graphql } from 'react-relay';
+import React from 'react'
+import BrowserRouter from 'react-router-dom/es/BrowserRouter'
+import { graphql } from 'react-relay'
 import App from 'components/App/App'
-import routes from './routes';
-import RenderRoutes from './utils/RouteUtil';
-import { RelayComponent } from './utils/relay';
+import routes from './routes'
+import RouteWithSubRoutes from './utils/RouteUtil'
+import createBrowserHistory from 'history/es/createBrowserHistory'
+import { environment } from 'utils/relay'
+import { isAuthenticated } from 'modules/auth/utils'
+//require('offline-plugin/runtime').install()
 
-const rootQuery = graphql`
-    query rootViewerQuery {
-        viewer {
-            ...Account_viewer
-            ...Polls_viewer
-            user {
-                ...UserDropDown_user
-                }
-            
-        }
-    }
-`;
+const history = createBrowserHistory()
 
-const AppWrapper = App(RenderRoutes)
+const Root = (props) =>
+  <BrowserRouter history={history} >
+    <App {...props}>
+      <RouteWithSubRoutes
+        {...props}
+        routes={routes}
+        relay={{ environment }}
+      />
+    </App>
+  </BrowserRouter>
 
-const Root = () =>
-  <BrowserRouter>
-    <RelayComponent
-      ChildComponent={AppWrapper}
-      routes={routes}
-      query={rootQuery}
-    />
-  </BrowserRouter>;
-
-export default Root;
+export default isAuthenticated(Root)

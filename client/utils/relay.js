@@ -1,17 +1,44 @@
 import React from 'react'
 import { hasValidJwtToken } from 'modules/auth/jwtUtils'
-import RelayLookupQueryRenderer from './RelayLookupQueryRenderer'
 import Loading from '../components/Loading/Loading'
-import Environment from 'relay-runtime/lib/RelayModernEnvironment'
-import Network from 'relay-runtime/lib/RelayNetwork'
-import RecordSource from 'relay-runtime/lib/RelayInMemoryRecordSource'
-import Store from 'relay-runtime/lib/RelayMarkSweepStore'
 
+import { QueryRenderer } from 'react-relay'
+
+import {
+  ConnectionHandler,
+  Environment,
+  Network,
+  RecordSource,
+  Store
+} from 'relay-runtime'
 
 const source = new RecordSource()
 const store = new Store(source)
 
+function update(store, payload) {
+  const record = store.get(payload.dataID)
+  if (!record) {
+    return
+  }
+  const serverViewer = record.getLinkedRecord(payload.fieldKey)
+  record.setLinkedRecord(serverViewer, payload.handleKey)
 
+  const root = store.getRoot()
+  root.setLinkedRecord(serverViewer, payload.handleKey)
+}
+
+function handlerProvider(handle) {
+  //https://github.com/facebook/relay/issues/1668#issuecomment-298828818
+  switch (handle) {
+    // Augment (or remove from) this list:
+    case 'connection':
+      return ConnectionHandler
+    case 'viewer':
+      return { update }
+    default:
+      throw new Error(`handlerProvider: No handler provided for ${handle}`)
+  }
+}
 // Define a function that fetches the results of an operation (query/mutation/etc)
 // and returns its results as a Promise:
 function fetchQuery(operation, variables/* , cacheConfig, uploadables*/) {
@@ -24,12 +51,12 @@ function fetchQuery(operation, variables/* , cacheConfig, uploadables*/) {
     headers: {
       authorization: `Bearer ${hasValidJwtToken().token}`,
       Accept: 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     }, // Add authentication and other headers here
     body: JSON.stringify({
       query: operation.text, // GraphQL text from input
-      variables,
-    }),
+      variables
+    })
   }).then(response => response.json())
 }
 
@@ -38,30 +65,58 @@ const network = Network.create(fetchQuery)
 
 
 export const environment = new Environment({
+  handlerProvider,
   network,
-  store,
+  store
 })
 
-const RelayChild = (passedProps, error, props) => {
-  if (props) {
-    return (
-      <passedProps.ChildComponent
-        {...props}
-        routes={passedProps.routes}
-        environment={environment}
-      />
-    )
-  } else if (error) {
-    return <div>Error: {error}</div>
+
+function spreadVariables({ relay, router }, variables) {
+  let nextVar = {
+    ...variables
   }
-  return <Loading />
+  if (router) {
+    nextVar = {
+      ...nextVar,
+      ...router.urlParams,
+      ...router.match.params
+    }
+  }
+  if (relay && relay.variables) {
+    nextVar = {
+      ...nextVar,
+      ...relay.variables
+    }
+  }
+  return nextVar
 }
 
-export const RelayComponent = passedProps =>
-  <RelayLookupQueryRenderer
-    lookup
-    environment={environment}
-    query={passedProps.query}
-    variables={passedProps.variables}
-    render={({ error, props }) => RelayChild(passedProps, error, props)}
-  />
+export function withRelayContainer(WrappedComponent, query, variables = {}) {
+  return (passedProps) =>
+    <QueryRenderer
+      environment={environment}
+      query={query}
+      variables={spreadVariables(passedProps, variables)}
+      render={({ error, props }) => {
+        if (props) {
+          const viewerProps = { viewer: {...passedProps.viewer, ...props.viewer} }
+          return <WrappedComponent
+            { ...passedProps}
+            { ...props}
+            { ...viewerProps}
+            relay={{ ...passedProps.relay, environment }}
+          />
+        }
+        else if (error) {
+          return <div> {error} </div>
+        }
+        else {
+          return <Loading />
+        }
+
+      }
+      }
+    />
+}
+
+export default withRelayContainer

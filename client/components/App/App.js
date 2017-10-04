@@ -9,24 +9,21 @@ import '../../styles/global.scss'
 
 const title = 'Reango'
 
-let App = (props: { children: Object }) =>
+type AppType = { children: Object }
+let App = (props: AppType) =>
   <div className={styles.root} >
     <Nav
       title={title}
       router={props.router}
       routes={props.routes}
       viewer={props.viewer}
+      isAuthenticated={props.isAuthenticated}
+      isAdmin={props.isAdmin}
     />
-    <div className={styles.navBackground} />
     <div className={styles.content} >
       {props.children}
     </div>
     <Footer title={title} />
   </div>
 
-export default function App(ComposedClass) {
-  return (props) =>
-    <App {...props} >
-      <ComposedClass {...props} />
-    </App>
-}
+export default App
