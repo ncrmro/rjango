@@ -8,7 +8,7 @@ from .models import Choice, Vote
 from .models import Question
 
 questions = [
-    'Do andriods dream of sheep',
+    'Do andriods dream of sleep',
     'Will we make it to mars',
     'Whose the smartest of them all'
 ]
@@ -68,5 +68,5 @@ def stage_polls():
             question_text='Do andriods dream of sheep'
     )
     QuestionWithChoicesFactor(
-            question_text='Will we make it to marks'
+            question_text='Will we make it to mars'
     )
