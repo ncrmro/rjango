@@ -1,8 +1,7 @@
 import React from 'react';
 import Bundle from '../utils/bundleLoader'
 //import QuestionBrowser from 'modules/polls/QuestionBrowser';
-import QuestionPage from 'modules/polls/QuestionPage/QuestionPage';
-import QuestionResults from 'modules/polls/QuestionPage/QuestionResults';
+import QuestionResults from 'modules/polls/QuestionResults/QuestionResults';
 import PollsVote from 'modules/polls/VoteForm/VoteForm';
 
 
@@ -18,10 +17,6 @@ const pollRoutes = [
   {
     path: '/polls',
     component: QuestionBrowser,
-  },
-  {
-    path: '/polls/:id/detail',
-    component: QuestionPage,
   },
   {
     path: '/polls/:id/results',

@@ -1,5 +1,7 @@
 import React from 'react'
-import { createFragmentContainer } from 'react-relay'
+import Page from 'components/Page/Page'
+import styles from '../Polls.scss'
+
 import {
   Bar,
   BarChart,
@@ -18,13 +20,14 @@ const getChartDataFromRelayEdges = (edges) => {
     let newNode = { ...node }
     values = values.concat(newNode)
   })
-  console.log(values[0])
   return values
 }
 
-let QuestionResults = ({ question }) =>
-  <div >
+let QuestionResults = ({ viewer: { question } }) =>
+  <Page heading='Question' className={styles.pollDetailRoot} >
+
     <h3>Results: </h3>
+    <h2>{question.questionText}</h2>
 
     <BarChart
       width={600}
@@ -39,26 +42,27 @@ let QuestionResults = ({ question }) =>
       <Legend />
       <Bar dataKey="voteCount" fill="#8884d8" />
     </BarChart>
+  </Page>
 
 
-  </div>
+const query = graphql`
+    query QuestionResultsQuery($id: ID!) {
+        viewer{
+            question(id: $id) {
+                id
+                questionText
+                choiceSet(first:10){
+                    edges{
+                        node{
+                            id
+                            choiceText
+                            voteCount
+                        }
+                    }
+                }
+            }
+        }
+    }
+`
+export default withRelayContainer(QuestionResults, query)
 
-QuestionResults = createFragmentContainer(QuestionResults, {
-  question: graphql`
-      fragment QuestionResults_question on Question {
-          id
-          questionText
-          choiceSet(first:10){
-              edges{
-                  node{
-                      id
-                      choiceText
-                      voteCount
-                  }
-              }
-          }
-      }
-  `
-})
-
-export default withRelayContainer(QuestionResults)
