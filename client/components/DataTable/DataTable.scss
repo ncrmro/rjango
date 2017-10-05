@@ -1,0 +1,85 @@
+@import '../../styles/variables.scss';
+
+table {
+    margin: 0 auto;
+    position: relative;
+    border: 1px solid rgba(0,0,0,.12);
+    border-collapse: collapse;
+    white-space: nowrap;
+    font-size: 13px;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    margin-bottom: 10px
+}
+
+thead {
+    padding-bottom: 3px
+}
+
+tbody tr {
+    position: relative;
+    height: 48px;
+    transition-duration: .28s;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-property: background-color
+}
+
+td, th {
+    padding: 0 18px 12px;
+    text-align: right
+}
+
+td:first-of-type, th:first-of-type {
+    padding-left: 24px
+}
+
+td:last-of-type, th:last-of-type {
+    padding-right: 24px
+}
+td {
+    position: relative;
+    height: 48px;
+    border-top: 1px solid rgba(0,0,0,.12);
+    border-bottom: 1px solid rgba(0,0,0,.12);
+    padding-top: 12px;
+    box-sizing: border-box
+}
+
+td, td {
+    vertical-align: middle
+}
+
+th {
+    position: relative;
+    vertical-align: bottom;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0;
+    height: 48px;
+    font-size: 12px;
+    color: rgba(0,0,0,.54);
+    padding-bottom: 8px;
+    box-sizing: border-box
+}
+
+th table tr td thead tbody {
+    font-family: Material Icons;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    word-wrap: normal;
+    font-feature-settings: 'liga';
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    content: "\E5D8";
+    margin-right: 5px;
+    vertical-align: sub;
+    color: rgba(0,0,0,.26)
+}
