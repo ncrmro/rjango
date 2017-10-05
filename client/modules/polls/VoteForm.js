@@ -2,20 +2,20 @@ import React from 'react'
 import Button from 'react-mdc-web/lib/Button/Button'
 import { createFragmentContainer } from 'react-relay'
 
-import PollChoices from './PollChoices'
+import QuestionChoices from './QuestionChoices'
 import styles from './Polls.scss'
 import vote from './mutations/vote'
 
 export const variables = { count: 10 }
 
-type PollVotePropsType = {
+type VotePropsType = {
   environment: Object,
   router: Object,
   question: Object,
 
 }
-class PollVote extends React.Component {
-  constructor(props: PollVotePropsType) {
+class VoteForm extends React.Component {
+  constructor(props: VotePropsType) {
     super(props)
     this.state = {
       choice: {
@@ -47,7 +47,7 @@ class PollVote extends React.Component {
     const { choice } = this.state;
     return (
       <form className={styles.pollsVoteRoot} >
-        <PollChoices
+        <QuestionChoices
           choiceSet={question.choiceSet}
           action={selected => this._updateState(selected)}
           selected={choice.id}
@@ -65,15 +65,14 @@ class PollVote extends React.Component {
   }
 }
 
+// Should do some form of auth here
 //PollsVote = authenticatedRoute(true, PollsVote);
 
-export default createFragmentContainer(PollVote, {
+export default createFragmentContainer(VoteForm, {
   question: graphql`
-      fragment PollsVote_question on Question {
-          id
-          questionText
+      fragment VoteForm_question on Question {
           choiceSet(first:10){
-              ...PollChoices_choiceSet
+              ...QuestionChoices_choiceSet
           }
       }
   `

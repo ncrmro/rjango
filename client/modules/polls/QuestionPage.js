@@ -1,12 +1,12 @@
 import React from 'react'
-import { createRefetchContainer, graphql } from 'react-relay'
+import { graphql } from 'react-relay'
 import Page from 'components/Page/Page'
 import styles from './Polls.scss'
-import PollsVote from './PollsVote'
-import PollsResults from './PollsResults'
+import PollVoteForm from './VoteForm'
+import QuestionResults from './QuestionResults'
 import withRelayContainer from 'utils/relay';
 
-class PollDetail extends React.Component {
+class QuestionPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -22,12 +22,12 @@ class PollDetail extends React.Component {
           <div>
             <h2>{question.questionText}</h2>
             {question.hasViewerVoted ?
-              <PollsResults
+              <QuestionResults
                 environment={relay.environment}
                 question={question}
                 router={router}
               /> :
-              <PollsVote
+              <PollVoteForm
                 environment={relay.environment}
                 question={question}
                 router={router}
@@ -49,14 +49,15 @@ It could be split
 */
 
 const query = graphql`
-    query PollsDetailQuery($id: ID!) {
+    query QuestionPageQuery($id: ID!) {
         viewer{
             question(id: $id) {
                 questionText
                 hasViewerVoted
-                ...PollsVote_question
+                ...QuestionResults_question
+                ...VoteForm_question
             }
         }
     }
 `
-export default withRelayContainer(PollDetail, query)
+export default withRelayContainer(QuestionPage, query)

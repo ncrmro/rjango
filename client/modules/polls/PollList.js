@@ -1,6 +1,6 @@
 import React from 'react'
 import Page from 'components/Page/Page'
-import { createFragmentContainer, createRefetchContainer } from 'react-relay'
+import { createFragmentContainer } from 'react-relay'
 import Link from 'react-router-dom/es/Link'
 import styles from './Polls.scss'
 import withRelayContainer from 'utils/relay'
@@ -35,36 +35,6 @@ const PollsList = props =>
       ) : 'loading..'}
     </ul>
   </Page>
-
-
-const PollsListRefetchContainer = createRefetchContainer(PollsList, {
-    viewer: graphql.experimental`
-        fragment Polls_viewer on Viewer
-        @argumentDefinitions(
-            first: {type: "Int", defaultValue: 10},
-        )
-        {
-            questions(first: $first){
-                edges {
-                    node {
-                        id
-                        ...Polls_question
-                    }
-                }
-            }
-        }
-    `
-  },
-  graphql.experimental`
-      query PollsListRefetchQuery($first: Int) {
-          viewer{
-              ...Polls_viewer @arguments(
-                  first: $first,
-              )
-          }
-      }
-  `
-)
 
 const query = graphql`
     query PollsQuery{

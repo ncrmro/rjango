@@ -1,15 +1,15 @@
 import React from 'react';
 import Bundle from '../utils/bundleLoader'
 //import Polls from 'modules/polls/Polls';
-import PollsDetail from 'modules/polls/PollsDetail';
-import PollsResults from 'modules/polls/PollsResults';
-import PollsVote from 'modules/polls/PollsVote';
+import QuestionPage from 'modules/polls/QuestionPage';
+import QuestionResults from 'modules/polls/QuestionResults';
+import PollsVote from 'modules/polls/VoteForm';
 
 
-const PollsPage = props =>
+const PollList = props =>
   <Bundle
     load={() =>
-      import(/* webpackChunkName: "polls" */ 'modules/polls/Polls')}
+      import(/* webpackChunkName: "polls" */ 'modules/polls/PollList')}
   >
     { Component => <Component { ...props}/> }
   </Bundle>
@@ -17,15 +17,15 @@ const PollsPage = props =>
 const pollRoutes = [
   {
     path: '/polls',
-    component: PollsPage,
+    component: PollList,
   },
   {
     path: '/polls/:id/detail',
-    component: PollsDetail,
+    component: QuestionPage,
   },
   {
     path: '/polls/:id/results',
-    component: PollsResults,
+    component: QuestionResults,
   },
   {
     path: '/polls/:id/vote',

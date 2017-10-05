@@ -1,5 +1,5 @@
-import React from 'react';
-import { createFragmentContainer } from 'react-relay';
+import React from 'react'
+import { createFragmentContainer } from 'react-relay'
 import {
   Bar,
   BarChart,
@@ -8,21 +8,21 @@ import {
   Tooltip,
   XAxis,
   YAxis
-} from 'recharts';
+} from 'recharts'
 
-import withRelayContainer from './PollsContainer';
+import withRelayContainer from 'utils/relay'
 
 const getChartDataFromRelayEdges = (edges) => {
-  let values = [];
+  let values = []
   edges.map(({ node }) => {
-    let newNode = {...node};
-    values = values.concat(newNode);
-  });
-  console.log(values[0]);
+    let newNode = { ...node }
+    values = values.concat(newNode)
+  })
+  console.log(values[0])
   return values
-};
+}
 
-let PollsResult = ({ question }) =>
+let QuestionResults = ({ question }) =>
   <div >
     <h3>Results: </h3>
 
@@ -41,11 +41,11 @@ let PollsResult = ({ question }) =>
     </BarChart>
 
 
-  </div>;
+  </div>
 
-PollsResult = createFragmentContainer(PollsResult, {
+QuestionResults = createFragmentContainer(QuestionResults, {
   question: graphql`
-      fragment PollsResults_question on Question {
+      fragment QuestionResults_question on Question {
           id
           questionText
           choiceSet(first:10){
@@ -59,6 +59,6 @@ PollsResult = createFragmentContainer(PollsResult, {
           }
       }
   `
-});
+})
 
-export default withRelayContainer(PollsResult);
+export default withRelayContainer(QuestionResults)
