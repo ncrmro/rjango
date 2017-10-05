@@ -11,25 +11,16 @@ class PollDetail extends React.Component {
     super(props)
     this.state = {
       id: props.router.match.params.id,
-      isLoading: true
     }
-  }
-
-  _updateState(selected) {
-    this.setState({ selected })
   }
 
   render() {
     const { relay, viewer: { question }, router } = this.props
-    const { isLoading } = this.state
-    console.log(this.props)
-
     return (
-      <Page heading='Polls Detail' className={styles.pollDetailRoot} >
-        { isLoading ? 'loading' : null }
+      <Page heading='Question' className={styles.pollDetailRoot} >
         { question ?
           <div>
-            <h2>Question: {question.questionText}</h2>
+            <h2>{question.questionText}</h2>
             {question.hasViewerVoted ?
               <PollsResults
                 environment={relay.environment}

@@ -1,28 +1,27 @@
-import React from 'react';
-import Button from 'react-mdc-web/lib/Button/Button';
-import { createFragmentContainer } from 'react-relay';
-import { authenticatedRoute } from 'modules/auth/utils';
+import React from 'react'
+import Button from 'react-mdc-web/lib/Button/Button'
+import { createFragmentContainer } from 'react-relay'
 
-import PollChoices from './PollChoices';
-import styles from './Polls.scss';
-import vote from './mutations/vote';
+import PollChoices from './PollChoices'
+import styles from './Polls.scss'
+import vote from './mutations/vote'
 
-export const variables = { count: 10 };
+export const variables = { count: 10 }
 
-class PollsVote extends React.Component {
-  props = {
-    environment: Object,
-    router: Object,
-    question: Object,
+type PollVotePropsType = {
+  environment: Object,
+  router: Object,
+  question: Object,
 
-  };
-  constructor(props) {
-    super(props);
+}
+class PollVote extends React.Component {
+  constructor(props: PollVotePropsType) {
+    super(props)
     this.state = {
       choice: {
         id: ''
       }
-    };
+    }
   }
 
   _updateState(selected) {
@@ -68,7 +67,7 @@ class PollsVote extends React.Component {
 
 //PollsVote = authenticatedRoute(true, PollsVote);
 
-export default createFragmentContainer(PollsVote, {
+export default createFragmentContainer(PollVote, {
   question: graphql`
       fragment PollsVote_question on Question {
           id
