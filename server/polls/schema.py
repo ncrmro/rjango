@@ -16,7 +16,6 @@ class Question(DjangoObjectType):
 
     def resolve_has_viewer_voted(self, args, context, info):
         has_viewer_voted = bool(self.vote_set.filter(user=get_token_user(context)))
-        print(has_viewer_voted)
         return has_viewer_voted
 
 
