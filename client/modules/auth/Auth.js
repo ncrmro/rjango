@@ -91,12 +91,12 @@ class Auth extends React.Component {
     form.preventDefault()
     const isLogin = isLoginCheck(this.props)
     const { input, errors } = validateInput(this.state.input)
-    const { environment, router } = this.props
+    const { relay, router } = this.props
     if (!errors && isLogin) {
-      LoginUserMutation(environment, this.setErrors.bind(this), input)
+      LoginUserMutation(relay.environment, this.setErrors.bind(this), input)
     }
     else if (!errors) {
-      SignupUserMutation(environment, this.setErrors.bind(this), input)
+      SignupUserMutation(relay.environment, this.setErrors.bind(this), input)
     }
     else {
       this.setErrors(errors)

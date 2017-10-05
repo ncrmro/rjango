@@ -66,7 +66,7 @@ class PollsVote extends React.Component {
   }
 }
 
-PollsVote = authenticatedRoute(true, PollsVote);
+//PollsVote = authenticatedRoute(true, PollsVote);
 
 export default createFragmentContainer(PollsVote, {
   question: graphql`

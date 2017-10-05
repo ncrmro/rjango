@@ -15,8 +15,7 @@ class Question(DjangoObjectType):
     has_viewer_voted = graphene.Boolean()
 
     def resolve_has_viewer_voted(self, args, context, info):
-        return bool(
-                self.vote_set.filter(user_id=get_token_user_id(args, context)))
+        return bool(self.vote_set.filter(user_id=get_token_user_id(args, context)))
 
 
 class Choice(DjangoObjectType):

@@ -11,15 +11,25 @@ import withRouter from 'react-router-dom/es/withRouter'
 
 function onClick(e, props) {
   e.preventDefault()
-  props.handleUserDropdown(true)
+  props.toggleUserDropdown()
 }
 
 function pushRoute(e, props, route) {
   e.preventDefault()
   props.history.push(route)
 }
+type UserDropDownType = {
+  user: {
+    username?: string,
+    email?: string,
+    userDropdownIsOpen: boolean,
+    toggleUserDropdown: Function,
+    signoutViewer: Function,
+    router: Object
+  }
+}
 
-let UserDropDown = (props) =>
+let UserDropDown = (props: UserDropDownType) =>
   <NavLink to="" >
     <Button
       onClick={ e => onClick(e, props)}
@@ -31,7 +41,7 @@ let UserDropDown = (props) =>
     <MenuAnchor className={styles.currentUserDropdown} >
       <Menu
         open={props.userDropdownIsOpen}
-        onClose={() => props.handleUserDropdown(false)}
+        onClose={() => props.toggleUserDropdown()}
       >
         <MenuItem
           className='button_account-link'
@@ -52,12 +62,5 @@ let UserDropDown = (props) =>
 
 UserDropDown = withRouter(UserDropDown)
 
-export default createFragmentContainer(UserDropDown, {
-    user: graphql`
-       fragment UserDropDown_user on UserNode {
-           username
-           email
-    }`
-  }
-)
+export default UserDropDown
 

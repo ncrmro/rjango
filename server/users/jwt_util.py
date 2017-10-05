@@ -27,9 +27,9 @@ def get_token_user_id(args, context):
     return token_user_id
 
 
-def get_token_user(args, context):
+def get_token_user(context):
     """If a valid token is found return user"""
-    user_id = get_token_user_id(args, context)
+    user_id = get_token_user_id({}, context)
     user = get_user_model().objects.get(id=user_id)
     return user
 
