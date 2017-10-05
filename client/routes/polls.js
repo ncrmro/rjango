@@ -1,9 +1,9 @@
 import React from 'react';
 import Bundle from '../utils/bundleLoader'
 //import Polls from 'modules/polls/Polls';
-import QuestionPage from 'modules/polls/QuestionPage';
-import QuestionResults from 'modules/polls/QuestionResults';
-import PollsVote from 'modules/polls/VoteForm';
+import QuestionPage from 'modules/polls/QuestionPage/QuestionPage';
+import QuestionResults from 'modules/polls/QuestionPage/QuestionResults';
+import PollsVote from 'modules/polls/VoteForm/VoteForm';
 
 
 const PollList = props =>

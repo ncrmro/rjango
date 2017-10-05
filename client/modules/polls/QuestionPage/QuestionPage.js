@@ -1,8 +1,8 @@
 import React from 'react'
 import { graphql } from 'react-relay'
 import Page from 'components/Page/Page'
-import styles from './Polls.scss'
-import PollVoteForm from './VoteForm'
+import styles from '../Polls.scss'
+import PollVoteForm from '../VoteForm/VoteForm'
 import QuestionResults from './QuestionResults'
 import withRelayContainer from 'utils/relay';
 
@@ -21,6 +21,7 @@ class QuestionPage extends React.Component {
         { question ?
           <div>
             <h2>{question.questionText}</h2>
+            {console.log(question)}
             {question.hasViewerVoted ?
               <QuestionResults
                 environment={relay.environment}

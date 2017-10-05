@@ -2,7 +2,7 @@ import graphene
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 
-from users.jwt_util import get_token_user_id
+from users.jwt_util import get_token_user
 from .models import Question as QuestionModal, Choice as ChoiceModal, \
     Vote as VodeModal
 
@@ -15,7 +15,9 @@ class Question(DjangoObjectType):
     has_viewer_voted = graphene.Boolean()
 
     def resolve_has_viewer_voted(self, args, context, info):
-        return bool(self.vote_set.filter(user_id=get_token_user_id(args, context)))
+        has_viewer_voted = bool(self.vote_set.filter(user=get_token_user(context)))
+        print(has_viewer_voted)
+        return has_viewer_voted
 
 
 class Choice(DjangoObjectType):

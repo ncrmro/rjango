@@ -5,7 +5,7 @@ const {
 } = require('react-relay');
 
 const mutation = graphql`
-    mutation voteMutation(
+    mutation VoteMutation(
     $input: VoteMutationInput!
     ) {
         vote(input : $input) {

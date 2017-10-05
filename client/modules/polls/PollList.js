@@ -12,7 +12,7 @@ let Question = ({ question }) =>
 
 Question = createFragmentContainer(Question, {
   question: graphql`
-      fragment Polls_question on Question {
+      fragment PollList_question on Question {
           id
           questionText
       }
@@ -37,14 +37,14 @@ const PollsList = props =>
   </Page>
 
 const query = graphql`
-    query PollsQuery{
+    query PollListQuery{
         viewer{
             id
             questions{
                 edges {
                     node {
                         id
-                        ...Polls_question
+                        ...PollList_question
                     }
                 }
             }
