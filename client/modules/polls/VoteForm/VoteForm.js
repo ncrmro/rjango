@@ -1,10 +1,11 @@
 import React from 'react'
 import Button from 'react-mdc-web/lib/Button/Button'
-import { createFragmentContainer } from 'react-relay'
+import Page from 'components/Page/Page'
 
 import QuestionChoices from './QuestionChoices'
 import styles from '../Polls.scss'
 import VoteMutation from './VoteMutation'
+import withRelayContainer from 'utils/relay'
 
 export const variables = { count: 10 }
 
@@ -17,6 +18,10 @@ type VoteMutationPropsType = {
 class VoteMutationForm extends React.Component {
   constructor(props: VoteMutationPropsType) {
     super(props)
+    if (props.viewer.question.hasViewerVoted) {
+      // Will redirect user to previous url if they have already voted
+      props.router.history.goBack()
+    }
     this.state = {
       choice: {
         id: ''
@@ -35,44 +40,60 @@ class VoteMutationForm extends React.Component {
 
   _submitVoteMutation(form) {
     form.preventDefault()
-    const { environment, question } = this.props
+    const { relay, viewer: { question }, router } = this.props
     const { choice } = this.state
-    return VoteMutation(environment, question, choice, variables)
+    const input = { questionId: question.id, choiceId: choice.id }
+    const callback = () => router.history.push(`/polls/${question.id}/results`)
+    return VoteMutation(relay.environment, input, callback)
   }
 
   render() {
-    const { question, router } = this.props
+    const { viewer: { question }, router } = this.props
     const { choice } = this.state
     return (
-      <form className={styles.pollsVoteMutationRoot} >
-        <QuestionChoices
-          choiceSet={question.choiceSet}
-          action={selected => this._updateState(selected)}
-          selected={choice.id}
-        />
-        <div className={styles.pollsVoteMutationActions} >
-          <Button
-            onClick={form => this._returnToPolls(form)}
-          >
-            Cancel
-          </Button>
-          <Button onClick={form => this._submitVoteMutation(form)} >Submit</Button>
+      <Page
+        heading={`Question: ${question.questionText}`}
+        className={styles.pollDetailRoot}
+      >
+        <div>
+          <h2> Choices </h2>
+          <form className={styles.pollsVoteMutationRoot} >
+            <QuestionChoices
+              choiceSet={question.choiceSet}
+              action={selected => this._updateState(selected)}
+              selected={choice.id}
+            />
+            <div className={styles.pollsVoteMutationActions} >
+              <Button
+                onClick={form => this._returnToPolls(form)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={form => this._submitVoteMutation(form)} >Submit</Button>
+            </div>
+
+          </form>
         </div>
-      </form>
+      </Page>
+
     )
   }
 }
 
-// Should do some form of auth here
-//PollsVoteMutation = authenticatedRoute(true, PollsVoteMutation);
 
-export default createFragmentContainer(VoteMutationForm, {
-  question: graphql`
-      fragment VoteForm_question on Question {
-          choiceSet(first:10){
-              ...QuestionChoices_choiceSet
-          }
-      }
-  `
-})
-
+const query = graphql`
+    query VoteFormQuery($id: ID!) {
+        viewer{
+            question(id: $id) {
+                id
+                questionText
+                hasViewerVoted
+                choiceSet(first:10){
+                    ...QuestionChoices_choiceSet
+                }
+            }
+        }
+    }
+`
+export default withRelayContainer(VoteMutationForm, query)

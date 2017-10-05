@@ -19,7 +19,6 @@ let QuestionChoices = ({ choiceSet, action, selected }) =>
             value={node.id}
           >
             {node.choiceText}
-            {node.voteCount}
           </Radio>)}
       </RadioGroup> :
       'This poll doesn\'t appear to to have any choices.'

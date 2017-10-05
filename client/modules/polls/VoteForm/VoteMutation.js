@@ -1,8 +1,7 @@
-import { ConnectionHandler } from 'relay-runtime';
 const {
   commitMutation,
-  graphql,
-} = require('react-relay');
+  graphql
+} = require('react-relay')
 
 const mutation = graphql`
     mutation VoteMutation(
@@ -21,36 +20,39 @@ const mutation = graphql`
             }
         }
     }
-`;
+`
+/*
+ function sharedUpdater(store, questionProxy, variables) {
+ const conn = ConnectionHandler.getConnection(
+ questionProxy,
+ 'PollChoices_choiceSet',
+ variables
+ );
+ }
+ */
 
-function sharedUpdater(store, questionProxy, variables) {
-  const conn = ConnectionHandler.getConnection(
-    questionProxy,
-    'PollChoices_choiceSet',
-    variables
-  );
-}
-
-
-function Vote(environment, question, choice, variables) {
+function Vote(environment, input, callback) {
   commitMutation(
     environment,
     {
       mutation,
       variables: {
-        input: { questionId: question.id, choiceId: choice.id }
+        input
       },
-      updater: (store) => {
-        const payload = store.getRootField('vote');
-        const questionProxy = payload.getLinkedRecord('question');
-        sharedUpdater(store, questionProxy, variables);
-      },
-      optimisticUpdater: (store) => {
-        const questionProxy = store.get(question.id);
-        sharedUpdater(store, questionProxy, variables);
-      }
-    },
-  );
+      onCompleted: callback()
+      /*
+       updater: (store) => {
+       const payload = store.getRootField('vote');
+       const questionProxy = payload.getLinkedRecord('question');
+       sharedUpdater(store, questionProxy, variables);
+       },
+       optimisticUpdater: (store) => {
+       const questionProxy = store.get(question.id);
+       sharedUpdater(store, questionProxy, variables);
+       }
+       */
+    }
+  )
 }
 
-export default Vote;
+export default Vote
