@@ -1,6 +1,5 @@
 import React from 'react'
 import BrowserRouter from 'react-router-dom/es/BrowserRouter'
-import { graphql } from 'react-relay'
 import App from 'components/App/App'
 import routes from './routes'
 import RouteWithSubRoutes from './utils/RouteUtil'

@@ -73,16 +73,20 @@ export const environment = new Environment({
 
 function spreadVariables({ relay, router }, variables) {
   let nextVar = {
+    // Variables passed withRelayContainer
     ...variables
   }
   if (router) {
     nextVar = {
       ...nextVar,
+      // Any url params found in the url eg /questions?first=10
       ...router.urlParams,
+      // React router match params eg /question/1 = /question/:id
       ...router.match.params
     }
   }
   if (relay && relay.variables) {
+    // Passing a relay variables object allows us to pass down variables from components higher up
     nextVar = {
       ...nextVar,
       ...relay.variables
