@@ -1,6 +1,6 @@
 import React from 'react'
-import Page from 'components/Page/Page'
-import styles from '../Polls.scss'
+import { createFragmentContainer, graphql } from 'react-relay'
+
 
 import {
   Bar,
@@ -12,7 +12,6 @@ import {
   YAxis
 } from 'recharts'
 
-import withRelayContainer from 'utils/relay'
 
 const getChartDataFromRelayEdges = (edges) => {
   let values = []
@@ -23,16 +22,15 @@ const getChartDataFromRelayEdges = (edges) => {
   return values
 }
 
-let QuestionResults = ({ viewer: { question } }) =>
-  <Page heading='Question' className={styles.pollDetailRoot} >
-
+export let QuestionResults = (props) =>
+  <div>
     <h3>Results: </h3>
-    <h2>{question.questionText}</h2>
+    <h2>{props.question.questionText}</h2>
 
     <BarChart
       width={600}
       height={300}
-      data={getChartDataFromRelayEdges(question.choiceSet.edges)}
+      data={getChartDataFromRelayEdges(props.question.choiceSet.edges)}
       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
     >
       <XAxis dataKey="choiceText" />
@@ -42,27 +40,32 @@ let QuestionResults = ({ viewer: { question } }) =>
       <Legend />
       <Bar dataKey="voteCount" fill="#8884d8" />
     </BarChart>
-  </Page>
+  </div>
 
-
-const query = graphql`
-    query QuestionResultsQuery($id: ID!) {
-        viewer{
-            question(id: $id) {
-                id
-                questionText
-                choiceSet(first:10){
-                    edges{
-                        node{
-                            id
-                            choiceText
-                            voteCount
-                        }
+export default createFragmentContainer(QuestionResults, {
+    question: graphql`
+        fragment QuestionResults_question on Question {
+            id
+            questionText
+            choiceSet(first:10){
+                edges{
+                    node {
+                        id
+                        choiceText
+                        voteCount
                     }
                 }
             }
         }
-    }
-`
-export default withRelayContainer(QuestionResults, query)
+    `
+  }
+)
+
+
+
+
+
+
+
+
 

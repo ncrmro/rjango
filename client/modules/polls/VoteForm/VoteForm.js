@@ -39,7 +39,7 @@ export class VoteMutationForm extends React.Component {
 
   _submitVoteMutation(form) {
     form.preventDefault()
-    const { relay, viewer: { question }, router } = this.props
+    const { relay, question, router } = this.props
     const { choice } = this.state
     const input = { questionId: question.id, choiceId: choice.id }
     const callback = () => router.history.push(`/polls/${question.id}/results`)
@@ -47,13 +47,14 @@ export class VoteMutationForm extends React.Component {
   }
 
   render() {
-    const { viewer: { question }, router } = this.props
+    const { question, router } = this.props
     const { choice } = this.state
     return (
       <div>
         <h2> {question.questionText}</h2>
         <h3>Choices </h3>
         <form className={styles.pollsVoteMutationRoot} >
+          {console.log(this.props)}
           <QuestionChoices
             choiceSet={question.choiceSet}
             action={selected => this._updateState(selected)}
@@ -90,15 +91,3 @@ export const VoteFormFragmentContainer = createFragmentContainer(VoteMutationFor
     `
   }
 )
-const query = graphql`
-    query VoteFormQuery($id: ID!) {
-        viewer{
-
-            question(id: $id) {
-                ...VoteForm_question
-
-            }
-        }
-    }
-`
-export default withRelayContainer(VoteMutationForm, query)

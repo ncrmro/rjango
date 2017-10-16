@@ -1,12 +1,23 @@
 import React from 'react'
 import Page from 'components/Page/Page'
-import VoteForm from './VoteForm'
+import withRelayContainer from 'utils/relay'
+import { VoteFormFragmentContainer } from './VoteForm'
 
 const VotePage = (props) =>
   <Page
     heading="Question"
   >
-    <VoteForm {...props} />
+    <VoteFormFragmentContainer {...props} question={props.viewer.question} />
 
   </Page>
-export default VotePage
+
+const query = graphql`
+    query VotePageQuery($id: ID!) {
+        viewer{
+            question(id: $id) {
+                ...VoteForm_question
+            }
+        }
+    }
+`
+export default withRelayContainer(VotePage, query)

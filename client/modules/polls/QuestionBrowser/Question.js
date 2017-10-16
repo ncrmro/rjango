@@ -1,5 +1,7 @@
 import React from 'react'
 import Button from 'react-mdc-web/lib/Button/Button'
+import QuestionDialog from '../QuestionResults/QuestionDialog'
+import VoteDialog from '../VoteForm/VoteDialog'
 import { createFragmentContainer } from 'react-relay'
 
 export type QuestionType = {
@@ -20,7 +22,7 @@ function pushRoute({ router, question: { id, hasViewerVoted } }) {
   }
 }
 
-const QuestionAction = (props: { question: QuestionType }) =>
+const QuestionActionPushRouteButton = (props: { question: QuestionType }) =>
   <Button
     onClick={() => pushRoute(props)}
     style={{
@@ -31,6 +33,15 @@ const QuestionAction = (props: { question: QuestionType }) =>
     {props.question.hasViewerVoted ?
       'results' : 'vote'}
   </Button>
+
+const QuestionActionDialog = (props) => {
+  if (props.question.hasViewerVoted) {
+    return <QuestionDialog {...props} />
+  }
+  else if (!props.question.hasViewerVoted) {
+    return <VoteDialog {...props} />
+  }
+}
 
 export const questionColumns = [
   {
@@ -54,10 +65,17 @@ type QuestionPropsType = {
 }
 let Question = (props: QuestionPropsType) =>
   <tr key={props.question.id} >
+    {console.log(props.question)}
     <td>{props.question.questionText}</td>
     <td>{props.question.voteCount}</td>
     <td>
-      <QuestionAction {...props} />
+      {/*
+       Used to link too the page component
+       */}
+      <QuestionActionPushRouteButton {...props} />
+    </td>
+    <td>
+      {QuestionActionDialog(props)}
     </td>
   </tr>
 
