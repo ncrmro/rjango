@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from 'react-mdc-web/lib/Button/Button'
-import Page from 'components/Page/Page'
-
+import { createFragmentContainer, graphql } from 'react-relay'
 import QuestionChoices from './QuestionChoices'
 import styles from '../Polls.scss'
 import VoteMutation from './VoteMutation'
@@ -15,7 +14,7 @@ type VoteMutationPropsType = {
   question: Object,
 
 }
-class VoteMutationForm extends React.Component {
+export class VoteMutationForm extends React.Component {
   constructor(props: VoteMutationPropsType) {
     super(props)
     if (props.viewer.question.hasViewerVoted) {
@@ -51,47 +50,53 @@ class VoteMutationForm extends React.Component {
     const { viewer: { question }, router } = this.props
     const { choice } = this.state
     return (
-      <Page
-        heading={`Question: ${question.questionText}`}
-        className={styles.pollDetailRoot}
-      >
-        <div>
-          <h2> Choices </h2>
-          <form className={styles.pollsVoteMutationRoot} >
-            <QuestionChoices
-              choiceSet={question.choiceSet}
-              action={selected => this._updateState(selected)}
-              selected={choice.id}
-            />
-            <div className={styles.pollsVoteMutationActions} >
-              <Button
-                onClick={form => this._returnToPolls(form)}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={form => this._submitVoteMutation(form)} >Submit</Button>
-            </div>
+      <div>
+        <h2> {question.questionText}</h2>
+        <h3>Choices </h3>
+        <form className={styles.pollsVoteMutationRoot} >
+          <QuestionChoices
+            choiceSet={question.choiceSet}
+            action={selected => this._updateState(selected)}
+            selected={choice.id}
+          />
+          <div className={styles.pollsVoteMutationActions} >
+            <Button
+              onClick={form => this._returnToPolls(form)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={form => this._submitVoteMutation(form)} >Submit</Button>
+          </div>
 
-          </form>
-        </div>
-      </Page>
+        </form>
+      </div>
 
     )
   }
 }
 
 
+export const VoteFormFragmentContainer = createFragmentContainer(VoteMutationForm, {
+    question: graphql`
+        fragment VoteForm_question on Question {
+            id
+            questionText
+            hasViewerVoted
+            choiceSet(first:10){
+                ...QuestionChoices_choiceSet
+            }
+        }
+    `
+  }
+)
 const query = graphql`
     query VoteFormQuery($id: ID!) {
         viewer{
+
             question(id: $id) {
-                id
-                questionText
-                hasViewerVoted
-                choiceSet(first:10){
-                    ...QuestionChoices_choiceSet
-                }
+                ...VoteForm_question
+
             }
         }
     }
