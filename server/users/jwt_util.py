@@ -15,23 +15,27 @@ def check_for_token(args, context):
         return token
     elif 'HTTP_AUTHORIZATION' in context.META:
         auth = get_authorization_header(context).split()
-        token = auth[1]
-        return token
+        if get_authorization_header(context):
+            'auth header'
+            token = auth[1]
+            return token
 
 
 def get_token_user_id(args, context):
     """If a valid token is found we can trust user id in token payload"""
     token = check_for_token(args, context)
-    token_payload = jwt_decode_handler(token)
-    token_user_id = token_payload['user_id']
-    return token_user_id
+    if token:
+        token_payload = jwt_decode_handler(token)
+        token_user_id = token_payload['user_id']
+        return token_user_id
 
 
 def get_token_user(context):
     """If a valid token is found return user"""
     user_id = get_token_user_id({}, context)
-    user = get_user_model().objects.get(id=user_id)
-    return user
+    if user_id:
+        user = get_user_model().objects.get(id=user_id)
+        return user
 
 
 def get_jwt_token(user):

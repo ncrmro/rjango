@@ -46,7 +46,7 @@ function fetchQuery(operation, variables/* , cacheConfig, uploadables*/) {
   // console.log(operation, variables);
   // console.log(store._recordSource._records);
   const { token } = hasValidJwtToken()
-  const authorization = token ? `Bearer ${token}` : null
+  const authorization = token ? `Bearer ${token}` : ''
   return fetch('/graphql', {
     method: 'POST',
     credentials: 'same-origin',
