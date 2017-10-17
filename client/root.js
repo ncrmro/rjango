@@ -9,7 +9,7 @@ import { isAuthenticated } from 'modules/auth/utils'
 
 
 const Root = (props) =>
-  <BrowserRouter history={history} >
+  <BrowserRouter >
     <App {...props}>
       <RouteWithSubRoutes
         {...props}
