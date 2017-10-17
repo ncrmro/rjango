@@ -7,11 +7,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 DEBUG = False
 TEMPLATE_DEBUG = False
 
-DATABASES = {
-    # Raises ImproperlyConfigured exception if DATABASE_URL not in
-    # os.environ
-    'default': env.db(),
-}
+
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
