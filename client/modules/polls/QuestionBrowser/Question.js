@@ -65,7 +65,6 @@ type QuestionPropsType = {
 }
 let Question = (props: QuestionPropsType) =>
   <tr key={props.question.id} >
-    {console.log(props.question)}
     <td>{props.question.questionText}</td>
     <td>{props.question.voteCount}</td>
     <td>

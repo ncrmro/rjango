@@ -25,7 +25,6 @@ let VoteDialog = (props: VoteDialogProps) =>
       </DialogTitle>
     </DialogHeader>
     <DialogBody>
-      {console.log(props)}
       <VoteFormFragmentContainer {...props} question={props.viewer.question} />
     </DialogBody>
     <DialogFooter>

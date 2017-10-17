@@ -42,7 +42,6 @@ const query = graphql`
                 ...QuestionResults_question
             }
         }
-
     }
 `
 QuestionResultsDialog = withRelayContainer(QuestionResultsDialog, query)

@@ -54,7 +54,6 @@ export class VoteMutationForm extends React.Component {
         <h2> {question.questionText}</h2>
         <h3>Choices </h3>
         <form className={styles.pollsVoteMutationRoot} >
-          {console.log(this.props)}
           <QuestionChoices
             choiceSet={question.choiceSet}
             action={selected => this._updateState(selected)}
