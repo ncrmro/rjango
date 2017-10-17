@@ -71,15 +71,13 @@ class VoteMutation(graphene.relay.ClientIDMutation):
 
         question = get_node(input.get('question_id'), context, info)
         selected_choice = question.choice_set.get(id=choice_id)
-        user_id = get_token_user_id(context)
+        user_id = get_token_user_id(args='', context=context)
 
         selected_choice.vote_set.create(
                 question=question,
                 selected_choice=selected_choice,
                 user_id=user_id
         )
-        question.vote_count = question.vote_count + 1
-        question.save()
         return VoteMutation(question=question)
 
 

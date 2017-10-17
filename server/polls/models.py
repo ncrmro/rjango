@@ -29,3 +29,8 @@ class Vote(models.Model):
         unique_together = (
             ('question', 'user'),
         )
+
+    def save(self, *args, **kwargs):
+        self.question.vote_count = self.question.vote_count + 1
+        self.question.save()
+        super(Vote, self).save(*args, **kwargs)
