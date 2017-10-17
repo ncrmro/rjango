@@ -45,11 +45,13 @@ function fetchQuery(operation, variables/* , cacheConfig, uploadables*/) {
   // Caching and relay records merge here
   // console.log(operation, variables);
   // console.log(store._recordSource._records);
+  const { token } = hasValidJwtToken()
+  const authorization = token ? `Bearer ${token}` : null
   return fetch('/graphql', {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
-      authorization: `Bearer ${hasValidJwtToken().token}`,
+      authorization,
       Accept: 'application/json',
       'Content-Type': 'application/json'
     }, // Add authentication and other headers here
@@ -103,7 +105,7 @@ export function withRelayContainer(WrappedComponent, query, variables = {}) {
       variables={spreadVariables(passedProps, variables)}
       render={({ error, props }) => {
         if (props) {
-          const viewerProps = { viewer: {...passedProps.viewer, ...props.viewer} }
+          const viewerProps = { viewer: { ...passedProps.viewer, ...props.viewer } }
           return <WrappedComponent
             { ...passedProps}
             { ...props}
