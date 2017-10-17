@@ -5,6 +5,7 @@ from graphene_django.types import DjangoObjectType
 from users.jwt_util import get_token_user_id
 from .models import Question as QuestionModal, Choice as ChoiceModal, \
     Vote as VodeModal
+from .search import trigram_similarity_search
 
 
 class Question(DjangoObjectType):
@@ -42,15 +43,17 @@ class Vote(DjangoObjectType):
 
 class PollQueries(graphene.AbstractType):
     question = graphene.Node.Field(Question)
-    questions = DjangoFilterConnectionField(Question)
+    questions = DjangoFilterConnectionField(Question, search_string=graphene.String())
 
     def resolve_questions(self, args, context, info):
-        issues = QuestionModal.objects
+        questions = QuestionModal.objects
         order_by = args.get('order_by')
         if order_by:
-            issues.order_by(order_by)
-
-        return issues
+            questions.order_by(order_by)
+        search_string = args.get('search_string')
+        if search_string:
+            questions = trigram_similarity_search(0.006, search_string)
+        return questions
 
 
 class VoteMutation(graphene.relay.ClientIDMutation):
@@ -68,12 +71,12 @@ class VoteMutation(graphene.relay.ClientIDMutation):
 
         question = get_node(input.get('question_id'), context, info)
         selected_choice = question.choice_set.get(id=choice_id)
-        user = get_token_user(context)
+        user_id = get_token_user_id(context)
 
         selected_choice.vote_set.create(
                 question=question,
                 selected_choice=selected_choice,
-                user=user
+                user_id=user_id
         )
         question.vote_count = question.vote_count + 1
         question.save()

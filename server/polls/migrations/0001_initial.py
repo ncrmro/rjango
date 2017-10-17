@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
+from django.contrib.postgres.operations import TrigramExtension
 
 
 class Migration(migrations.Migration):
@@ -14,6 +15,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        TrigramExtension(),
         migrations.CreateModel(
             name='Choice',
             fields=[
