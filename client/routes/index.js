@@ -6,8 +6,7 @@ import userRoutes from './users'
 const routes = [
   {
     path: '/',
-    component: Landing,
-    queries: 'queries'
+    component: Landing
   },
   ...authRoutes,
   ...pollsRoutes,

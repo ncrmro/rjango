@@ -1,5 +1,5 @@
 import React from 'react';
-import Bundle from '../utils/bundleLoader'
+import Bundle from 'utils/bundleLoader'
 //import QuestionBrowser from 'modules/polls/QuestionBrowser';
 import QuestionResultsPage from 'modules/polls/QuestionResults/QuestionResultsPage';
 import VotePage from 'modules/polls/VoteForm/VotePage';
