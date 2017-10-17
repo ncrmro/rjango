@@ -4,7 +4,6 @@ import { createFragmentContainer, graphql } from 'react-relay'
 import QuestionChoices from './QuestionChoices'
 import styles from '../Polls.scss'
 import VoteMutation from './VoteMutation'
-import withRelayContainer from 'utils/relay'
 
 export const variables = { count: 10 }
 
@@ -42,7 +41,9 @@ export class VoteMutationForm extends React.Component {
     const { relay, question, router } = this.props
     const { choice } = this.state
     const input = { questionId: question.id, choiceId: choice.id }
-    const callback = () => router.history.push(`/polls/${question.id}/results`)
+
+    const callback = () =>
+      this.props.router.location === '/polls' ? router.history.push(`/polls/${question.id}/results`) : null
     return VoteMutation(relay.environment, input, callback)
   }
 
@@ -52,6 +53,7 @@ export class VoteMutationForm extends React.Component {
     return (
       <div>
         <h2> {question.questionText}</h2>
+        {console.log(this.props.router.location === '/polls')}
         <h3>Choices </h3>
         <form className={styles.pollsVoteMutationRoot} >
           <QuestionChoices

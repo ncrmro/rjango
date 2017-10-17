@@ -29,7 +29,6 @@ let QuestionResultsDialog = (props: QuestionResultsDialogProps) =>
       <QuestionResults {...props} question={props.viewer.question}/>
     </DialogBody>
     <DialogFooter>
-      <Button compact onClick={() => props.toggleDialog()} >Confirm</Button>
       <Button compact onClick={() => props.toggleDialog()} >Close</Button>
     </DialogFooter>
   </Dialog>

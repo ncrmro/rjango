@@ -3,7 +3,6 @@ import Dialog from 'react-mdc-web/lib/Dialog/Dialog'
 import DialogHeader from 'react-mdc-web/lib/Dialog/DialogHeader'
 import DialogTitle from 'react-mdc-web/lib/Dialog/DialogTitle'
 import DialogBody from 'react-mdc-web/lib/Dialog/DialogBody'
-import DialogFooter from 'react-mdc-web/lib/Dialog/DialogFooter'
 import Button from 'react-mdc-web/lib/Button/Button'
 import withRelayContainer from 'utils/relay'
 
@@ -27,10 +26,6 @@ let VoteDialog = (props: VoteDialogProps) =>
     <DialogBody>
       <VoteFormFragmentContainer {...props} question={props.viewer.question} />
     </DialogBody>
-    <DialogFooter>
-      <Button compact onClick={() => props.toggleDialog()} >Confirm</Button>
-      <Button compact onClick={() => props.toggleDialog()} >Close</Button>
-    </DialogFooter>
   </Dialog>
 
 const query = graphql`
