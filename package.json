@@ -68,7 +68,7 @@
     "react-relay": "^1.4.1",
     "react-relay-network-layer": "^2.0.1",
     "react-router-dom": "^4.2.2",
-    "recharts": "^1.0.0-alpha.2",
+    "recharts": "^1.0.0-alpha.6",
     "relay-compiler": "^1.4.1",
     "relay-runtime": "^1.4.1",
     "sass-loader": "^6.0.5",
