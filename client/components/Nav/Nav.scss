@@ -1,13 +1,17 @@
 @import '../../styles/variables.scss';
 
-.title {
-  color: $white;
-  display: none
-}
-
-.toolbarRow {
-  height: 55px !important;
-  padding: 10px 20px !important;
+.navRoot {
+  .toolbarRow {
+    height: 55px !important;
+    padding: 10px 20px !important;
+    .title {
+      color: $white;
+      display: none
+    }
+  }
+  button {
+    color: white !important;
+  }
 }
 
 .mobileNavButton {
@@ -16,7 +20,7 @@
 }
 
 .rightNav {
-
+  margin: auto
 }
 
 .currentUserDropdown {
