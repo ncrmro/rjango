@@ -1,0 +1,89 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  PROJECT_NAME: reango
+  POSTGRES_DB: reango_db
+  POSTGRES_USER: reango_db_user
+  POSTGRES_PASSWORD: dbpassword
+
+stages:
+  - test
+  - deploy
+  - post_deploy
+
+test:
+  stage: test
+  image: ncrmro/adbase:alpine
+  services:
+    - postgres:9.6-alpine
+    - selenium/standalone-chrome:3.5.3
+    #- rabbitmq:3.6.10
+  variables:
+    DJANGO_SETTINGS_MODULE: reango.settings.testing
+    #DATABASE_URL: sqlite:///db.sqlite3
+    DATABASE_URL: postgres://reango_db_user:dbpassword@postgres:5432/reango_db
+    SELENIUM_HOST: http://selenium__standalone-chrome:4444/wd/hub
+  before_script:
+    - export DOCKER_CONTAINER_IP=`awk 'END{print $1}' /etc/hosts`
+    - pip3 install --cache-dir ./python_packages -r ./lib/deps/testing.txt
+    - yarn config set cache-folder ./yarn_cache
+    - yarn install
+  script:
+  # $(getconf _NPROCESSORS_ONLN) number of threads on alpine
+    #- yarn run test
+    #- coverage run manage.py test --noinput -v 3 --parallel=$(getconf _NPROCESSORS_ONLN) --tag=unit $LOCAL_APPS
+    - coverage run manage.py test --noinput -v 3 --parallel=$(getconf _NPROCESSORS_ONLN) --liveserver=$DOCKER_CONTAINER_IP:8081-8179  $LOCAL_APPS
+  after_script:
+    - coverage combine
+    - coverage report
+  coverage: '/TOTAL\s+\d+\s+\d+\s+\d+\s+\d+\s+(\d{1,3}\%)/'
+  artifacts:
+    paths:
+    - screenshots/
+    when: always
+    expire_in: 1 week
+  cache:
+    paths:
+    - yarn_cache/
+    - python_packages/
+
+deploy_staging:
+  image: ruby:2.2
+  stage: deploy
+  environment:
+    name: staging
+    url: https://staging-reango.herokuapp.com/
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=staging-reango --api-key=$HEROKU_API_KEY
+
+post_deploy_staging:
+  image: node:8.3.0
+  stage: post_deploy
+  environment:
+    name: staging
+    url: https://staging-reango.herokuapp.com/
+  script:
+    - yarn config set cache-folder ./yarn_cache
+    - yarn global add heroku-cli
+#    - npm install heroku-cli -g
+    - heroku pg:reset --app staging-reango -c staging-reango
+    - heroku run --app staging-reango python3 ./manage.py migrate
+    - heroku run --app staging-reango python3 ./manage.py stagedata --noinput --staging
+  cache:
+    paths:
+    - yarn_cache/
+
+deploy_prod:
+  image: ruby:2.2
+  stage: deploy
+  script:
+    - echo "Deploy to production server"
+  environment:
+    name: production
+    url: https://jtronics.exchange
+  script:
+  - gem install dpl
+  - dpl --provider=heroku --app=reango --api-key=$HEROKU_API_KEY
+  #when: manual
+  only:
+  - master
