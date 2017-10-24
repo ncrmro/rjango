@@ -24,7 +24,7 @@ test:
     SELENIUM_HOST: http://selenium__standalone-chrome:4444/wd/hub
   before_script:
     - export DOCKER_CONTAINER_IP=`awk 'END{print $1}' /etc/hosts`
-    - pip3 install --cache-dir ./python_packages -r ./lib/deps/testing.txt
+    - pip3 install --cache-dir ./python_packages -r ./lib/deps/base.txt -r ./lib/deps/testing.txt
     - yarn config set cache-folder ./yarn_cache
     - yarn install
   script:
