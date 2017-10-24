@@ -11,16 +11,51 @@ class UserDropDown extends React.Component {
   constructor(props: Object) {
     super(props)
     this.state = {
-      userDropdownIsOpen: false
+      dropDownOpen: false
     }
   }
 
   state: NavStateType
   props: NavPropsType
 
-  toggleUserDropdown(e) {
-    e.preventDefault()
-    this.setState({ userDropdownIsOpen: !this.state.userDropdownIsOpen })
+  toggleDropdown(e) {
+    this.setState({ dropDownOpen: !this.state.dropDownOpen })
+  }
+
+  menuItems = () => {
+    const pushRoute =this.props.pushRoute
+    const items = [
+      <MenuItem
+        key='button_account-link'
+        className='button_account-link'
+        onClick={e => pushRoute('/account')}
+      >
+        Account
+      </MenuItem>
+
+    ]
+    if (this.props.viewer.isAdmin) {
+      items.push(
+        <MenuItem
+          key='button_admin-link'
+          className='button_admin-link'
+          onClick={e => pushRoute('/admin/dashboard')}
+        >
+          Admin
+        </MenuItem>
+      )
+    }
+    items.push(
+      <MenuDivider key="menu-divider" />,
+      <MenuItem
+        key='button_signout-link'
+        className='button_signout-link'
+        onClick={() => logoutViewer()}
+      >
+        Sign out
+      </MenuItem>
+    )
+    return items
   }
 
 
@@ -28,7 +63,7 @@ class UserDropDown extends React.Component {
     return (
       <div>
         <Button
-          onClick={ e => this.toggleUserDropdown(e)}
+          onClick={ e => this.toggleDropdown(e)}
           className='button_open-user-dropdown'
         >
           {this.props.viewer.user.username || this.props.viewer.user.email}
@@ -36,22 +71,11 @@ class UserDropDown extends React.Component {
 
         <MenuAnchor className={styles.currentUserDropdown} >
           <Menu
-            open={this.state.userDropdownIsOpen}
-            onClose={() => this.toggleUserDropdown()}
+            open={this.state.dropDownOpen}
+            onClose={() => this.toggleDropdown()}
           >
-            <MenuItem
-              className='button_account-link'
-              onClick={e => pushRoute(e, this.props, '/account')}
-            >
-              Account
-            </MenuItem>
-            <MenuDivider/>
-            <MenuItem
-              className='button_signout-link'
-              onClick={() => logoutViewer()}
-            >
-              Sign out
-            </MenuItem>
+            {this.menuItems()}
+
           </Menu>
         </MenuAnchor>
       </div>

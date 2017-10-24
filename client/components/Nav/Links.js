@@ -4,17 +4,6 @@ import Button from 'react-mdc-web/lib/Button/Button'
 import UserDropDown from './UserDropDown'
 
 
-export const AdminLink = (props: { viewer: { isAdmin: boolean } }) => {
-  if (props.viewer.isAdmin) {
-    return <NavLink className='button_admin-link' to='/admin/dashboard' >
-      <Button >Admin</Button>
-    </NavLink>
-  }
-  else {
-    return null
-  }
-}
-
 type viewerType = {
   isAuthenticated: boolean,
   isAdmin: boolean,
@@ -30,13 +19,10 @@ type LinksPropType = {
 }
 export const Links = (props: LinksPropType) => {
   if (props.viewer.isAuthenticated) {
-    return [
-      <AdminLink key='admin' viewer={props.viewer} />,
-      <UserDropDown
+    return <UserDropDown
         key='userDropDown'
         {...props}
       />
-    ]
   }
   else {
     return [
