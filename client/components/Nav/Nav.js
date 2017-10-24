@@ -12,7 +12,7 @@ import { logoutViewer } from 'modules/auth/jwtUtils'
 import MobileDrawer from './MobileDrawer'
 import styles from './Nav.scss'
 
-const HomeLink = ({ title }: { title: NavPropsType.title }) =>
+export const HomeLink = ({ title }: { title: string }) =>
   <NavLink to='/' >
     <Button
     >
