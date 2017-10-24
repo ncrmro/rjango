@@ -1,18 +1,39 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import '../../styles/variables.scss';
+@import '../Nav/Nav.scss';
+@import '~@material/toolbar/mdc-toolbar.scss';
+
+$footer_height: 45px;
 
 .root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-//Used to pin footer to bottom
-.content {
-  flex: 1;
+  .wrap {
+    min-height: 90vh;
+    padding-bottom: 3px;
+
+    @media (max-width: $mdc-toolbar-mobile-landscape-width-breakpoint) and (orientation: landscape) {
+      min-height: 90vh;
+    }
+
+    @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+      min-height: 84vh;
+      padding-bottom: 8px;
+    }
+    .content {
+      overflow: auto;
+      padding-bottom: $footer_height;
+    }
+  }
+
+  .footer {
+    width: 100%;
+    height: $footer_height;
+    position: relative;
+    /* negative value of footer height */
+    clear: both;
+  }
 }
 
 body {
   margin: auto;
   font-family: Roboto, sans-serif;
 }
-

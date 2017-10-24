@@ -1,9 +1,9 @@
 @import '../../styles/variables.scss';
 
 .root {
-  background-color: $black-light !important;
-  justify-content: center !important;
-  padding: 15px 16px !important;
+  background-color: $black-light;
+  justify-content: center;
+  padding: 15px 0;
   text-align: center;
 
   span {
