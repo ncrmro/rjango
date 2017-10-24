@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import './DataTable.scss'
 
@@ -6,13 +7,21 @@ export const DataCell = (props) =>
     {props.row[props.column.name]}
   </td>
 
+type DataTablePropsType = {
+  columns: Array<{ name: string, label: string }>,
+  rows: Array<Object>,
+  children: ?Object,
+}
 export class DataTable extends React.Component {
+  props: DataTablePropsType
+
   render() {
     return (
       <table >
         <thead>
         <tr>
-          {this.props.columns.map(column => <th key={column.name} > {column.label}</th>)}
+          {this.props.columns.map(column => <th
+            key={column.name} > {column.label}</th>)}
         </tr>
         </thead>
         <tbody>
@@ -31,4 +40,4 @@ export class DataTable extends React.Component {
   }
 }
 
-export  default DataTable
+export default DataTable
