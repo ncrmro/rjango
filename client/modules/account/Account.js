@@ -5,7 +5,7 @@ import { graphql } from 'react-relay'
 
 const Account = (props) =>
   <Page heading='Account' >
-    {{ props.viewer.user.email}}
+    {props.viewer.user.email}
   </Page>
 
 const query = graphql`
