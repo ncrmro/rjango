@@ -48,7 +48,7 @@ export const Links = (props: LinksPropType) => {
         <Button >Signup</Button>
       </NavLink>,
       <NavLink
-        key='button_signup-link'
+        key='button_login-link'
         className='button_login-link'
         to='/login'
       >
