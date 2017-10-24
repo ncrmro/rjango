@@ -50,7 +50,7 @@ class MobileFooterToolBar extends React.Component {
             this.setState({ notifications: !this.state.notifications })
           }}
         >
-          {this.state.notifications ? 'notifications' : 'notifcations_none'}
+          {this.state.notifications ? 'notifications' : 'notifications_none'}
         </IconToggle>
 
       </div>
