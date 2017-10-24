@@ -50,7 +50,7 @@ def account_dropdown_selector(selenium):
 
 def assert_post_auth_page(selenium):
     wait_for_element(selenium, EC.visibility_of_element_located(
-            (By.XPATH, "//h1[text()='New System']")))
+            (By.XPATH, "//h1[text()='Polls']")))
 
 def login_selenium_user(self):
     selenium = self.selenium
