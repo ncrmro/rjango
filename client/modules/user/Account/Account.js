@@ -1,20 +1,22 @@
-/* eslint-disable jsx-a11y/href-no-hash */
-import React from 'react';
-import Page from 'components/Page/Page';
-import { createFragmentContainer, graphql } from 'react-relay';
+import React from 'react'
+import Page from 'components/Page/Page'
+import withRelayContainer from 'utils/relay'
+import { graphql } from 'react-relay'
 
-let Account = (props) =>
+const Account = (props) =>
   <Page heading='Account' >
-    <div style={{ width: '100%', margin: 'auto' }} >
+    {{ props.viewer.user.email}}
+  </Page>
 
-    </div>
-  </Page>;
-
-export default createFragmentContainer(Account, {
-  viewer: graphql`
-      fragment Account_viewer on Viewer {
-          id
-          
-      }
-  ` }
-);
+const query = graphql`
+    query AccountQuery {
+        viewer{
+            id
+            user{
+                id
+                email
+            }
+        }
+    }
+`
+export default withRelayContainer(Account, query, {})
