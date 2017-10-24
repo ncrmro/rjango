@@ -5,8 +5,8 @@ import ToolbarTitle from 'react-mdc-web/lib/Toolbar/ToolbarTitle'
 import ToolbarRow from 'react-mdc-web/lib/Toolbar/ToolbarRow'
 import Button from 'react-mdc-web/lib/Button/Button'
 import Icon from 'react-mdc-web/lib/Icon/Icon'
-import styles from './Nav.scss'
-import { HomeLink } from './Nav'
+import styles from '../Nav.scss'
+import { HomeLink } from '../Nav'
 
 type MobileDrawerProps = {
   title: string,
