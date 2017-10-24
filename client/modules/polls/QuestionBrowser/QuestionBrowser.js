@@ -16,9 +16,7 @@ type QuestionBrowserPropsType = {
   router: Object
 }
 let QuestionBrowser = (props: QuestionBrowserPropsType) =>
-  <div
-    style={{ width: '10px' }}
-  >
+  <div >
     <DataTable
       columns={questionColumns}
     >
