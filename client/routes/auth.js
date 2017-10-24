@@ -1,13 +1,14 @@
 import Auth from 'modules/auth/Auth';
+import { authenticatedRoute } from 'modules/auth/utils'
 
 const authRoutes = [
   {
     path: '/signup',
-    component: Auth,
+    component: authenticatedRoute(Auth, false),
   },
   {
     path: '/login',
-    component: Auth,
+    component: authenticatedRoute(Auth, false),
   }
 ];
 

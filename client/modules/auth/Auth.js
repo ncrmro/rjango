@@ -4,7 +4,6 @@ import Button from 'react-mdc-web/lib/Button'
 import Checkbox from 'react-mdc-web/lib/Checkbox'
 import LoginUserMutation from './mutations/Login'
 import SignupUserMutation from './mutations/Signup'
-import { authenticatedRoute } from './utils'
 import FormMessageList from 'components/FormMessageList/FormMessageList'
 import styles from './Auth.scss'
 import Page from 'components/Page/Page'
@@ -180,4 +179,4 @@ class Auth extends React.Component {
 
 }
 
-export default authenticatedRoute(Auth, false)
+export default Auth
