@@ -1,41 +1,37 @@
 import React from 'react'
-import { createFragmentContainer } from 'react-relay'
 import MenuAnchor from 'react-mdc-web/lib/Menu/MenuAnchor'
 import Menu from 'react-mdc-web/lib/Menu/Menu'
 import MenuItem from 'react-mdc-web/lib/Menu/MenuItem'
 import MenuDivider from 'react-mdc-web/lib/Menu/MenuDivider'
 import Button from 'react-mdc-web/lib/Button/Button'
-import NavLink from 'react-router-dom/es/NavLink'
 import styles from './Nav.scss'
-import withRouter from 'react-router-dom/es/withRouter'
+import { logoutViewer } from 'modules/auth/jwtUtils'
+
 
 function onClick(e, props) {
   e.preventDefault()
   props.toggleUserDropdown()
 }
 
-function pushRoute(e, props, route) {
-  e.preventDefault()
-  props.history.push(route)
-}
 type UserDropDownType = {
-  user: {
-    username?: string,
-    email?: string,
+  viewer: {
     userDropdownIsOpen: boolean,
     toggleUserDropdown: Function,
-    signoutViewer: Function,
-    router: Object
+    pushRoute: Function,
+    user: {
+      username?: string,
+      email?: string,
+    }
   }
 }
 
 let UserDropDown = (props: UserDropDownType) =>
-  <NavLink to="" >
+  <div>
     <Button
       onClick={ e => onClick(e, props)}
       className='button_open-user-dropdown'
     >
-      {props.user.username || props.user.email}
+      {props.viewer.user.username || props.viewer.user.email}
     </Button>
 
     <MenuAnchor className={styles.currentUserDropdown} >
@@ -52,15 +48,13 @@ let UserDropDown = (props: UserDropDownType) =>
         <MenuDivider/>
         <MenuItem
           className='button_signout-link'
-          onClick={() => props.signoutViewer()}
+          onClick={() => logoutViewer()}
         >
           Sign out
         </MenuItem>
       </Menu>
     </MenuAnchor>
-  </NavLink>
-
-UserDropDown = withRouter(UserDropDown)
+  </div>
 
 export default UserDropDown
 

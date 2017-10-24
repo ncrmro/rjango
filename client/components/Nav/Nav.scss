@@ -2,11 +2,10 @@
 
 .navRoot {
   .toolbarRow {
-    height: 55px !important;
-    padding: 10px 20px !important;
+    //height: 55px !important;
+    //padding: 10px 20px !important;
     .title {
       color: $white;
-      display: none
     }
   }
   button {
@@ -14,14 +13,6 @@
   }
 }
 
-.mobileNavButton {
-  color: white;
-  line-height: 36px !important;;
-}
-
-.rightNav {
-  margin: auto
-}
 
 .currentUserDropdown {
   left: 0px;
@@ -29,24 +20,5 @@
     ul {
       width: 150px;
     }
-
   }
-
-}
-
-/* This is how it looks on desktop */
-@media (min-width: 600px) {
-  .mobileNavButton {
-    display: none !important;
-  }
-  .rightNav {
-    display: block !important;
-    button {
-      color: white;
-    }
-  }
-  .title {
-    display: block !important;
-  }
-;
 }

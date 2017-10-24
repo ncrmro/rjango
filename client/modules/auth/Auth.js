@@ -103,19 +103,9 @@ class Auth extends React.Component {
     }
   }
 
-  getErrors(fieldId) {
-    const { errors } = this.state
-    if (errors.length > 0) {
-      return errors.filter(x => x.key === fieldId)
-    }
-    else return []
-  }
-
-
   render() {
-    const { input, errors } = this.state
+
     const isLogin = isLoginCheck(this.props)
-    //const formErrors = this.getErrors('')
 
     return (
       <Page
@@ -127,12 +117,12 @@ class Auth extends React.Component {
           onSubmit={this.submitForm}
           className={styles.form}
         >
-          <FormMessageList messages={errors} />
+          <FormMessageList messages={this.state.errors} />
           <Textfield
             id='email'
             className={`${styles.textFields} email_input`}
             onChange={this.handleFieldChange.bind(this)}
-            value={input.email}
+            value={this.state.input.email}
             floatingLabel='Email'
             type='email'
             required
@@ -143,7 +133,7 @@ class Auth extends React.Component {
             id='password'
             className={styles.textFields}
             onChange={this.handleFieldChange.bind(this)}
-            value={input.password}
+            value={this.state.input.password}
             floatingLabel='Password'
             type='password'
             minLength={8}
@@ -155,7 +145,7 @@ class Auth extends React.Component {
             <Textfield
               id='passwordConfirmation'
               onChange={this.handleFieldChange.bind(this)}
-              value={input.passwordConfirmation}
+              value={this.state.input.passwordConfirmation}
               className={styles.textFields}
               floatingLabel='Password Confirmation'
               type='password'
@@ -165,10 +155,8 @@ class Auth extends React.Component {
 
           <div style={{ textAlign: 'right' }} >
 
-            <a href='#' >Forgot password</a>
             {isLogin ?
               <Button
-                primary
                 type="submit"
                 className='button_submit-login-form'
               >
@@ -176,7 +164,6 @@ class Auth extends React.Component {
               </Button>
               :
               <Button
-                primary
                 type="submit"
                 className='button_submit-signup-form'
               >
@@ -184,13 +171,6 @@ class Auth extends React.Component {
               </Button>
             }
             <br />
-            { isLogin ?
-              <div>
-                <Checkbox
-                  label='Remember me'
-                  style={{ textAlign: 'right' }}
-                /> <label>Remember Me</label>
-              </div> : null }
           </div>
         </form>
       </Page>
