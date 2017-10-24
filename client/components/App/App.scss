@@ -32,6 +32,7 @@ $footer_height: 45px;
     padding-bottom: 3px;
   }
 
+
   .footer_wrap {
     width: 100%;
     height: $footer_height;
@@ -40,6 +41,13 @@ $footer_height: 45px;
     clear: both;
     @media (max-width: $mdc-toolbar-mobile-breakpoint) {
       display: none;
+    }
+  }
+  .hidden_mobile_footer_wrap {
+    // Display on mobile if user is not authenticated
+    clear: both;
+    @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+      display: inherit;
     }
   }
   .mobile_footer_wrap {

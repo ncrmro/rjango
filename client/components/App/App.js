@@ -15,10 +15,6 @@ type AppPropsType = {
   children: Object
 }
 
-function isMobileWidtthBreakpoint() {
-  return window.screen.width < 600
-}
-
 let App = (props: AppPropsType) =>
   <div className={styles.root} >
     <Nav
@@ -30,10 +26,11 @@ let App = (props: AppPropsType) =>
         {props.children}
       </div>
     </Content>
-    <div className={styles.mobile_footer_wrap}>
-      <MobileFooterToolbar />
-    </div>
-    <div className={styles.footer_wrap} >
+    {props.viewer.isAuthenticated ?
+      <div className={styles.mobile_footer_wrap} >
+        <MobileFooterToolbar />
+      </div> : null}
+    <div className={`${styles.footer_wrap} ${!props.viewer.isAuthenticated ? styles.hidden_mobile_footer_wrap: null}`} >
       <div className={styles.footer} >
         <Footer
           title={title}
