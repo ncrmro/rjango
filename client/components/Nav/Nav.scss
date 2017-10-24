@@ -15,7 +15,8 @@
 
 
 .currentUserDropdown {
-  left: 0px;
+  position: absolute !important;
+  right: 171px;
   div {
     ul {
       width: 150px;
