@@ -57,6 +57,7 @@
     "extract-text-webpack-plugin": "^3.0.1",
     "file-loader": "^0.9.0",
     "lodash": "^4.17.2",
+    "material-components-web": "0.22.0",
     "node-sass": "^4.5.3",
     "normalize.css": "^5.0.0",
     "postcss-loader": "^2.0.8",
