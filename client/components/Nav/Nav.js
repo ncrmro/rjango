@@ -8,7 +8,6 @@ import styles from './Nav.scss'
 import withRouter from 'react-router-dom/es/withRouter'
 import Links from './Links'
 
-
 type NavPropsType = {
   title: string,
   viewer: {
@@ -19,59 +18,28 @@ type NavPropsType = {
   history: Object
 }
 
-type NavStateType = {
-  userDropdownIsOpen: boolean,
-}
-
-class Nav extends React.Component {
-  constructor(props: Object) {
-    super(props)
-    this.state = {
-      userDropdownIsOpen: false
-    }
-  }
-
-  state: NavStateType
-  props: NavPropsType
-
-  toggleUserDropdown() {
-    this.setState({ userDropdownIsOpen: !this.state.userDropdownIsOpen })
-  }
-
-  pushRoute(route = '/') {
-    this.props.history.push(route)
-  }
-
-  render() {
-    return (
-      <div className={styles.navRoot} >
-        <Toolbar>
-          <ToolbarRow className={styles.toolbarRow} >
-            <ToolbarSection align='start' >
-              <ToolbarTitle
-                className={styles.title}
-                onClick={this.pushRoute.bind(this)}
-              >
-                {this.props.title}
-              </ToolbarTitle>
-            </ToolbarSection>
-            <ToolbarSection
-              align='end'
-            >
-              <Links
-                userDropdownIsOpen={this.state.userDropdownIsOpen}
-                toggleUserDropdown={this.toggleUserDropdown.bind(this)}
-                pushRoute={this.pushRoute.bind(this)}
-                viewer={this.props.viewer}
-              />
-            </ToolbarSection>
-          </ToolbarRow>
-        </Toolbar>
-      </div>
-    )
-  }
-
-
-}
+const Nav = (props: NavPropsType) =>
+  <div className={styles.navRoot} >
+    <Toolbar>
+      <ToolbarRow className={styles.toolbarRow} >
+        <ToolbarSection align='start' >
+          <ToolbarTitle
+            className={styles.title}
+            onClick={() => props.history.push('/')}
+          >
+            {props.title}
+          </ToolbarTitle>
+        </ToolbarSection>
+        <ToolbarSection
+          align='end'
+        >
+          <Links
+            pushRoute={props.history.push}
+            viewer={props.viewer}
+          />
+        </ToolbarSection>
+      </ToolbarRow>
+    </Toolbar>
+  </div>
 
 export default withRouter(Nav)
