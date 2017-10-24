@@ -52,7 +52,7 @@ export default class VoteDialogButton extends React.Component {
   }
 
   render() {
-    return <div>
+    return <div style={{ display: 'flex', justifyContent: 'center' }} >
       <Button onClick={() => this.toggleDialog()} >Vote</Button>
       {
         this.state.isOpen ?
