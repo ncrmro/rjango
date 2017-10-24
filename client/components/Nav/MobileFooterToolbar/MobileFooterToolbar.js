@@ -1,43 +1,60 @@
 import React from 'react'
-import Toolbar from 'react-mdc-web/lib/Toolbar/Toolbar'
-import ToolbarSection from 'react-mdc-web/lib/Toolbar/ToolbarSection'
-import ToolbarTitle from 'react-mdc-web/lib/Toolbar/ToolbarTitle'
-import ToolbarRow from 'react-mdc-web/lib/Toolbar/ToolbarRow'
-import Button from 'react-mdc-web/lib/Button/Button'
-import Icon from 'react-mdc-web/lib/Icon/Icon'
-import styles from '../Nav.scss'
+import IconToggle from 'react-mdc-web/lib/IconToggle/IconToggle'
+import styles from './MobileFooterToolbar.scss'
 import { HomeLink } from '../Nav'
 
-type MobileDrawerProps = {
-  title: string,
-}
-const MobileFooterToolBar = (props: MobileDrawerProps) =>
-  <Toolbar>
-    <ToolbarRow className={styles.toolbarRow} >
-      <ToolbarSection align='start' >
-        <ToolbarTitle className={styles.title} >
-          <HomeLink title={title} />
-        </ToolbarTitle>
-        <Button
-          onClick={() => this.toggleMobileNav()}
-        >
-          <Icon
-            name='menu'
-            className={styles.mobileNavButton}
-          />
-        </Button>
-      </ToolbarSection>
-      <ToolbarSection align='end' style={{ overflow: 'visible' }} >
-        <Links
-          userDropdownIsOpen={userDropdownIsOpen}
-          toggleUserDropdown={this.toggleUserDropdown.bind(this)}
-          partBrowserDropdownIsOpen={partBrowserDropdownIsOpen}
-          togglePartBrowserDropdown={this.togglePartBrowserDropdown.bind(this)}
-          router={router}
-          viewer={viewer}
-        />
-      </ToolbarSection>
-    </ToolbarRow>
-  </Toolbar>
+class MobileFooterToolBar extends React.Component {
+  constructor(props: Object) {
+    super(props)
+    this.state = {
+      homeNotification: false,
+      starred: false,
+      pollNotification: false,
+      notifications: false
+    }
+  }
 
+
+  render() {
+    return (
+      <div className={styles.root} >
+        <IconToggle
+          className="material-icons"
+          onClick={() => {
+            this.setState({ homeNotification: !this.state.homeNotification })
+          }}
+        >
+          {this.state.starred ? 'home' : 'home'}
+        </IconToggle>
+        <IconToggle
+          className="material-icons"
+          onClick={() => {
+            this.setState({ starred: !this.state.starred })
+          }}
+        >
+          {this.state.starred ? 'star' : 'star_border'}
+        </IconToggle>
+
+        <IconToggle
+          className="material-icons"
+          onClick={() => {
+            this.setState({ pollNotification: !this.state.pollNotification })
+          }}
+        >
+          {this.state.pollNotification ? 'poll' : 'poll'}
+        </IconToggle>
+
+        <IconToggle
+          className="material-icons"
+          onClick={() => {
+            this.setState({ notifications: !this.state.notifications })
+          }}
+        >
+          {this.state.notifications ? 'notifications' : 'notifcations_none'}
+        </IconToggle>
+
+      </div>
+    )
+  }
+}
 export default MobileFooterToolBar

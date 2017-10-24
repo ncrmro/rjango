@@ -1,0 +1,12 @@
+@import '../../../styles/variables.scss';
+
+.root {
+  position: absolute;
+  display: flex;
+  background: $mdc-theme-primary;
+  justify-content: center;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}

@@ -5,35 +5,55 @@
 
 $footer_height: 45px;
 
-.root {
-  .wrap {
-    min-height: 90vh;
-    padding-bottom: 3px;
+.wrap_min_height {
+  // Used to keep footer at bottom of page
+  min-height: calc(100vh - #{$footer_height} - #{$mdc-toolbar-row-height});
+  .content {
 
-    @media (max-width: $mdc-toolbar-mobile-landscape-width-breakpoint) and (orientation: landscape) {
-      min-height: 90vh;
-    }
-
-    @media (max-width: $mdc-toolbar-mobile-breakpoint) {
-      min-height: 84vh;
-      padding-bottom: 8px;
-    }
-    .content {
-      overflow: auto;
-      padding-bottom: $footer_height;
-    }
+    padding-bottom: $footer_height;
+  }
+  @media (max-width: $mdc-toolbar-mobile-landscape-width-breakpoint) and (orientation: landscape) {
+    min-height: calc(100vh - #{$footer_height} - #{$mdc-toolbar-mobile-row-height} - 3px);
   }
 
-  .footer {
+  @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+    min-height: calc(100vh - #{$footer_height} - #{$mdc-toolbar-mobile-row-height});
+    .content {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.root {
+  min-height: 100vh;
+  .wrap {
+    @extend .wrap_min_height;
+    overflow: scroll;
+    padding-bottom: 3px;
+  }
+
+  .footer_wrap {
     width: 100%;
     height: $footer_height;
     position: relative;
     /* negative value of footer height */
     clear: both;
+    @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+      display: none;
+    }
+  }
+  .mobile_footer_wrap {
+    display: none;
+    @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+      display: inherit;
+    }
   }
 }
 
+html,
 body {
+  min-height: 100vh;
+  max-height: 100vh;
   margin: auto;
   font-family: Roboto, sans-serif;
 }
