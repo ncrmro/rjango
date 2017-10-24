@@ -22,10 +22,15 @@ def make_query(query, jwt_token=None):
 
 
 def get_token(login_response):
-    token = login_response['data']['loginUser']['authFormPayload']['tokens'][
+    token = login_response['data']['login']['authFormPayload']['tokens'][
         'token']
     return token
-
+def set_up_user(self):
+    self.user = create_test_user()
+    self.make_query = make_query
+    self.login_mutation_with_token = login_mutation_with_token
+    self.get_token = get_token
+    return self
 
 def wait_for_element(selenium, expected_conditions):
     element = WebDriverWait(selenium, 10).until(expected_conditions)
@@ -36,6 +41,21 @@ def wait_for_css_selector(selenium, css_selector):
     element = wait_for_element(
             selenium, EC.element_to_be_clickable(
                     (By.CSS_SELECTOR, css_selector)))
+    return element
+
+
+def css_selector(selenium, css_selector):
+    element = wait_for_element(
+            selenium, EC.element_to_be_clickable(
+                    (By.CSS_SELECTOR, css_selector)))
+    return element
+
+
+def id_selector(selenium, id_selector):
+    element = wait_for_element(
+            selenium, EC.element_to_be_clickable(
+                    (By.ID, id_selector)))
+
     return element
 
 
@@ -77,7 +97,7 @@ def create_test_user():
 login_mutation_with_token = {
     "query": '''
             mutation {
-              loginUser(input: {email: "test@user.com", password: "top_secret"}) {
+              login(input: {email: "test@user.com", password: "top_secret"}) {
                 authFormPayload {
                   __typename
                   ... on Viewer {

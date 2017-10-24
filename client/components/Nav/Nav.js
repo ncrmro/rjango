@@ -24,7 +24,7 @@ const Nav = (props: NavPropsType) =>
       <ToolbarRow className={styles.toolbarRow} >
         <ToolbarSection align='start' >
           <ToolbarTitle
-            className={styles.title}
+            className={`${styles.title} home_button`}
             onClick={() => props.history.push('/')}
           >
             {props.title}

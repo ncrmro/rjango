@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 from tests.utils import SetBrowserTests, wait_for_element, \
-    css_selector, create_test_user, login_selenium_user
+    css_selector, create_test_user, login_selenium_user, assert_post_auth_page
 
 
 def fill_out_auth_form(
@@ -29,6 +29,9 @@ def fill_out_auth_form(
                 password_confirm_selector
         )
         password_confirm_field.send_keys(password)
+
+
+
 
 
 class CreateUserTest(SetBrowserTests):
@@ -78,8 +81,7 @@ class CreateUserTest(SetBrowserTests):
 
         # Click Button to check for empty values and check
         css_selector(selenium, '.button_submit-signup-form').click()
-        wait_for_element(selenium, EC.visibility_of_element_located(
-                (By.XPATH, "//h1[text()='Polls']")))
+        assert_post_auth_page(selenium)
 
 
 class LoginUserTest(SetBrowserTests):
@@ -97,7 +99,7 @@ class LoginUserTest(SetBrowserTests):
         selenium.get(self.live_server_url)
         login_selenium_user(self)
 
-        assert 'This is the polls app' in selenium.page_source
+        assert_post_auth_page(selenium)
 
 
 class JwtTokenExpiredTest(SetBrowserTests):
@@ -121,7 +123,8 @@ class JwtTokenExpiredTest(SetBrowserTests):
 
         # Open user drop down and click account page
         css_selector(selenium, '.button_open-user-dropdown').click()
-        css_selector(selenium, '.button_account-link').click()
+        css_selector(selenium, '.button_systems-link').click()
+        #time.sleep(1000)
 
         # Should be on login page and signup button should be visible
         wait_for_element(selenium, EC.visibility_of_element_located(

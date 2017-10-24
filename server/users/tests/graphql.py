@@ -143,7 +143,7 @@ class CreateUserMutationTests(TestCase):
         query = {
             "query": '''
             mutation {
-              createUser(input: {email: "test_fake_user@fakerusers.com", password: "test_fake_user_password"}) {
+              signup(input: {email: "test_fake_user@fakerusers.com", password: "test_fake_user_password"}) {
                 authFormPayload {
                   __typename
                   ... on Viewer {
@@ -168,7 +168,7 @@ class CreateUserMutationTests(TestCase):
         }
         expected = {
             "data": {
-                "createUser": {
+                "signup": {
                     "authFormPayload": {
                         "__typename": "Viewer",
                         "user":       {
@@ -181,14 +181,16 @@ class CreateUserMutationTests(TestCase):
                 }
             }
         }
-        response = self.make_query(query)
+        response = make_query(query)
         self.assertEqual(response, expected)
 
     def test_user_already_exists(self):
+        self = set_up_user(self)
+
         query = {
             "query": '''
             mutation {
-              createUser(input: {email: "test@user.com", password: "test_password"}) {
+              signup(input: {email: "test@user.com", password: "test_password"}) {
                 authFormPayload {
                   __typename
                   ... on Viewer {
@@ -214,7 +216,7 @@ class CreateUserMutationTests(TestCase):
         }
         expected = {
             'data': {
-                'createUser': {
+                'signup': {
                     'authFormPayload': {
                         '__typename': 'FormErrors',
                         'errors':     [{
@@ -225,7 +227,7 @@ class CreateUserMutationTests(TestCase):
                 }
             }
         }
-        response = self.make_query(query)
+        response = make_query(query)
 
         self.assertEqual(response, expected)
 
