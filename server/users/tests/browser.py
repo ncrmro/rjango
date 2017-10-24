@@ -123,7 +123,7 @@ class JwtTokenExpiredTest(SetBrowserTests):
 
         # Open user drop down and click account page
         css_selector(selenium, '.button_open-user-dropdown').click()
-        css_selector(selenium, '.button_systems-link').click()
+        css_selector(selenium, '.button_account-link').click()
         #time.sleep(1000)
 
         # Should be on login page and signup button should be visible
