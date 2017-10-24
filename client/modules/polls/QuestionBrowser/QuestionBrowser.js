@@ -5,8 +5,7 @@ import type { QuestionType } from './Question'
 import Question, { questionColumns } from './Question'
 import withRelayContainer from 'utils/relay'
 import Textfield from 'react-mdc-web/lib/Textfield/Textfield'
-
-import styles from '../Polls.scss'
+import styles from './QuestionBrowser.scss'
 type QuestionBrowserPropsType = {
   viewer: {
     questions: {
@@ -18,6 +17,7 @@ type QuestionBrowserPropsType = {
 }
 let QuestionBrowser = (props: QuestionBrowserPropsType) =>
   <div
+    style={{ width: '10px' }}
   >
     <DataTable
       columns={questionColumns}
@@ -67,19 +67,20 @@ export default class QuestionBrowserPage extends React.Component {
         className={styles.root}
         heading='Polls'
       >
-        <Textfield
-          onChange={field => this.setSearchString(field)}
-          floatingLabel="Search for a question"
-          value={this.state.searchString}
-        />
+          <Textfield
+            onChange={field => this.setSearchString(field)}
+            floatingLabel="Search for a question"
+            value={this.state.searchString}
+            className={styles.searchBar}
+          />
         <QuestionBrowser
           {...this.props}
           relay={{
-              ...this.props.relay,
-              variables: {
-                searchString: this.state.searchString
-              }
-            }}
+            ...this.props.relay,
+            variables: {
+              searchString: this.state.searchString
+            }
+          }}
         />
 
       </Page>
