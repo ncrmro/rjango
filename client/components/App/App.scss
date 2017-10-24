@@ -43,6 +43,7 @@ $footer_height: 45px;
     }
   }
   .mobile_footer_wrap {
+    height: $footer_height;
     display: none;
     @media (max-width: $mdc-toolbar-mobile-breakpoint) {
       display: inherit;
@@ -52,8 +53,6 @@ $footer_height: 45px;
 
 html,
 body {
-  min-height: 100vh;
-  max-height: 100vh;
   margin: auto;
   font-family: Roboto, sans-serif;
 }

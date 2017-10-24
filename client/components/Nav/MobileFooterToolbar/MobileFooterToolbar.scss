@@ -1,7 +1,7 @@
 @import '../../../styles/variables.scss';
 
 .root {
-  position: absolute;
+  position: fixed;
   display: flex;
   background: $mdc-theme-primary;
   justify-content: center;
