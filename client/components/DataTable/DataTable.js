@@ -8,19 +8,18 @@ export const DataCell = (props) =>
 
 export class DataTable extends React.Component {
   render() {
-    const { children, columns, rows } = this.props
     return (
       <table >
         <thead>
         <tr>
-          {columns.map(column => <th key={column.name} > {column.label}</th>)}
+          {this.props.columns.map(column => <th key={column.name} > {column.label}</th>)}
         </tr>
         </thead>
         <tbody>
-        {children ? children : rows.map(row =>
+        {this.props.children ? this.props.children : this.props.rows.map(row =>
           <tr
             key={row.id}
-          >{columns.map(column =>
+          >{this.props.columns.map(column =>
             <DataCell
               column={column}
               row={row}
