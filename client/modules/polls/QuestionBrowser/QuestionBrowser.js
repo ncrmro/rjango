@@ -1,6 +1,6 @@
 import React from 'react'
 import Page from 'components/Page/Page'
-import { DataTable } from 'components/DataTable/DataTable'
+import DataTableWithToolbar from 'components/DataTable/DataTableWithToolbar'
 import type { QuestionType } from './Question'
 import Question, { questionColumns } from './Question'
 import withRelayContainer from 'utils/relay'
@@ -17,7 +17,7 @@ type QuestionBrowserPropsType = {
 }
 let QuestionBrowser = (props: QuestionBrowserPropsType) =>
   <div >
-    <DataTable
+    <DataTableWithToolbar
       columns={questionColumns}
     >
       {props.viewer.questions.edges.map(({ node }) =>
@@ -27,7 +27,7 @@ let QuestionBrowser = (props: QuestionBrowserPropsType) =>
           question={node}
         />
       )}
-    </DataTable>
+    </DataTableWithToolbar>
   </div>
 
 const query = graphql`
