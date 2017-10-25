@@ -56,7 +56,7 @@ export function isAuthenticated(ComposedClass) {
   return isAuthenticated
 }
 
-export function RequireAdmin(ComposedClass) {
+export function requireAdminRoute(ComposedClass) {
   class RequireAdmin extends Component {
     componentWillMount() {
       const { router, viewer: { isAuthenticated, isAdmin } } = this.props
