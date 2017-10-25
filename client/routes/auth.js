@@ -1,3 +1,4 @@
+import React from 'react'
 import { authenticatedRoute } from 'modules/auth/utils'
 import Bundle from 'utils/bundleLoader'
 
