@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import '../../styles/variables.scss';
 @import '../Nav/Nav.scss';
-@import '~@material/toolbar/mdc-toolbar.scss';
 
 $footer_height: 45px;
 
@@ -30,6 +29,9 @@ $footer_height: 45px;
     @extend .wrap_min_height;
     overflow: scroll;
     padding-bottom: 3px;
+  }
+  .nav{
+    display: inherit;
   }
 
 
