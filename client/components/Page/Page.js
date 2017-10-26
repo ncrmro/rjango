@@ -3,7 +3,7 @@ import React from 'react'
 import styles from './Page.scss'
 
 type PageProps = {
-  heading: String,
+  heading: string,
   children: Object
 }
 const Page = (props: PageProps) =>
