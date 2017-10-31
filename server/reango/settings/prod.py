@@ -1,6 +1,7 @@
 from .base import *
 
 SECRET_KEY = env('SECRET_KEY')
+JWT_SECRET_KEY = env('JWT_SECRET_KEY')
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
