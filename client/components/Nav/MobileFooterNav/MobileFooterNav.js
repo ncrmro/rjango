@@ -24,8 +24,8 @@ class MobileFooterNav extends React.Component {
 
 
   render() {
-    return (
-      <div className={styles.root} >
+    if (this.props.viewer.isAuthenticated) {
+      return <div className={styles.root} >
         <IconToggle
           className="material-icons"
           onClick={() => this.props.history.push('/')}
@@ -55,7 +55,11 @@ class MobileFooterNav extends React.Component {
         </IconToggle>
 
       </div>
-    )
+    }
+    else {
+      return null
+    }
+
   }
 }
 export default withRouter(MobileFooterNav)

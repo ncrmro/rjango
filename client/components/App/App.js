@@ -20,17 +20,15 @@ let App = (props: AppPropsType) =>
     <Nav
       title={title}
       viewer={props.viewer}
+      className={styles.nav}
     />
     <Content className={`${styles.wrap}`} >
       <div className={styles.content} >
         {props.children}
       </div>
     </Content>
-    {props.viewer.isAuthenticated ?
-      <div className={styles.mobile_footer_wrap} >
-        <MobileFooterToolbar />
-      </div> : null}
-    <div className={`${styles.footer_wrap} ${!props.viewer.isAuthenticated ? styles.hidden_mobile_footer_wrap: null}`} >
+      <MobileFooterToolbar {...props}/>
+    <div className={`${styles.footer_wrap} ${!props.viewer.isAuthenticated ? styles.hidden_mobile_footer_wrap : ''}`} >
       <div className={styles.footer} >
         <Footer
           title={title}
