@@ -19,6 +19,7 @@ let QuestionBrowser = (props: QuestionBrowserPropsType) =>
   <div >
     <DataTableWithToolbar
       columns={questionColumns}
+      addFunction={() => props.router.history.push('/polls/new')}
     >
       {props.viewer.questions.edges.map(({ node }) =>
         <Question
@@ -65,12 +66,12 @@ export default class QuestionBrowserPage extends React.Component {
         className={styles.root}
         heading='Polls'
       >
-          <Textfield
-            onChange={field => this.setSearchString(field)}
-            floatingLabel="Search for a question"
-            value={this.state.searchString}
-            className={styles.searchBar}
-          />
+        <Textfield
+          onChange={field => this.setSearchString(field)}
+          floatingLabel="Search for a question"
+          value={this.state.searchString}
+          className={styles.searchBar}
+        />
         <QuestionBrowser
           {...this.props}
           relay={{

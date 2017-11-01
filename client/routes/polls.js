@@ -3,6 +3,7 @@ import Bundle from 'utils/bundleLoader'
 //import QuestionBrowser from 'modules/polls/QuestionBrowser';
 import QuestionResultsPage from 'modules/polls/QuestionResults/QuestionResultsPage'
 import VotePage from 'modules/polls/VoteForm/VotePage'
+import NewPoll from 'modules/polls/NewPoll/NewPoll'
 import { authenticatedRoute } from 'modules/auth/utils'
 
 
@@ -26,6 +27,10 @@ const pollRoutes = [
   {
     path: '/polls/:id/vote',
     component: authenticatedRoute(VotePage)
+  },
+  {
+    path: '/polls/new',
+    component: authenticatedRoute(NewPoll)
   }
 ]
 
