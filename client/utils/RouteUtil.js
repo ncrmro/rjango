@@ -46,6 +46,8 @@ export const parseUrlParams = (initialVariables? = {}) => {
 
 function RenderRoutes(props) {
   const _subRoutes = (route, router) => {
+    // Add support for router query strings
+    // https://github.com/ReactTraining/react-router/issues/4410
     router.urlParams = parseUrlParams()
     router.queryString = queryString
     router.pushParams = params => router.history.push(`?${queryString.stringify(params)}`)
