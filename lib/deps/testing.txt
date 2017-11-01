@@ -2,4 +2,3 @@ prospector==0.12.4
 coverage==4.2
 selenium==3.0.2
 faker==0.7.7
-pytz
