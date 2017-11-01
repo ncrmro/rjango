@@ -18,8 +18,8 @@
     "url": "git+https://github.com/ncrmro/reango.git"
   },
   "engines": {
-    "node": ">=8.1.2",
-    "npm": ">=5.0.3"
+    "node": "8.7.0",
+    "npm": "5.0.3"
   },
   "author": "Nicholas Romero",
   "license": "MIT",
