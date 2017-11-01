@@ -1,3 +1,2 @@
 -r base.txt
 -r testing.txt
-factory_boy==2.8.1
