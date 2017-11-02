@@ -1,65 +1,88 @@
 import React from 'react'
-import Textfield from 'react-mdc-web/lib/Textfield/Textfield'
-import Button from 'react-mdc-web/lib/Button'
+import Form from 'components/Form/Form'
 import Page from 'components/Page/Page'
+import Button from 'react-mdc-web/lib/Button'
+const choiceGenerator = (choices = [], count = 2) => {
+  if (choices.length === 0) {
+    while (count--) {
+      choices.push({
+        id: `choice${count}`,
+        floatingLabel: `Choice ${count}`,
+        count: count,
+        type: 'choice'
+      })
+    }
+  }
+  else {
+    return {
+      id: `choice${count}`,
+      floatingLabel: `Choice ${count}`,
+      count: count,
+      type: 'choice'
+    }
+  }
+
+  return choices
+}
+
 
 class NewPoll extends React.Component {
   constructor(props) {
     super(props)
+
+    const fields = {
+      text: [
+        {
+          id: 'question_text',
+          floatingLabel: 'Question Text',
+          required: true
+        },
+        ...choiceGenerator()
+      ]
+    }
     this.state = {
-      input: {
-        question_text: '',
-        password: ''
-      },
+      fields,
+      choiceCount: 2,
       errors: []
     }
   }
 
 
-  handleFieldChange(e) {
-    const input = this.state.input
-    const inputName = e.target.id
-    input[inputName] = e.target.value
-    this.setState({ input })
+  formSubmitCallback() {
+
   }
 
-  setErrors = (errors) => {
-    this.setState({ errors })
+  addChoice() {
+    console.log('addChoice')
+    const choices = this.state.fields.text.filter(function (field) {
+      return field.type === 'choice'
+    })
+    const choice = choiceGenerator(choices, this.state.choiceCount + 1)
+
+    this.setState({
+      fields: { text: [...this.state.fields.text, choice] }
+    })
   }
 
 
   render() {
-    return (
-      <Page
-        heading='Create Poll'
+    return <Page
+      heading='Create Poll'
 
+    >
+      <Form
+        fields={this.state.fields}
+        input={this.state.input}
+        formActions={
+          <Button
+            onClick={() => this.addChoice()}
+          >
+            Add Choice
+          </Button>}
       >
-        <form
-          onSubmit={this.submitForm}
-        >
-          <Textfield
-            id='question_text'
-            onChange={this.handleFieldChange.bind(this)}
-            value={this.state.input.question_text}
-            floatingLabel='Question Text'
-            required
-          />
-          <br />
 
-
-          <div style={{ textAlign: 'right' }} >
-
-            <Button
-              type="submit"
-              className='button_submit-signup-form'
-            >
-              Sign up
-            </Button>
-            <br />
-          </div>
-        </form>
-      </Page>
-    )
+      </Form>
+    </Page >
   }
 
 
