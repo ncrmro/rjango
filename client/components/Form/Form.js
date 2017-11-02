@@ -37,7 +37,7 @@ class Form extends React.Component {
       field => input[field.id] = ''
     )
     this.state = {
-      input: props.input ? props.input : {},
+      input,
       errors: []
     }
   }

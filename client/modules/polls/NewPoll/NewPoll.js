@@ -60,6 +60,7 @@ class NewPoll extends React.Component {
     const choice = choiceGenerator(choices, this.state.choiceCount + 1)
 
     this.setState({
+      choiceCount: this.state.choiceCount + 1,
       fields: { text: [...this.state.fields.text, choice] }
     })
   }
@@ -76,6 +77,7 @@ class NewPoll extends React.Component {
         formActions={
           <Button
             onClick={() => this.addChoice()}
+            type="button"
           >
             Add Choice
           </Button>}
