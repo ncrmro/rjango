@@ -24,41 +24,36 @@ class MobileFooterNav extends React.Component {
 
 
   render() {
-    if (this.props.viewer.isAuthenticated) {
-      return <div className={styles.root} >
-        <IconToggle
-          className="material-icons"
-          onClick={() => this.props.history.push('/')}
-        >
-          home
-        </IconToggle>
+    return <div className={styles.root} >
+      <IconToggle
+        className="material-icons"
+        onClick={() => this.props.history.push('/')}
+      >
+        home
+      </IconToggle>
 
 
-        <IconToggle
-          className="material-icons"
-          onClick={() => this.toggleNotification('pollNotification')}
-        >
-          {this.state.pollNotification ? 'poll' : 'poll'}
-        </IconToggle>
+      <IconToggle
+        className="material-icons"
+        onClick={() => this.toggleNotification('pollNotification')}
+      >
+        {this.state.pollNotification ? 'poll' : 'poll'}
+      </IconToggle>
 
-        <IconToggle
-          className="material-icons"
-          onClick={() => this.toggleNotification('notifications')}
-        >
-          {this.state.notifications ? 'notifications' : 'notifications_none'}
-        </IconToggle>
-        <IconToggle
-          className="material-icons"
-          onClick={() => this.props.history.push('/account')}
-        >
-          account_circle
-        </IconToggle>
+      <IconToggle
+        className="material-icons"
+        onClick={() => this.toggleNotification('notifications')}
+      >
+        {this.state.notifications ? 'notifications' : 'notifications_none'}
+      </IconToggle>
+      <IconToggle
+        className="material-icons"
+        onClick={() => this.props.history.push('/account')}
+      >
+        account_circle
+      </IconToggle>
 
-      </div>
-    }
-    else {
-      return null
-    }
+    </div>
 
   }
 }

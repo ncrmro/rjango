@@ -1,4 +1,3 @@
-//@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import '../../styles/variables.scss';
 @import '../Nav/Nav.scss';
 
@@ -23,17 +22,22 @@ $footer_height: 45px;
   }
 }
 
+.hide_on_mobile {
+  @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+    display: none;
+  }
+}
+
 .root {
   min-height: 100vh;
+  .nav{
+    @extend .hide_on_mobile
+  }
   .wrap {
     @extend .wrap_min_height;
     overflow: scroll;
     padding-bottom: 3px;
   }
-  .nav{
-    display: inherit;
-  }
-
 
   .footer_wrap {
     width: 100%;
@@ -41,9 +45,7 @@ $footer_height: 45px;
     position: relative;
     /* negative value of footer height */
     clear: both;
-    @media (max-width: $mdc-toolbar-mobile-breakpoint) {
-      display: none;
-    }
+    @extend .hide_on_mobile
   }
   .hidden_mobile_footer_wrap {
     // Display on mobile if user is not authenticated
