@@ -17,7 +17,6 @@ type AppPropsType = {
 
 let App = (props: AppPropsType) =>
   <div className={styles.root} >
-    {console.log(props.viewer)}
     <Nav
       title={title}
       viewer={props.viewer}
@@ -30,6 +29,7 @@ let App = (props: AppPropsType) =>
     </Content>
     {props.viewer.isAuthenticated ?
       <div className={styles.mobile_footer_wrap} >
+        <MobileFooterToolbar {...props}/>
 
       </div> : null}
     <div
