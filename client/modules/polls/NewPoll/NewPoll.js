@@ -2,6 +2,8 @@ import React from 'react'
 import Form from 'components/Form/Form'
 import Page from 'components/Page/Page'
 import Button from 'react-mdc-web/lib/Button'
+import NewPollMutation from './NewPollMutation'
+
 const choiceGenerator = (choices = [], count = 2) => {
   if (choices.length === 0) {
     while (count--) {
@@ -49,6 +51,10 @@ class NewPoll extends React.Component {
 
 
   submitForm(input) {
+    const keys = Object.keys(input)
+    const choice_keys = keys.filter(key => key.includes('choice'))
+    console.log(choice_keys)
+    NewPollMutation(this.props.relay.environment, input)
     console.log(input)
   }
 

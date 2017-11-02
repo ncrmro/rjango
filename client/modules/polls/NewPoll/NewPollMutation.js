@@ -18,7 +18,7 @@ type NewSellOrderInput = {
   addressId: string,
   condition: string,
 }
-function NewPollMutation(environment, setErrors, input: NewSellOrderInput, callback) {
+function NewPollMutation(environment, input: NewSellOrderInput, setErrors, callback) {
   commitMutation(
     environment,
     {
