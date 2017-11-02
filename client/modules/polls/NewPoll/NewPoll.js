@@ -35,7 +35,7 @@ class NewPoll extends React.Component {
     const fields = {
       text: [
         {
-          id: 'question_text',
+          id: 'questionText',
           floatingLabel: 'Question Text',
           required: true
         },
@@ -51,15 +51,26 @@ class NewPoll extends React.Component {
 
 
   submitForm(input) {
+    // We need to move the choice objects into a list
+    //
     const keys = Object.keys(input)
     const choice_keys = keys.filter(key => key.includes('choice'))
-    console.log(choice_keys)
-    NewPollMutation(this.props.relay.environment, input)
-    console.log(input)
+    const newInput = {
+      questionText: input['questionText'],
+      choices: []
+    }
+    choice_keys.map(key => newInput.choices.push(
+      input[key]
+    ))
+
+    NewPollMutation(
+      this.props.relay.environment,
+      newInput,
+      () => this.props.router.history.push('/polls')
+    )
   }
 
   addChoice() {
-    console.log('addChoice')
     const choices = this.state.fields.text.filter(function (field) {
       return field.type === 'choice'
     })

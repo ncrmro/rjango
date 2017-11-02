@@ -12,13 +12,8 @@ const mutation = graphql`
     }
 `
 
-type NewSellOrderInput = {
-  amount: string,
-  partSlug: string,
-  addressId: string,
-  condition: string,
-}
-function NewPollMutation(environment, input: NewSellOrderInput, setErrors, callback) {
+
+function NewPollMutation(environment, input, callback) {
   commitMutation(
     environment,
     {
