@@ -54,11 +54,17 @@ class Form extends React.Component {
     this.setState({ errors })
   }
 
+  submitForm(form) {
+    form.preventDefault()
+    this.props.submitForm(this.state.input)
+
+  }
+
 
   render() {
     return <div className={styles.root} >
       <form
-        onSubmit={this.submitForm}
+        onSubmit={this.submitForm.bind(this)}
       >
         <FormMessageList messages={this.state.errors} />
         <TextFields
