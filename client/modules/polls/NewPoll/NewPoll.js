@@ -90,7 +90,6 @@ class NewPoll extends React.Component {
     >
       <Form
         fields={this.state.fields}
-        input={this.state.input}
         submitForm={this.submitForm.bind(this)}
         formActions={
           <Button
