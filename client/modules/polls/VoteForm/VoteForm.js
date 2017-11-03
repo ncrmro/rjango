@@ -48,32 +48,27 @@ export class VoteMutationForm extends React.Component {
   }
 
   render() {
-    const { question, router } = this.props
-    const { choice } = this.state
-    return (
-      <div>
-        <h2> {question.questionText}</h2>
-        <h3>Choices </h3>
-        <form className={styles.pollsVoteMutationRoot} >
-          <QuestionChoices
-            choiceSet={question.choiceSet}
-            action={selected => this._updateState(selected)}
-            selected={choice.id}
-          />
-          <div className={styles.pollsVoteMutationActions} >
-            <Button
-              onClick={form => this._returnToPolls(form)}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={form => this._submitVoteMutation(form)} >Submit</Button>
-          </div>
+    return <div>
+      <h2> {this.props.question.questionText}</h2>
+      <h3>Choices </h3>
+      <form className={styles.pollsVoteMutationRoot} >
+        <QuestionChoices
+          choiceSet={this.props.question.choiceSet}
+          action={selected => this._updateState(selected)}
+          selected={this.state.choice.id}
+        />
+        <div className={styles.pollsVoteMutationActions} >
+          <Button
+            onClick={form => this._returnToPolls(form)}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={form => this._submitVoteMutation(form)} >Submit</Button>
+        </div>
 
-        </form>
-      </div>
-
-    )
+      </form>
+    </div>
   }
 }
 
