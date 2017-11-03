@@ -38,12 +38,11 @@ export class VoteMutationForm extends React.Component {
 
   _submitVoteMutation(form) {
     form.preventDefault()
-    const { relay, question, router } = this.props
+    const { relay, question, router: { history } } = this.props
     const { choice } = this.state
     const input = { questionId: question.id, choiceId: choice.id }
 
-    const callback = () =>
-      router.history.push(`/polls/${question.id}/results`)
+    const callback = () => history.push(`/polls/${question.id}/results`)
     return VoteMutation(relay.environment, input, callback)
   }
 
