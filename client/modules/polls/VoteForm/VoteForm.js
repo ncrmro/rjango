@@ -43,7 +43,7 @@ export class VoteMutationForm extends React.Component {
     const input = { questionId: question.id, choiceId: choice.id }
 
     const callback = () =>
-      this.props.router.location === '/polls' ? router.history.push(`/polls/${question.id}/results`) : null
+      router.history.push(`/polls/${question.id}/results`)
     return VoteMutation(relay.environment, input, callback)
   }
 
@@ -53,7 +53,6 @@ export class VoteMutationForm extends React.Component {
     return (
       <div>
         <h2> {question.questionText}</h2>
-        {console.log(this.props.router.location === '/polls')}
         <h3>Choices </h3>
         <form className={styles.pollsVoteMutationRoot} >
           <QuestionChoices
