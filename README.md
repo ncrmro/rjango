@@ -14,9 +14,12 @@ You will need python 3, postgres and node installed.
 You will also need to have a virtualenv activated before running npm install/yarn or the post install build step will fail as django needs to be available to dump the graphql_schema
 ```
 source ~/.virtualenvs/reango/bin/activate
+cp .env.sample .env
 pip3 install -r ./deps/dev.txt
 yarn
 ```
+
+
 
 ## Getting started
 Define a django model, register the node and query with in the ./server/reango/schema.py
