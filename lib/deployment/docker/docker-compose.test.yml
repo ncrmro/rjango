@@ -17,6 +17,8 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=reango.settings.testing
       - SELENIUM_HOST=http://selenium_chrome:4444/wd/hub
+      - JWT_SECRET_KEY=ojk@86z9*$zyuhge#3)p*%$q0psoo2lq*tv9jw90#1eezcl^y2
+      - SECRET_KEY=ojk@86z9*$zyuhge#3)p*%$q0psoo2lq*tv9jw90#1eezcl^y2
     volumes:
       - '$CIRCLE_TEST_REPORTS/screenshots:/reango/screenshots'
     depends_on:
