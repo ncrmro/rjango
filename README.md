@@ -15,7 +15,7 @@ You will also need to have a virtualenv activated before running npm install/yar
 ```
 source ~/.virtualenvs/reango/bin/activate
 cp .env.sample .env
-pip3 install -r ./deps/dev.txt
+pip3 install -r ./lib/deps/dev.txt
 yarn
 ```
 
