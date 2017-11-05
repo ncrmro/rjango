@@ -14,7 +14,7 @@ You will need python 3, postgres and node installed.
 You will also need to have a virtualenv activated before running npm install/yarn or the post install build step will fail as django needs to be available to dump the graphql_schema
 ```
 source ~/.virtualenvs/reango/bin/activate
-pip3 install -r ./deps/dev.txt
+pip3 install -r ./lib/deps/dev.txt
 yarn
 ```
 
