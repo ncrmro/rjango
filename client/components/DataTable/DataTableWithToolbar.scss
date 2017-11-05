@@ -1,0 +1,40 @@
+@import '~@material/toolbar/mdc-toolbar.scss';
+@import '../../styles/variables.scss';
+
+$footer_height: 45px;
+
+.mobile_add_button {
+  $fab_size: 50px;
+  position: absolute;
+  top: -2.2em;
+  right: -2.2em;
+  @media (max-width: $mdc-toolbar-mobile-landscape-width-breakpoint) and (orientation: landscape) {
+  }
+
+  @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+    position: fixed;
+    top: 46em;
+    right: 1em;
+    width: $fab_size;
+    height: $fab_size;
+  }
+}
+
+.root {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  .dataTable {
+    width: 100%;
+    position: relative;
+    z-index: 0;
+  }
+  .addButton {
+    @extend .mobile_add_button;
+    z-index: 2;
+
+    background-color: $mdc-theme-primary;
+    color: $mdc-theme-accent;
+
+  }
+}

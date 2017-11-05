@@ -8,11 +8,12 @@ ALLOWED_HOSTS = ['*']
 
 DEBUG = True
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+"""
 SELENIUM_HOST = env('SELENIUM_HOST', default="")

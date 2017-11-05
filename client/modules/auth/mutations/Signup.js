@@ -13,7 +13,6 @@ function loginUser(setErrors, response) {
     setErrors(response.errors)
   }
   else if (response.__typename === "Viewer") {
-    console.log('success')
     setToken(response.tokens.token)
   }
 

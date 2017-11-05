@@ -1,0 +1,17 @@
+@import '../../../styles/variables.scss';
+
+.root {
+  position: fixed;
+  display: flex;
+  background: $mdc-theme-primary;
+  justify-content: center;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  i {
+    padding: 0;
+    font-size: 1.8rem;
+    width: 60px;
+  }
+}

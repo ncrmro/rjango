@@ -28,6 +28,7 @@ MEDIA_URL = "/media/"
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.postgres',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -51,6 +52,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+DATABASES = {
+    # Raises ImproperlyConfigured exception if DATABASE_URL not in
+    # os.environ
+    'default': env.db(),
+}
 
 ROOT_URLCONF = 'reango.urls'
 

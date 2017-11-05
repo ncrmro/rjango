@@ -7,12 +7,14 @@ import DrawerContent from 'react-mdc-web/lib/Drawer/DrawerContent'
 
 import { HomeLink } from './Nav'
 
-const MobileDrawer = (props: NavPropsType) =>
+type MobileDrawerProps = {
+  title: string,
+}
+const MobileDrawer = (props: MobileDrawerProps) =>
   <Drawer
     {...props}
   >
     <DrawerHeader>
-      {console.log(props)}
       <DrawerHeaderContent>
         <HomeLink className='button_home-link' title={props.title} />
       </DrawerHeaderContent>

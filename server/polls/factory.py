@@ -6,9 +6,9 @@ from django.contrib.auth import get_user_model
 
 from .models import Choice, Vote
 from .models import Question
-
+import random
 questions = [
-    'Do andriods dream of sheep',
+    'Do andriods dream of sleep',
     'Will we make it to mars',
     'Whose the smartest of them all'
 ]
@@ -62,11 +62,29 @@ class QuestionWithChoicesFactor(QuestionFactory):
     )
 
 
+def stage_votes(users, questions):
+    for user in users:
+        questions_user_hasnt_voted = questions.exclude(vote__user_id=user.id)
+
+        question = random.choice(questions_user_hasnt_voted)
+        choice = question.choice_set.all()
+        if choice:
+            choice = random.choice(choice)
+            VoteFactory(
+                    user=user,
+                    question=question,
+                    selected_choice=choice
+
+            )
 def stage_polls():
-    """Create admin user if none exist"""
     QuestionWithChoicesFactor(
             question_text='Do andriods dream of sheep'
     )
     QuestionWithChoicesFactor(
-            question_text='Will we make it to marks'
+            question_text='Will we make it to mars'
     )
+    questions = Question.objects.all()
+    users = get_user_model().objects.all()
+    stage_votes(users,questions)
+    stage_votes(users, questions)
+

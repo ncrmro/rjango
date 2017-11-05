@@ -1,25 +1,37 @@
-import Polls from 'modules/polls/Polls';
-import PollsDetail from 'modules/polls/PollsDetail';
-import PollsResults from 'modules/polls/PollsResults';
-import PollsVote from 'modules/polls/PollsVote';
+import React from 'react'
+import Bundle from 'utils/bundleLoader'
+//import QuestionBrowser from 'modules/polls/QuestionBrowser';
+import QuestionResultsPage from 'modules/polls/QuestionResults/QuestionResultsPage'
+import VotePage from 'modules/polls/VoteForm/VotePage'
+import NewPoll from 'modules/polls/NewPoll/NewPoll'
+import { authenticatedRoute } from 'modules/auth/utils'
+
+
+const QuestionBrowser = props =>
+  <Bundle
+    load={() =>
+      import(/* webpackChunkName: "polls" */ 'modules/polls/QuestionBrowser/QuestionBrowser')}
+  >
+    { Component => <Component { ...props}/> }
+  </Bundle>
 
 const pollRoutes = [
   {
     path: '/polls',
-    component: Polls,
-  },
-  {
-    path: '/polls/:id/detail',
-    component: PollsDetail,
+    component: authenticatedRoute(QuestionBrowser)
   },
   {
     path: '/polls/:id/results',
-    component: PollsResults,
+    component: authenticatedRoute(QuestionResultsPage)
   },
   {
     path: '/polls/:id/vote',
-    component: PollsVote,
+    component: authenticatedRoute(VotePage)
+  },
+  {
+    path: '/polls/new',
+    component: authenticatedRoute(NewPoll)
   }
-];
+]
 
-export default pollRoutes;
+export default pollRoutes

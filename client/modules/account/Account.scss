@@ -1,0 +1,13 @@
+.root {
+  form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    div {
+      margin: auto;
+      width: 100%;
+      max-width: 500px;
+    }
+  }
+}

@@ -1,19 +1,70 @@
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import '../../styles/variables.scss';
+@import '../Nav/Nav.scss';
+
+$footer_height: 45px;
+
+.wrap_min_height {
+  // Used to keep footer at bottom of page
+  min-height: calc(100vh - #{$footer_height} - #{$mdc-toolbar-row-height});
+  .content {
+
+    padding-bottom: $footer_height;
+  }
+  @media (max-width: $mdc-toolbar-mobile-landscape-width-breakpoint) and (orientation: landscape) {
+    min-height: calc(100vh - #{$footer_height} - #{$mdc-toolbar-mobile-row-height} - 3px);
+  }
+
+  @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+    min-height: calc(100vh - #{$footer_height} - #{$mdc-toolbar-mobile-row-height});
+    .content {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.hide_on_mobile {
+  @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+    display: none;
+  }
+}
 
 .root {
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
+  .nav{
+    @extend .hide_on_mobile
+  }
+  .wrap {
+    @extend .wrap_min_height;
+    overflow: scroll;
+    padding-bottom: 3px;
+  }
 
+  .footer_wrap {
+    width: 100%;
+    height: $footer_height;
+    position: relative;
+    /* negative value of footer height */
+    clear: both;
+    @extend .hide_on_mobile
+  }
+  .hidden_mobile_footer_wrap {
+    // Display on mobile if user is not authenticated
+    clear: both;
+    @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+      display: inherit;
+    }
+  }
+  .mobile_footer_wrap {
+    height: $footer_height;
+    display: none;
+    @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+      display: inherit;
+    }
+  }
 }
 
-.content {
-  flex: 1;
-}
-
+html,
 body {
   margin: auto;
   font-family: Roboto, sans-serif;
 }
-

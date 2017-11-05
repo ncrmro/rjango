@@ -10,16 +10,15 @@ class UserQueries(AbstractType):
 
     @staticmethod
     def resolve_viewer(self, args, context, info):
-
+        users = get_user_model()
         try:
             token_user_id = get_token_user_id(args, context)
-            user = get_user_model().objects.get(id=token_user_id)
-            print(user)
+            user = users.objects.get(id=token_user_id)
             return Viewer(
                 id=0,
                 user=user
             )
-        except BaseException:
+        except users.DoesNotExist:
             return Viewer(
                 id=0,
                 user=get_user_model()(

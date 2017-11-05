@@ -1,14 +1,19 @@
 .root {
-  padding: 0 10vh;
-
-  .heading {
-    font-size: 2em;
-    font-weight: normal;
-    padding-left: 10px;
-  }
-
-  .body {
-    max-width: 80%;
-    margin: auto;
+  padding: 0 1vh;
+  display: flex;
+  justify-content: center;
+  .innerRoot {
+    width: 100%;
+    height: 100%;
+    max-width: 750px;
+    .heading {
+      font-size: 2em;
+      font-weight: normal;
+      padding-left: 10px;
+    }
+    .body {
+      max-width: 99%;
+      margin: auto;
+    }
   }
 }

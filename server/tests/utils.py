@@ -21,7 +21,6 @@ def make_query(query, jwt_token=None):
 
 
 def get_token(login_response):
-    print(login_response)
     token = login_response['data']['login']['authFormPayload']['tokens'][
         'token']
     return token
@@ -46,6 +45,12 @@ def id_selector(selenium, id_selector):
 
     return element
 
+def account_dropdown_selector(selenium):
+    return css_selector(selenium, '.button_open-user-dropdown')
+
+def assert_post_auth_page(selenium):
+    wait_for_element(selenium, EC.visibility_of_element_located(
+            (By.XPATH, "//h1[text()='Polls']")))
 
 def login_selenium_user(self):
     selenium = self.selenium
@@ -60,8 +65,7 @@ def login_selenium_user(self):
     password_field.send_keys("top_secret")
     css_selector(selenium, '.button_submit-login-form').click()
 
-    wait_for_element(selenium, EC.visibility_of_element_located(
-            (By.XPATH, "//h1[text()='Polls']")))
+    assert_post_auth_page(selenium)
     return selenium
 
 

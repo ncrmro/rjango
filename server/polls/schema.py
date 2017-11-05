@@ -2,26 +2,30 @@ import graphene
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 
+from polls import models
 from users.jwt_util import get_token_user_id
-from .models import Question as QuestionModal, Choice as ChoiceModal, \
-    Vote as VodeModal
+from .search import trigram_similarity_search
 
 
 class Question(DjangoObjectType):
     class Meta:
-        model = QuestionModal
+        model = models.Question
         interfaces = (graphene.Node,)
 
     has_viewer_voted = graphene.Boolean()
 
     def resolve_has_viewer_voted(self, args, context, info):
-        return bool(
-                self.vote_set.filter(user_id=get_token_user_id(args, context)))
+        user_id = get_token_user_id(args='', context=context)
+        if user_id:
+            has_viewer_voted = bool(self.vote_set.filter(user_id=user_id))
+            return has_viewer_voted
+        else:
+            return False
 
 
 class Choice(DjangoObjectType):
     class Meta:
-        model = ChoiceModal
+        model = models.Choice
         interfaces = (graphene.Node,)
 
     vote_count = graphene.Int()
@@ -32,21 +36,24 @@ class Choice(DjangoObjectType):
 
 class Vote(DjangoObjectType):
     class Meta:
-        model = VodeModal
+        model = models.Vote
         interfaces = (graphene.Node,)
 
 
 class PollQueries(graphene.AbstractType):
     question = graphene.Node.Field(Question)
-    questions = DjangoFilterConnectionField(Question)
+    questions = DjangoFilterConnectionField(Question,
+                                            search_string=graphene.String())
 
     def resolve_questions(self, args, context, info):
-        issues = QuestionModal.objects
+        questions = models.Question.objects
         order_by = args.get('order_by')
         if order_by:
-            issues.order_by(order_by)
-
-        return issues
+            questions.order_by(order_by)
+        search_string = args.get('search_string')
+        if search_string:
+            questions = trigram_similarity_search(0.006, search_string)
+        return questions
 
 
 class VoteMutation(graphene.relay.ClientIDMutation):
@@ -64,24 +71,41 @@ class VoteMutation(graphene.relay.ClientIDMutation):
 
         question = get_node(input.get('question_id'), context, info)
         selected_choice = question.choice_set.get(id=choice_id)
-        user_id = get_token_user_id(input, context)
-
-        print(
-                selected_choice.vote_set.create(
-                        question=question,
-                        selected_choice=selected_choice,
-                        user_id=user_id
-                )
-        )
+        user_id = get_token_user_id(args='', context=context)
 
         selected_choice.vote_set.create(
                 question=question,
                 selected_choice=selected_choice,
                 user_id=user_id
         )
-
         return VoteMutation(question=question)
+
+
+class CreatePollMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        question_text = graphene.String(required=True)
+        choices = graphene.List(graphene.String, required=True )
+
+    poll = graphene.Field(Question)
+
+    @classmethod
+    def mutate_and_get_payload(cls, input, context, info):
+        user_id = get_token_user_id(input, context)
+        poll = models.Question.objects.create(
+                user_id=user_id,
+                question_text=input.get('question_text')
+        )
+
+        choices = input.get('choices')
+        for choice in choices:
+            models.Choice.objects.create(
+                    question=poll,
+                    choice_text=choice,
+            )
+
+        return CreatePollMutation(poll=poll)
 
 
 class PollMutations(graphene.AbstractType):
     vote = VoteMutation.Field()
+    create_poll = CreatePollMutation.Field()
