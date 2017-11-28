@@ -9,10 +9,13 @@ dotenv.load()
 let
   env = process.env,
   devServerPort = env.WEBPACK_PORT ? env.WEBPACK_PORT : 3000,
+  // Custom address used when debugging from remote phone
+  devServerAddress = env.WEBPACK_ADDRESS ? env.WEBPACK_ADDRESS : 'localhost',
   appEntry,
   devtool,
   plugins,
   publicPath,
+  PROD = env.NODE_ENV === 'production',
   buildPath = path.join(__dirname, 'static', 'bundles'),
   statsPlugin = new BundleTracker(
     {
@@ -26,17 +29,18 @@ let
     }
   ),
   vendorPlugin = new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    filename: 'vendor.js'
-  })
+    name: 'vendor'
+  }),
+  hashed = new webpack.HashedModuleIdsPlugin()
 
-if (process.env.NODE_ENV === 'production') {
+if (PROD) {
   appEntry = [path.join(__dirname, 'client/index.js')]
   devtool = 'source-map'
   publicPath = '/static/bundles/'
   plugins = [
     statsPlugin,
     vendorPlugin,
+    hashed,
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
@@ -54,11 +58,11 @@ if (process.env.NODE_ENV === 'production') {
   appEntry = [
     // activate HMR for React
     'react-hot-loader/patch',
-    `webpack-dev-server/client?http://localhost:${devServerPort}`,
+    `webpack-dev-server/client?http://${devServerAddress}:${devServerPort}`,
     'webpack/hot/only-dev-server',
     './client/index.js'
   ]
-  publicPath = `http://localhost:${devServerPort}/assets/bundles/` // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
+  publicPath = `http://${devServerAddress}:${devServerPort}/assets/bundles/` // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
   devtool = 'eval'
   plugins = [
     statsPlugin,
@@ -81,12 +85,14 @@ export default {
   },
   output: {
     path: buildPath,
-    filename: '[name]-[hash].js',
+    filename: PROD ? '[name].[chunkhash].js' : '[name].js',
+    chunkFilename: PROD ?'[name].[chunkhash].chunk.js' : '[name].js',
     publicPath: publicPath
   },
   devtool,
   devServer: {
     hot: true,
+    host: devServerAddress,
     port: devServerPort,
     historyApiFallback: true,
     stats: 'errors-only',
