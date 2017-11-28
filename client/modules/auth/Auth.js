@@ -121,6 +121,7 @@ class Auth extends React.Component {
             id='email'
             className={`${styles.textFields} email_input`}
             onChange={this.handleFieldChange.bind(this)}
+            onInput={this.handleFieldChange.bind(this)}
             value={this.state.input.email}
             floatingLabel='Email'
             type='email'
