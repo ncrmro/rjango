@@ -19,6 +19,24 @@ pip3 install -r ./lib/deps/dev.txt
 yarn
 ```
 
+### Database setup
+- Login to postgres user using:
+
+    `$ sudo -u postgres psql`
+
+- Create a user "reango" with superuser and createdb ability:
+
+    `# create user reango with superuser createdb password 'password here';`
+
+- Create a database named reango:
+
+    `# create database reango;`
+
+- Open `.env` file in the reango project and add the password your supplied for the 'reango' role/user:
+
+    `DATABASE_URL=postgres://reango:<password here>@127.0.0.1:5432/reango`
+
+
 
 
 ## Getting started
