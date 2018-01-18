@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import Router, { history } from 'utils/Router'
+import Router, { history } from './utils/Router'
 import { Route } from 'react-router'
 import { AuthenticatedRoutes, UnAuthenicatedRoutes } from './components/Routes'
 import Nav from './components/Nav'
-import { isAuthenticated } from 'utils/Auth'
-import { environment } from 'utils/Relay'
+import { isAuthenticated } from './utils/Auth'
+import { environment } from './utils/Relay'
 
 class App extends Component {
   constructor(props) {

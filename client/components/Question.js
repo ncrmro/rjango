@@ -1,9 +1,7 @@
 import React from 'react'
-import Button from 'react-mdc-web/lib/Button/Button'
-import VoteDialog from '../modules/polls/VoteForm/VoteDialog'
 import { createFragmentContainer } from 'react-relay'
-import { View ,Text} from 'react-native'
-import {Link, Route} from 'utils/Router'
+import { View ,Text, Button} from 'react-native'
+import {Link, Route} from '../utils/Router'
 
 
 function pushRoute({ router, question: { id, hasViewerVoted } }) {
@@ -23,7 +21,7 @@ const QuestionActionButton = (props) => {
     </Button>
   }
   else if (!props.question.hasViewerVoted) {
-    return <VoteDialog {...props} />
+    return <Button  >Vote</Button>
   }
 }
 
@@ -31,7 +29,6 @@ let Question = (props: QuestionPropsType) =>
   <View >
     <Text>{props.question.questionText}</Text>
     <Text>{props.question.voteCount}</Text>
-    <QuestionActionButton {...props} />
   </View>
 
 export default Question = createFragmentContainer(Question, {

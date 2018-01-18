@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "reango",
   "scripts": {
+    "nativeserver": "node node_modules/react-native/local-cli/cli.js start",
     "start": "babel-node ./config/server.js",
+    "ios": "react-native run-ios",
     "build": "yarn run clean && NODE_ENV=production webpack",
     "lint": "eslint client && prospector src--uses django --ignore-patterns */migrations",
     "lint-fix": "eslint --fix client && autopep8 --in-place --aggressive --aggressive --recursive --max-line-length 79 server",
@@ -37,6 +39,7 @@
     "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {
+    "base-64": "^0.1.0",
     "connect-history-api-fallback": "^1.3.0",
     "cross-env": "^3.1.3",
     "css-loader": "^0.28.7",
@@ -55,6 +58,7 @@
     "react-relay": "^1.4.1",
     "react-relay-network-layer": "^2.0.1",
     "react-router-dom": "^4.2.2",
+    "react-router-native": "^4.2.0",
     "relay-compiler": "^1.4.1",
     "relay-query-lookup-renderer": "^2.0.3",
     "relay-runtime": "^1.4.1",

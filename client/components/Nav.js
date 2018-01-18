@@ -6,18 +6,37 @@ import { logoutViewer } from '../utils/Jwt'
 import { withRouter } from 'react-router-native'
 const AuthNav = () =>
   <View style={styles.nav} >
-    <Link to="/signup" children="Sign Up"/>
-    <Link to="/login" children="Log In"/>
-  </View>
+  <Link
+    to="/signup" >
+    <Text>Sign Up</Text>
+  </Link>
+  <Link
+    to="/login" >
+    <Text>Log In</Text>
+  </Link>
+
+</View>
+export { AuthNav }
 
 const UnAuthenticatedLinks = (props) =>
   <View style={styles.nav} >
-    <Link to="/" children="Home"/>
-    <Link to="/polls" children="Polls"/>
-    <TouchableOpacity onPress={() => logoutViewer(props.signout)} >
-      <Text>Signout</Text>
-    </TouchableOpacity>
-  </View>
+  <Link
+    to="/" >
+    <Text>Home</Text>
+  </Link>
+  <Link
+    to="/polls" >
+    <Text>Polls</Text>
+  </Link>
+
+  <TouchableOpacity
+    onPress={() => logoutViewer(props.signout)}
+
+  >
+    <Text>Signout</Text>
+
+  </TouchableOpacity>
+</View>
 
 class Nav extends Component {
   render() {
@@ -30,6 +49,7 @@ class Nav extends Component {
   }
 }
 
+export default Nav
 
 const styles = StyleSheet.create({
   nav: {
@@ -43,5 +63,3 @@ const styles = StyleSheet.create({
     padding: 5
   }
 })
-
-export default Nav

@@ -6,7 +6,7 @@ import {
     Text,
     View
 } from 'react-native';
-import {Link, Route} from 'utils/Router'
+import {Link, Route} from '../utils/Router'
 
 const Topic = ({ match }) => (
     <Text style={styles.topic}>

@@ -1,4 +1,5 @@
 import Storage from './Storage'
+import base64 from 'base-64'
 const tokenName = 'jwtToken'
 export function setToken(token, login) {
   // Used when login or sign up mutation returns a jwt token successfully
@@ -12,8 +13,8 @@ export function logoutViewer(signout) {
 
 function parseJwt(token) {
   const base64Url = token.split('.')[1]
-  const base64 = base64Url.replace('-', '+').replace('_', '/')
-  return JSON.parse(window.atob(base64))
+  const base64string = base64Url.replace('-', '+').replace('_', '/')
+  return JSON.parse(base64.decode(base64string))
 }
 
 function isTokenExpired(parsedToken) {

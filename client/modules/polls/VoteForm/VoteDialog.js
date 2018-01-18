@@ -4,7 +4,7 @@ import DialogHeader from 'react-mdc-web/lib/Dialog/DialogHeader'
 import DialogTitle from 'react-mdc-web/lib/Dialog/DialogTitle'
 import DialogBody from 'react-mdc-web/lib/Dialog/DialogBody'
 import Button from 'react-mdc-web/lib/Button/Button'
-import withRelayContainer from 'utils/Relay'
+import withRelayContainer from '../../../utils/Relay'
 
 import { VoteFormFragmentContainer } from './VoteForm'
 

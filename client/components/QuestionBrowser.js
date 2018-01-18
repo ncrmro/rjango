@@ -1,9 +1,9 @@
 import React from 'react'
-import withRelayContainer from 'utils/Relay'
+import withRelayContainer from '../utils/Relay'
 import { StyleSheet, Text, View } from 'react-native'
-import TextInput from 'components/TextInput'
-import FlatList from 'components/FlatList'
-import { Link, Route } from 'utils/Router'
+import TextInput from './TextInput'
+import FlatList from './FlatList'
+import { Link, Route } from '../utils/Router'
 import Question from './Question'
 class QuestionBrowserPage extends React.Component {
   constructor(props) {
