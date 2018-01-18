@@ -14,8 +14,8 @@ class Auth extends React.Component {
     console.log(props)
     this.state = {
       signup: props.location.pathname === signup ? true : false,
-      email: 'Useless Placeholder',
-      password: 'Useless Placeholder'
+      email: '',
+      password: ''
     }
   }
 
@@ -49,8 +49,8 @@ class Auth extends React.Component {
           <TextInput
             style={styles.textInput}
             onChangeText={(email) => this.setState({ email })}
-            type='email'
-
+            keyboardType="email-address"
+            required
             value={this.state.email}
           />
         </View>
@@ -63,7 +63,7 @@ class Auth extends React.Component {
           <TextInput
             style={styles.textInput}
             onChangeText={(password) => this.setState({ password })}
-            type='password'
+            secureTextEntry
 
             value={this.state.password}
           />
