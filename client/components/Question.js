@@ -3,6 +3,7 @@ import Button from 'react-mdc-web/lib/Button/Button'
 import VoteDialog from '../modules/polls/VoteForm/VoteDialog'
 import { createFragmentContainer } from 'react-relay'
 import { View ,Text} from 'react-native'
+import {Link, Route} from 'utils/Router'
 
 
 function pushRoute({ router, question: { id, hasViewerVoted } }) {

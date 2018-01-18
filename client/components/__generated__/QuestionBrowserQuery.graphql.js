@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash c1431dee8016206c7b586ac81ad9f809
+ * @relayHash 7d2af1a7db11c916e8acd29ce83ee06a
  */
 
 /* eslint-disable */
@@ -15,6 +15,7 @@ export type QuestionBrowserQueryResponse = {|
       +edges: $ReadOnlyArray<?{|
         +node: ?{|
           +id: string;
+          +questionText: string;
         |};
       |}>;
     |};
@@ -32,6 +33,7 @@ query QuestionBrowserQuery(
       edges {
         node {
           id
+          questionText
           ...Question_question
         }
       }
@@ -106,6 +108,13 @@ const batch /*: ConcreteBatch*/ = {
                         "alias": null,
                         "args": null,
                         "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "questionText",
                         "storageKey": null
                       },
                       {
@@ -233,7 +242,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query QuestionBrowserQuery(\n  $searchString: String\n) {\n  viewer {\n    questions(searchString: $searchString) {\n      edges {\n        node {\n          id\n          ...Question_question\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment Question_question on Question {\n  id\n  questionText\n  hasViewerVoted\n  voteCount\n}\n"
+  "text": "query QuestionBrowserQuery(\n  $searchString: String\n) {\n  viewer {\n    questions(searchString: $searchString) {\n      edges {\n        node {\n          id\n          questionText\n          ...Question_question\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment Question_question on Question {\n  id\n  questionText\n  hasViewerVoted\n  voteCount\n}\n"
 };
 
 module.exports = batch;
