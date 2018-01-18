@@ -1,1 +1,0 @@
-web: sh -c 'cd ./server/ && exec waitress-serve --port=$PORT reango.wsgi:application'

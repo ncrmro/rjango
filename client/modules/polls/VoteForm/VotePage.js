@@ -1,6 +1,6 @@
 import React from 'react'
 import Page from 'components/Page/Page'
-import withRelayContainer from 'utils/relay'
+import withRelayContainer from 'utils/Relay'
 import { VoteFormFragmentContainer } from './VoteForm'
 
 const VotePage = (props) =>

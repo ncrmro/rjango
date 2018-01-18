@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "reango",
   "scripts": {
-    "start": "yarn run clean && webpack-dev-server",
+    "start": "babel-node ./config/server.js",
     "build": "yarn run clean && NODE_ENV=production webpack",
     "lint": "eslint client && prospector src--uses django --ignore-patterns */migrations",
     "lint-fix": "eslint --fix client && autopep8 --in-place --aggressive --aggressive --recursive --max-line-length 79 server",
@@ -24,22 +24,6 @@
   "author": "Nicholas Romero",
   "license": "MIT",
   "devDependencies": {
-    "babel-eslint": "^7.1.1",
-    "babel-preset-flow": "^6.23.0",
-    "empty": "^0.10.1",
-    "eslint": "^3.17.0",
-    "eslint-config-airbnb": "^13.0.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "2.2.3",
-    "eslint-plugin-react": "^6.8.0",
-    "flow-bin": "^0.57.3",
-    "react-transform-catch-errors": "^1.0.2",
-    "react-transform-hmr": "^1.0.4",
-    "redbox-react": "^1.3.3",
-    "webpack-dev-server": "^2.9.4"
-  },
-  "dependencies": {
-    "autoprefixer": "^6.5.3",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -49,32 +33,34 @@
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "webpack-dev-server": "^2.9.4",
+    "webpack-hot-middleware": "^2.21.0"
+  },
+  "dependencies": {
     "connect-history-api-fallback": "^1.3.0",
     "cross-env": "^3.1.3",
     "css-loader": "^0.28.7",
     "dotenv": "^4.0.0",
     "extract-text-webpack-plugin": "^3.0.1",
     "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
     "lodash": "^4.17.2",
-    "material-components-web": "0.22.0",
-    "node-sass": "^4.5.3",
-    "normalize.css": "^5.0.0",
-    "postcss-loader": "^2.0.8",
-    "precss": "^2.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-hot-loader": "3.0.0-beta.6",
     "react-mdc-web": "^0.15.0",
+    "react-native": "^0.52.0",
+    "react-native-web": "^0.3.2",
+    "react-native-windows": "^0.52.0-rc.0",
     "react-relay": "^1.4.1",
     "react-relay-network-layer": "^2.0.1",
     "react-router-dom": "^4.2.2",
-    "recharts": "^1.0.0-alpha.6",
     "relay-compiler": "^1.4.1",
+    "relay-query-lookup-renderer": "^2.0.3",
     "relay-runtime": "^1.4.1",
-    "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
     "url-loader": "^0.6.2",
-    "webpack": "^3.8.1",
+    "webpack": "^3.10.0",
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-bundle-tracker": "^0.2.0",
     "webpack-pwa-manifest": "^3.3.2"
@@ -82,33 +68,6 @@
   "metadata": {
     "graphql": {
       "schema": "./build/schema.json"
-    }
-  },
-  "babel": {
-    "presets": [
-      "react",
-      [
-        "env",
-        {
-          "targets": {
-            "browsers": [
-              "last 1 versions"
-            ],
-            "node": "current"
-          }
-        }
-      ],
-      "stage-0"
-    ],
-    "plugins": [
-      "relay"
-    ],
-    "env": {
-      "development": {
-        "plugins": [
-          "react-hot-loader/babel"
-        ]
-      }
     }
   }
 }

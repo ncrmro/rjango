@@ -1,26 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
-import Root from './root';
+import { AppRegistry } from 'react-native';
+import Reango from './root';
 
-const root = document.createElement('div');
-document.body.appendChild(root);
+const appName = 'Reango'
 
-const render = (Component) => {
-  ReactDOM.render(
-    <AppContainer >
-      <Component />
-    </AppContainer>,
-    root
-  );
-};
+function render(App) {
+  AppRegistry.registerComponent(appName, () => App)
+  AppRegistry.runApplication(appName, {
+    rootTag: document.getElementById('root')
+  })
+}
 
-render(Root);
+render(Reango)
 
-// Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./root', () => {
-    const NextRoot = require('./root').default; // eslint-disable-line global-require
-    render(NextRoot);
-  });
+    const NextApp = require('./root').default // eslint-disable-line global-require
+    render(NextApp)
+  })
 }
+

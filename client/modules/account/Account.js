@@ -1,6 +1,6 @@
 import React from 'react'
 import Page from 'components/Page/Page'
-import withRelayContainer from 'utils/relay'
+import withRelayContainer from 'utils/Relay'
 import Textfield from 'react-mdc-web/lib/Textfield/Textfield'
 import Button from 'react-mdc-web/lib/Button/Button'
 import { graphql } from 'react-relay'

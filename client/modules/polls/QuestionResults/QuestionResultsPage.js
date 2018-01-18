@@ -1,7 +1,7 @@
 import React from 'react'
 import QuestionResults from './QuestionResults'
 import Page from 'components/Page/Page'
-import withRelayContainer from 'utils/relay'
+import withRelayContainer from 'utils/Relay'
 import styles from '../Polls.scss'
 
 const QuestionResultsPage = (props) =>

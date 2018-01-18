@@ -19,6 +19,12 @@ pip3 install -r ./lib/deps/dev.txt
 yarn
 ```
 
+## Relay compiler
+
+See [relay-compiler](https://facebook.github.io/relay/docs/relay-compiler.html)
+
+`yarn run relay`
+
 
 
 ## Getting started

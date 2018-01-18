@@ -11,7 +11,6 @@ type VoteMutationPropsType = {
   environment: Object,
   router: Object,
   question: Object,
-
 }
 export class VoteMutationForm extends React.Component {
   constructor(props: VoteMutationPropsType) {

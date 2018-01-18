@@ -6,7 +6,7 @@ import DialogTitle from 'react-mdc-web/lib/Dialog/DialogTitle'
 import DialogBody from 'react-mdc-web/lib/Dialog/DialogBody'
 import DialogFooter from 'react-mdc-web/lib/Dialog/DialogFooter'
 import Button from 'react-mdc-web/lib/Button/Button'
-import withRelayContainer from 'utils/relay'
+import withRelayContainer from 'utils/Relay'
 import QuestionResults from './QuestionResults'
 
 type QuestionResultsDialogProps = {

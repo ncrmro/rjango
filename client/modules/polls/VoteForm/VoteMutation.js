@@ -1,7 +1,5 @@
-const {
-  commitMutation,
-  graphql
-} = require('react-relay')
+import { commitMutation, graphql } from 'react-relay'
+import { ConnectionHandler } from 'relay-runtime'
 
 const mutation = graphql`
     mutation VoteMutation(
@@ -21,15 +19,11 @@ const mutation = graphql`
         }
     }
 `
-/*
- function sharedUpdater(store, questionProxy, variables) {
- const conn = ConnectionHandler.getConnection(
- questionProxy,
- 'PollChoices_choiceSet',
- variables
- );
- }
- */
+
+function sharedUpdater(store, questionProxy, variables) {
+  const total = proxy.getValue('');
+}
+
 
 function Vote(environment, input, callback) {
   commitMutation(
@@ -39,18 +33,17 @@ function Vote(environment, input, callback) {
       variables: {
         input
       },
-      onCompleted: callback()
-      /*
-       updater: (store) => {
-       const payload = store.getRootField('vote');
-       const questionProxy = payload.getLinkedRecord('question');
-       sharedUpdater(store, questionProxy, variables);
-       },
-       optimisticUpdater: (store) => {
-       const questionProxy = store.get(question.id);
-       sharedUpdater(store, questionProxy, variables);
-       }
-       */
+      onCompleted: callback(),
+      updater: (store) => {
+        const payload = store.getRootField('vote')
+        const questionProxy = payload.getLinkedRecord('question')
+        sharedUpdater(store, questionProxy, variables)
+      },
+      optimisticUpdater: (store) => {
+        const questionProxy = store.get(question.id)
+        sharedUpdater(store, questionProxy, variables)
+      }
+
     }
   )
 }

@@ -1,11 +1,8 @@
 import React from 'react'
 import Page from 'components/Page/Page'
 import DataTableWithToolbar from 'components/DataTable/DataTableWithToolbar'
-import type { QuestionType } from './Question'
-import Question, { questionColumns } from './Question'
-import withRelayContainer from 'utils/relay'
-import Textfield from 'react-mdc-web/lib/Textfield/Textfield'
-import styles from './QuestionBrowser.scss'
+import Question, { questionColumns } from '../../../components/Question'
+import withRelayContainer from 'utils/Relay'
 type QuestionBrowserPropsType = {
   viewer: {
     questions: {
