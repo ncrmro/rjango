@@ -31,6 +31,9 @@ function handlerProvider(handle) {
             throw new Error(`handlerProvider: No handler provided for ${handle}`)
     }
 }
+global.self = global;
+
+
 async function fetchQuery(operation, variables) {
     const {token} = await hasValidJwtToken()
     console.log(token)
