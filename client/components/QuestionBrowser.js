@@ -24,6 +24,9 @@ class QuestionBrowserPage extends React.Component {
     return node
   }
 
+  _keyExtractor = (item, index) => item.node.id
+
+
   render() {
     console.log(this.props.viewer.questions.edges)
     return (
@@ -55,13 +58,15 @@ class QuestionBrowserPage extends React.Component {
               <FlatList
                 data={this.props.viewer.questions.edges}
                 style={styles.list}
+                keyExtractor={this._keyExtractor}
                 renderItem={
-                  ({ node }) =>
+                  ({ item: { node } }) =>
                     <Link
                       key={node.id}
                       to={`${this.props.match.url}/${node.id}`}
-                      children={node.questionText}
-                    />
+                    >
+                      <Text>{node.questionText}</Text>
+                    </Link>
                 }
               />
             </View>
