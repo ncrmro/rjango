@@ -16,13 +16,17 @@ env = environ.Env()
 # Ideally move env file should be outside the git repo
 env_file = join(BASE_DIR, '.env')
 if exists(env_file):
+    print(BASE_DIR,'354')
     environ.Env.read_env(str(env_file))
 
 # Define STATIC_ROOT for the collectstatic command
-STATIC_ROOT = join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
+
+STATICFILES_DIRS = [
+    join(BASE_DIR, "static"),
+]
 # Application definition
 
 INSTALLED_APPS = [
