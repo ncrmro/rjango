@@ -10,6 +10,10 @@ Check out the react-native branch as well which can also compile to the web!
 * Postgres as a first class database, making use of Trigram Full Text Search Extension
 * Heroku or Docker Deployment
 
+* [ ] Remove Material UI
+* [ ] Update client based on Prion
+* [ ] Make server Prion drop in compatible
+
 ## Quick start:
 You will need python 3, postgres and node installed.
 You will also need to have a virtualenv activated before running npm install/yarn or the post install build step will fail as django needs to be available to dump the graphql_schema
