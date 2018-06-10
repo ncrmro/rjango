@@ -3,6 +3,8 @@ The Django + GraphQL Relay Modern backend.
 
 Check out the react-native branch as well which can also compile to the web!
 
+Looking to help with development and more up to date issue check [the Gitlab hosted](https://gitlab.com/ncrmro/reango) version of Reango.
+
 ## Features
 
 * Relay Support
