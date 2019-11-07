@@ -12,9 +12,6 @@ Looking to help with development and more up to date issue check [the Gitlab hos
 * Postgres as a first class database, making use of Trigram Full Text Search Extension
 * Heroku or Docker Deployment
 
-* [ ] Remove Material UI
-* [ ] Update client based on Prion
-* [ ] Make server Prion drop in compatible
 
 ## Quick start:
 You will need python 3, postgres and node installed.
