@@ -1,6 +1,7 @@
 import graphene
 from graphene_django.filter import DjangoFilterConnectionField
-from graphene_django.types import DjangoObjectType
+from graphene_django import DjangoObjectType
+from graphene import relay, ObjectType
 
 from polls import models
 from users.jwt_util import get_token_user_id
@@ -10,7 +11,8 @@ from .search import trigram_similarity_search
 class Question(DjangoObjectType):
     class Meta:
         model = models.Question
-        interfaces = (graphene.Node,)
+        filter_fields = '__all__'
+        interfaces = (relay.Node,)
 
     has_viewer_voted = graphene.Boolean()
 
@@ -26,7 +28,7 @@ class Question(DjangoObjectType):
 class Choice(DjangoObjectType):
     class Meta:
         model = models.Choice
-        interfaces = (graphene.Node,)
+        interfaces = (relay.Node,)
 
     vote_count = graphene.Int()
 
@@ -37,11 +39,11 @@ class Choice(DjangoObjectType):
 class Vote(DjangoObjectType):
     class Meta:
         model = models.Vote
-        interfaces = (graphene.Node,)
+        interfaces = (relay.Node,)
 
 
-class PollQueries(graphene.AbstractType):
-    question = graphene.Node.Field(Question)
+class PollQueries(ObjectType):
+    question = relay.Node.Field(Question)
     questions = DjangoFilterConnectionField(Question,
                                             search_string=graphene.String())
 
@@ -106,6 +108,6 @@ class CreatePollMutation(graphene.relay.ClientIDMutation):
         return CreatePollMutation(poll=poll)
 
 
-class PollMutations(graphene.AbstractType):
+class PollMutations(ObjectType):
     vote = VoteMutation.Field()
     create_poll = CreatePollMutation.Field()

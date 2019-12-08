@@ -5,7 +5,7 @@ from django.db import models
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     vote_count = models.IntegerField(default=0)
 
     def __str__(self):
@@ -21,9 +21,9 @@ class Choice(models.Model):
 
 
 class Vote(models.Model):
-    question = models.ForeignKey(Question)
-    selected_choice = models.ForeignKey(Choice)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    selected_choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = (

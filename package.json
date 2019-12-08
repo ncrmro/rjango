@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "reango",
   "scripts": {
-    "start": "yarn run clean && webpack-dev-server",
-    "build": "yarn run clean && NODE_ENV=production webpack",
+    "start": "npm run clean && webpack-dev-server",
+    "build": "npm run clean && NODE_ENV=production webpack",
     "lint": "eslint client && prospector src--uses django --ignore-patterns */migrations",
     "lint-fix": "eslint --fix client && autopep8 --in-place --aggressive --aggressive --recursive --max-line-length 79 server",
     "clean": "rm -rf ./static/bundles/* ./static/index.html",
@@ -78,6 +78,7 @@
     "webpack": "^3.8.1",
     "webpack-bundle-tracker": "^0.2.0"
   },
+  "proxy":"http://localhost:8000",
   "metadata": {
     "graphql": {
       "schema": "./build/schema.json"

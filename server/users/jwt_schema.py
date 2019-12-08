@@ -1,5 +1,4 @@
-from graphene import String, Union, Connection, Interface, Field
-from graphene_django.types import ObjectType
+from graphene import ObjectType, String, Union, Connection, Interface, Field
 
 
 class TokensSuccess(ObjectType):

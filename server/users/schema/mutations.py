@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, get_user_model
-from graphene import AbstractType, relay, Field, String, ObjectType, Union, List
+from graphene import ObjectType, relay, Field, String, ObjectType, Union, List
 
 from users.jwt_schema import TokensSuccess
 from users.jwt_util import get_jwt_token
@@ -99,6 +99,6 @@ class SignupUserMutation(relay.ClientIDMutation):
             return SignupUserMutation(FormErrors(errors))
 
 
-class UserMutations(AbstractType):
+class UserMutations(ObjectType):
     login = LoginMutation.Field()
     signup = SignupUserMutation.Field()

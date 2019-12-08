@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
-from graphene import AbstractType, Field, String
+from graphene import ObjectType, Field, String
 
 from users.jwt_util import get_token_user_id
 from .definitions import Viewer
 
 
-class UserQueries(AbstractType):
+class UserQueries(ObjectType):
     viewer = Field(Viewer)
 
     @staticmethod

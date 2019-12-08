@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
-from graphene import Node, Field, GlobalID, String
-from graphene_django.types import DjangoObjectType, ObjectType
+from graphene import Field, GlobalID, String
+from graphene_django import DjangoObjectType
+from graphene import relay, ObjectType
 from polls.schema import PollQueries
 from users.jwt_schema import TokensInterface
 
@@ -19,12 +20,12 @@ class UserNode(DjangoObjectType):
             'is_active',
             'date_joined',
         )
-        interfaces = (Node, TokensInterface)
+        interfaces = (relay.Node, TokensInterface)
 
 
-class Viewer(ObjectType, PollQueries):
+class Viewer(PollQueries, ObjectType):
     id = GlobalID()
     user = Field(UserNode, jwt_token=String())
 
     class Meta:
-        interfaces = (TokensInterface,)
+        interfaces = (relay.Node, TokensInterface,)
